@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#0080FF</color>
-    <color name="colorPrimaryDark">#003380</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="buttonLabel">#d3d3d3</color>
-    <color name="grey">#999999</color>
+    <color name="colorPrimary">#003380</color>
+    <color name="colorPrimaryDark">#080808</color>
+    <color name="colorAccent">#0080FF</color>
+    <color name="grey">#97999B</color>
+    <!--<color name="specialRed">#E55753</color>-->
+    <!--<color name="specialRedDark">#F74E54</color>-->
+    <!--<color name="vertKaki">#256645</color>-->
+    <!--<color name="vertFluo">#16f1b4</color>-->
+
+    <color name="primary">#C41230</color>
+    <color name="primaryDark">#9E0C24</color>
+    <color name="textPrimary">#000</color>
 </resources>
