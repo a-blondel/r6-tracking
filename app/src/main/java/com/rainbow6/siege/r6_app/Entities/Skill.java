@@ -20,8 +20,9 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
         )
 public class Skill {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @NonNull
+    private int id;
     private String profileId;
     private Date updateDate;
     private Double skillMean;
@@ -37,7 +38,8 @@ public class Skill {
     private int rank;
     private int maxRank;
 
-    public Skill(String profileId, Date updateDate, Double skillMean, int wins, int losses, int abandons, int season, String region, Double maxMmr, Double mmr, int previousRankMmr, int nextRankMmr, int rank, int maxRank) {
+    public Skill(@NonNull int id, String profileId, Date updateDate, Double skillMean, int wins, int losses, int abandons, int season, String region, Double maxMmr, Double mmr, int previousRankMmr, int nextRankMmr, int rank, int maxRank) {
+        this.id = id;
         this.profileId = profileId;
         this.updateDate = updateDate;
         this.skillMean = skillMean;
@@ -52,6 +54,15 @@ public class Skill {
         this.nextRankMmr = nextRankMmr;
         this.rank = rank;
         this.maxRank = maxRank;
+    }
+
+    @NonNull
+    public int getId() {
+        return id;
+    }
+
+    public void setId(@NonNull int id) {
+        this.id = id;
     }
 
     public String getProfileId() {

@@ -28,7 +28,7 @@ import com.rainbow6.siege.r6_app.Entities.Synch;
 import java.util.Date;
 
 @Database(entities = {Connect.class, General.class,Player.class, Progression.class, Skill.class, Stats.class, Synch.class},
-        version = 1)
+        version = 2)
 @TypeConverters({Converters.class})
 public abstract  class RainbowRoomDatabase extends RoomDatabase {
 

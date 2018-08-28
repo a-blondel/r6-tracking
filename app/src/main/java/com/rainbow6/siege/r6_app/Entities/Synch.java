@@ -26,25 +26,24 @@ public class Synch {
     private boolean synchApac;
     private int synchDelay;
     private boolean synchGeneral;
-    private boolean synchRanked;
-    private boolean synchCasual;
+    private boolean synchStats;
 
-    public Synch(String profileId, boolean synchEmea, boolean synchNcsa, boolean synchApac, int synchDelay, boolean synchGeneral, boolean synchRanked, boolean synchCasual) {
+    public Synch(@NonNull String profileId, boolean synchEmea, boolean synchNcsa, boolean synchApac, int synchDelay, boolean synchGeneral, boolean synchStats) {
         this.profileId = profileId;
         this.synchEmea = synchEmea;
         this.synchNcsa = synchNcsa;
         this.synchApac = synchApac;
         this.synchDelay = synchDelay;
         this.synchGeneral = synchGeneral;
-        this.synchRanked = synchRanked;
-        this.synchCasual = synchCasual;
+        this.synchStats = synchStats;
     }
 
+    @NonNull
     public String getProfileId() {
         return profileId;
     }
 
-    public void setProfileId(String profileId) {
+    public void setProfileId(@NonNull String profileId) {
         this.profileId = profileId;
     }
 
@@ -88,19 +87,11 @@ public class Synch {
         this.synchGeneral = synchGeneral;
     }
 
-    public boolean isSynchRanked() {
-        return synchRanked;
+    public boolean isSynchStats() {
+        return synchStats;
     }
 
-    public void setSynchRanked(boolean synchRanked) {
-        this.synchRanked = synchRanked;
-    }
-
-    public boolean isSynchCasual() {
-        return synchCasual;
-    }
-
-    public void setSynchCasual(boolean synchCasual) {
-        this.synchCasual = synchCasual;
+    public void setSynchStats(boolean synchStats) {
+        this.synchStats = synchStats;
     }
 }

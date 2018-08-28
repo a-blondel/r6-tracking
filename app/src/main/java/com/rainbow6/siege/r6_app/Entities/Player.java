@@ -23,11 +23,12 @@ public class Player {
         this.addedDate = addedDate;
     }
 
+    @NonNull
     public String getProfileId() {
         return profileId;
     }
 
-    public void setProfileId(String profileId) {
+    public void setProfileId(@NonNull String profileId) {
         this.profileId = profileId;
     }
 

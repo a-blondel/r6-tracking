@@ -20,8 +20,9 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
         )
 public class Stats {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @NonNull
+    private int id;
     private String profileId;
     private Date updateDate;
     private int timePlayedRanked;
@@ -35,7 +36,8 @@ public class Stats {
     private int killsCasual;
     private int deathCasual;
 
-    public Stats(String profileId, Date updateDate, int timePlayedRanked, int matchWonRanked, int matchLostRanked, int killsRanked, int deathRanked, int timePlayedCasual, int matchWonCasual, int matchLostCasual, int killsCasual, int deathCasual) {
+    public Stats(@NonNull int id, String profileId, Date updateDate, int timePlayedRanked, int matchWonRanked, int matchLostRanked, int killsRanked, int deathRanked, int timePlayedCasual, int matchWonCasual, int matchLostCasual, int killsCasual, int deathCasual) {
+        this.id = id;
         this.profileId = profileId;
         this.updateDate = updateDate;
         this.timePlayedRanked = timePlayedRanked;
@@ -48,6 +50,15 @@ public class Stats {
         this.matchLostCasual = matchLostCasual;
         this.killsCasual = killsCasual;
         this.deathCasual = deathCasual;
+    }
+
+    @NonNull
+    public int getId() {
+        return id;
+    }
+
+    public void setId(@NonNull int id) {
+        this.id = id;
     }
 
     public String getProfileId() {

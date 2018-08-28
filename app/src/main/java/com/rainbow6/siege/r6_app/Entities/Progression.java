@@ -20,18 +20,29 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
         )
 public class Progression {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @NonNull
+    private int id;
     private String profileId;
     private Date updateDate;
     private int level;
     private int lootChance;
 
-    public Progression(String profileId, Date updateDate, int level, int lootChance) {
+    public Progression(int id, String profileId, Date updateDate, int level, int lootChance) {
+        this.id = id;
         this.profileId = profileId;
         this.updateDate = updateDate;
         this.level = level;
         this.lootChance = lootChance;
+    }
+
+    @NonNull
+    public int getId() {
+        return id;
+    }
+
+    public void setId(@NonNull int id) {
+        this.id = id;
     }
 
     public String getProfileId() {

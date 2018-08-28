@@ -16,7 +16,8 @@
         android:layout_marginBottom="@dimen/big_padding"
         android:layout_marginTop="@dimen/big_padding"
         android:textSize="18sp"
-        android:textColor="@color/colorAccent" />
+        android:textColor="@color/colorAccent"
+        android:textColorHint="@color/grey" />
 
     <Button
         android:id="@+id/button_add_player"

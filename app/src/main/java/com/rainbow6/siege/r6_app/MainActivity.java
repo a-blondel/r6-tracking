@@ -65,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == NEW_PLAYER_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
 
-//            Player player = new Player("test1", "test1", data.getStringExtra(NewPlayerActivity.EXTRA_REPLY), new Date());
-//            playerViewModel.insert(player);
+            Player player = new Player(new Date() + "", new Date() + "", data.getStringExtra(NewPlayerActivity.EXTRA_REPLY), new Date());
+            playerViewModel.insert(player);
         } else {
             Toast.makeText(
                     getApplicationContext(),

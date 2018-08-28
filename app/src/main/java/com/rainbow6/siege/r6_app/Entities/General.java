@@ -20,8 +20,9 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
         )
 public class General {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @NonNull
+    private int id;
     private String profileId;
     private Date updateDate;
     private int timePlayed;
@@ -34,7 +35,8 @@ public class General {
     private int bulletFired;
     private int killAssists;
 
-    public General(String profileId, Date updateDate, int timePlayed, int matchWon, int matchLost, int kills, int death, int headshots, int bulletHit, int bulletFired, int killAssists) {
+    public General(@NonNull int id, String profileId, Date updateDate, int timePlayed, int matchWon, int matchLost, int kills, int death, int headshots, int bulletHit, int bulletFired, int killAssists) {
+        this.id = id;
         this.profileId = profileId;
         this.updateDate = updateDate;
         this.timePlayed = timePlayed;
@@ -46,6 +48,15 @@ public class General {
         this.bulletHit = bulletHit;
         this.bulletFired = bulletFired;
         this.killAssists = killAssists;
+    }
+
+    @NonNull
+    public int getId() {
+        return id;
+    }
+
+    public void setId(@NonNull int id) {
+        this.id = id;
     }
 
     public String getProfileId() {
