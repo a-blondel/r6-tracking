@@ -1,4 +1,4 @@
-package com.rainbow6.siege.r6_app;
+package com.rainbow6.siege.r6_app.activities;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.rainbow6.siege.r6_app.Entities.Player;
+import com.rainbow6.siege.r6_app.R;
 import com.rainbow6.siege.r6_app.RecyclerView.PlayerListAdapter;
 import com.rainbow6.siege.r6_app.ViewModel.PlayerViewModel;
 
@@ -91,7 +92,9 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+//            return true;
+              Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+              startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

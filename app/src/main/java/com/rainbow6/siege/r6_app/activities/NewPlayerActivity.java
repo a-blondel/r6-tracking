@@ -1,4 +1,4 @@
-package com.rainbow6.siege.r6_app;
+package com.rainbow6.siege.r6_app.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.rainbow6.siege.r6_app.R;
 
 public class NewPlayerActivity extends AppCompatActivity {
 
