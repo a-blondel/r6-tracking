@@ -1,4 +1,4 @@
-package com.rainbow6.siege.r6_app.activities;
+package com.rainbow6.siege.r6_app.Activities;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -17,7 +18,7 @@ import android.widget.Toast;
 
 import com.rainbow6.siege.r6_app.Entities.Player;
 import com.rainbow6.siege.r6_app.R;
-import com.rainbow6.siege.r6_app.RecyclerView.PlayerListAdapter;
+import com.rainbow6.siege.r6_app.Views.PlayerListAdapter;
 import com.rainbow6.siege.r6_app.ViewModel.PlayerViewModel;
 
 import java.util.Date;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         final PlayerListAdapter adapter = new PlayerListAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
         playerViewModel = ViewModelProviders.of(this).get(PlayerViewModel.class);
 

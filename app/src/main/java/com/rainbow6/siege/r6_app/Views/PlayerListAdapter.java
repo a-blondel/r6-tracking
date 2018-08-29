@@ -1,10 +1,11 @@
-package com.rainbow6.siege.r6_app.RecyclerView;
+package com.rainbow6.siege.r6_app.Views;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rainbow6.siege.r6_app.Entities.Player;
@@ -15,11 +16,13 @@ import java.util.List;
 public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.PlayerViewHolder> {
 
     class PlayerViewHolder extends RecyclerView.ViewHolder {
-        private final TextView playerItemView;
+        private final TextView playerNameItemView;
+        private final ImageView playerRankImageItemView;
 
         private PlayerViewHolder(View itemView) {
             super(itemView);
-            playerItemView = itemView.findViewById(R.id.textView);
+            playerNameItemView = itemView.findViewById(R.id.playerNameText);
+            playerRankImageItemView = itemView.findViewById(R.id.playerRankImage);
         }
     }
 
@@ -40,10 +43,11 @@ public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.Pl
     public void onBindViewHolder(PlayerViewHolder holder, int position) {
         if (mPlayers != null) {
             Player current = mPlayers.get(position);
-            holder.playerItemView.setText(current.getNameOnPlatform());
+            holder.playerNameItemView.setText(current.getNameOnPlatform());
+//            holder.playerRankImageItemView.set
         } else {
             // Covers the case of data not being ready yet.
-            holder.playerItemView.setText("No Player");
+            holder.playerNameItemView.setText("No Player");
         }
     }
 

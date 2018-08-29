@@ -1,4 +1,4 @@
-package com.rainbow6.siege.r6_app.activities;
+package com.rainbow6.siege.r6_app.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
