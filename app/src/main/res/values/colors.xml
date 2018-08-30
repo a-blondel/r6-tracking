@@ -5,9 +5,9 @@
     <color name="colorAccent">#0080FF</color>
     <color name="grey">#97999B</color>
     <!--<color name="specialRed">#E55753</color>-->
-    <!--<color name="specialRedDark">#F74E54</color>-->
+    <color name="specialRedDark">#F74E54</color>
     <!--<color name="vertKaki">#256645</color>-->
-    <!--<color name="vertFluo">#16f1b4</color>-->
+    <color name="vertFluo">#16f1b4</color>
 
     <color name="primary">#C41230</color>
     <color name="primaryDark">#9E0C24</color>

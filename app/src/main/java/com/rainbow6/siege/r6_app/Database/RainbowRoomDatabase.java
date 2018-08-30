@@ -5,6 +5,7 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
+import android.arch.persistence.room.migration.Migration;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -28,7 +29,7 @@ import com.rainbow6.siege.r6_app.Entities.Synch;
 import java.util.Date;
 
 @Database(entities = {Connect.class, General.class,Player.class, Progression.class, Skill.class, Stats.class, Synch.class},
-        version = 2)
+        version = 3)
 @TypeConverters({Converters.class})
 public abstract  class RainbowRoomDatabase extends RoomDatabase {
 
@@ -50,6 +51,8 @@ public abstract  class RainbowRoomDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             RainbowRoomDatabase.class, "rainbow_database")
                             .build();
+//                    .fallbackToDestructiveMigration()
+//                    .addMigrations(MIGRATION_2_3)
 //                    .addCallback(sRoomDatabaseCallback).build();
 
                 }
@@ -61,6 +64,16 @@ public abstract  class RainbowRoomDatabase extends RoomDatabase {
     static void destroyInstance() {
         INSTANCE = null;
     }
+
+    /*static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE player "
+                    +"ADD COLUMN platformType TEXT");
+
+        }
+
+    };*/
 
 
 //    To delete all content and repopulate the database whenever the app is started,

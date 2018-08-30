@@ -14,12 +14,14 @@ public class Player {
     private String profileId;
     private String userId;
     private String nameOnPlatform;
+    private String platformType;
     private Date addedDate;
 
-    public Player(String profileId, String userId, String nameOnPlatform, Date addedDate) {
+    public Player(@NonNull String profileId, String userId, String nameOnPlatform, String platformType, Date addedDate) {
         this.profileId = profileId;
         this.userId = userId;
         this.nameOnPlatform = nameOnPlatform;
+        this.platformType = platformType;
         this.addedDate = addedDate;
     }
 
@@ -46,6 +48,14 @@ public class Player {
 
     public void setNameOnPlatform(String nameOnPlatform) {
         this.nameOnPlatform = nameOnPlatform;
+    }
+
+    public String getPlatformType() {
+        return platformType;
+    }
+
+    public void setPlatformType(String platformType) {
+        this.platformType = platformType;
     }
 
     public Date getAddedDate() {

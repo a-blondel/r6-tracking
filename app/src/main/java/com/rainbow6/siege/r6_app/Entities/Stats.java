@@ -1,7 +1,9 @@
 package com.rainbow6.siege.r6_app.Entities;
 
+import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
@@ -16,13 +18,15 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
                 childColumns = "profileId",
                 onDelete = CASCADE,
                 onUpdate = CASCADE
-        )}
+        )},
+        indices = {@Index("profileId")}
         )
 public class Stats {
 
     @PrimaryKey(autoGenerate = true)
     @NonNull
     private int id;
+    @ColumnInfo(name = "profileId")
     private String profileId;
     private Date updateDate;
     private int timePlayedRanked;

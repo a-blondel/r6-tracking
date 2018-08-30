@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 2,
-    "identityHash": "67b382f2ac9357b9c3e181fcbe0c5508",
+    "version": 3,
+    "identityHash": "34e0958aaa8d3c0a6040c2cd136a3f78",
     "entities": [
       {
         "tableName": "Connect",
@@ -131,7 +131,16 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_General_profileId",
+            "unique": false,
+            "columnNames": [
+              "profileId"
+            ],
+            "createSql": "CREATE  INDEX `index_General_profileId` ON `${TABLE_NAME}` (`profileId`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "Player",
@@ -231,7 +240,16 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_Progression_profileId",
+            "unique": false,
+            "columnNames": [
+              "profileId"
+            ],
+            "createSql": "CREATE  INDEX `index_Progression_profileId` ON `${TABLE_NAME}` (`profileId`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "Player",
@@ -347,7 +365,16 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_Skill_profileId",
+            "unique": false,
+            "columnNames": [
+              "profileId"
+            ],
+            "createSql": "CREATE  INDEX `index_Skill_profileId` ON `${TABLE_NAME}` (`profileId`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "Player",
@@ -451,7 +478,16 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_Stats_profileId",
+            "unique": false,
+            "columnNames": [
+              "profileId"
+            ],
+            "createSql": "CREATE  INDEX `index_Stats_profileId` ON `${TABLE_NAME}` (`profileId`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "Player",
@@ -537,7 +573,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"67b382f2ac9357b9c3e181fcbe0c5508\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"34e0958aaa8d3c0a6040c2cd136a3f78\")"
     ]
   }
 }
