@@ -1,14 +1,20 @@
 package com.rainbow6.siege.r6_app.Repository;
 
+import android.app.Application;
 import android.os.AsyncTask;
 
 import com.rainbow6.siege.r6_app.DAO.ConnectDao;
+import com.rainbow6.siege.r6_app.Database.RainbowRoomDatabase;
 import com.rainbow6.siege.r6_app.Entities.Connect;
 
 public class ConnectRepository {
 
     private ConnectDao mConnectDao;
 
+    public ConnectRepository(Application application){
+        RainbowRoomDatabase db = RainbowRoomDatabase.getDatabase(application);
+        mConnectDao = db.connectDao();
+    }
 
     public void insert (Connect connect) {
         new insertAsyncTask(mConnectDao).execute(connect);
@@ -48,21 +54,21 @@ public class ConnectRepository {
         }
     }
 
-    public void getToken (String appId) {
-        new getTokenAsyncTask(mConnectDao).execute(appId);
+    public void getConnect (String appId) {
+        new getConnectAsyncTask(mConnectDao).execute(appId);
     }
 
-    private static class getTokenAsyncTask extends AsyncTask<String, Void, Void> {
+    private static class getConnectAsyncTask extends AsyncTask<String, Void, Void> {
 
         private ConnectDao mAsyncTaskDao;
 
-        getTokenAsyncTask(ConnectDao dao) {
+        getConnectAsyncTask(ConnectDao dao) {
             mAsyncTaskDao = dao;
         }
 
         @Override
         protected Void doInBackground(final String... params) {
-            mAsyncTaskDao.getToken(params[0]);
+            mAsyncTaskDao.getConnect(params[0]);
             return null;
         }
     }

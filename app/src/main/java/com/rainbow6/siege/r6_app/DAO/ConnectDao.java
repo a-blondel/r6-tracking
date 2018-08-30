@@ -14,7 +14,7 @@ public interface ConnectDao {
     void insert(Connect connect);
 
     @Query("SELECT * FROM connect WHERE appId = :appId")
-    Connect getToken(String appId);
+    Connect getConnect(String appId);
 
     @Update
     void update(Connect connect);

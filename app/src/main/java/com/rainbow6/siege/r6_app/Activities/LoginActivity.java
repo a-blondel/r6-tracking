@@ -13,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,6 +23,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.rainbow6.siege.r6_app.R;
+
+import java.io.UnsupportedEncodingException;
 
 /**
  * A login screen that offers login via email/password.
@@ -34,16 +37,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final int REQUEST_READ_CONTACTS = 0;
 
     /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
+//    private ConnectViewModel connectViewModel;
 
     // UI references.
     private EditText mEmailView;
@@ -205,25 +202,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+            // attempt authentication against a network service.
 
+            String key = mEmail + ":" + mPassword;
+
+            byte[] data;
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
+                data = key.getBytes("UTF-8");
+
+                String base64 = Base64.encodeToString(data, Base64.DEFAULT);
+
+                // insert or update DB
+                return true;
+            } catch (UnsupportedEncodingException e) {
                 return false;
             }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return true;
         }
 
         @Override
