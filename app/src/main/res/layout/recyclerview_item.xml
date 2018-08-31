@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/playerNameText"
-        style="@style/player"
+        style="@style/playerEntity"
         android:layout_marginTop="7dp"
         android:gravity="center_vertical"
         android:layout_gravity="center_vertical"
@@ -25,11 +25,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:scaleType="fitXY"
-        android:src="@drawable/rank_0" />
+        android:src="@drawable/rank_20" />
 
     <TextView
         android:id="@+id/playerXPText"
-        style="@style/player"
+        style="@style/playerEntity"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:layout_gravity="center_vertical"
@@ -42,7 +42,7 @@
 
     <TextView
         android:id="@+id/playerKDText"
-        style="@style/player"
+        style="@style/playerEntity"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:layout_gravity="center_vertical"
