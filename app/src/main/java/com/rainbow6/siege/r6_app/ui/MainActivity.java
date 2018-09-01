@@ -15,14 +15,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.rainbow6.siege.r6_app.db.entity.ConnectionEntity;
-import com.rainbow6.siege.r6_app.db.entity.PlayerEntity;
 import com.rainbow6.siege.r6_app.R;
-import com.rainbow6.siege.r6_app.service.UbiService;
-import com.rainbow6.siege.r6_app.viewmodel.ConnectionViewModel;
+import com.rainbow6.siege.r6_app.db.entity.PlayerEntity;
 import com.rainbow6.siege.r6_app.viewmodel.PlayerViewModel;
 
-import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
     public static final int NEW_PLAYER_ACTIVITY_REQUEST_CODE = 1;
 
     private PlayerViewModel playerViewModel;
-    private ConnectionViewModel connectionViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +50,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        connectionViewModel = ViewModelProviders.of(this).get(ConnectionViewModel.class);
-
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,30 +63,12 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        // should I create a specific thing on success ?
         if (requestCode == NEW_PLAYER_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-
-            ConnectionEntity connectionEntity = connectionViewModel.getConnect(UbiService.APP_ID);
-
-            boolean connectionNeed = false;
-
-            if(connectionEntity != null){
-                // Ticket found
-                if(System.currentTimeMillis() > connectionEntity.getExpiration().getTime()){
-                    // Invalid ticket
-                    connectionNeed = true;
-                }
-            }else{
-                connectionNeed = true;
-            }
-
-            if(connectionNeed){
-                // Call the Ubi Connection service to get a ticket
-            }
-
-            // Now let's call the Web Services
-
-            PlayerEntity playerEntity = new PlayerEntity(new Date() + "", new Date() + "", data.getStringExtra(NewPlayerActivity.EXTRA_REPLY), new Date() + "", new Date());
-            playerViewModel.insert(playerEntity);
+            Toast.makeText(
+                    getApplicationContext(),
+                    data.getStringExtra(NewPlayerActivity.EXTRA_REPLY),
+                    Toast.LENGTH_LONG).show();
         } else {
 
             if(data != null) {

@@ -1,13 +1,17 @@
 <resources>
     <string name="app_name">R6 Stats</string>
     <string name="action_settings">Settings</string>
+
+    <!-- Strings related to new player -->
+    <string name="title_activity_new_player">Add player</string>
     <string name="hint_player">Name...</string>
     <string name="button_add">Add</string>
-    <string name="error_empty">Empty!</string>
-    <string name="title_activity_new_player">Add player</string>
-    <string name="title_activity_login">Sign in</string>
+    <string name="player_added">%1$s added</string>
+    <string name="error_empty">Empty</string>
+
 
     <!-- Strings related to login -->
+    <string name="title_activity_login">Sign in</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>

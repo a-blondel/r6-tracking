@@ -17,6 +17,6 @@ public class ConnectionViewModel extends AndroidViewModel {
 
     public void insert(ConnectionEntity connectionEntity) { mConnectRepository.insert(connectionEntity); }
 
-    public ConnectionEntity getConnect(String appId) { return mConnectRepository.getConnection(appId); }
+    public ConnectionEntity getConnection(String appId) { return mConnectRepository.getConnection(appId); }
 
 }
