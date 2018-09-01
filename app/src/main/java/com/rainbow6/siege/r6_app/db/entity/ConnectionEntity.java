@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import java.util.Date;
 
 @Entity
-public class ConnectEntity {
+public class ConnectionEntity {
 
     @PrimaryKey
     @NonNull
@@ -16,7 +16,7 @@ public class ConnectEntity {
     private String ticket;
     private Date expiration;
 
-    public ConnectEntity(@NonNull String appId, String encodedKey, String ticket, Date expiration) {
+    public ConnectionEntity(@NonNull String appId, String encodedKey, String ticket, Date expiration) {
         this.appId = appId;
         this.encodedKey = encodedKey;
         this.ticket = ticket;

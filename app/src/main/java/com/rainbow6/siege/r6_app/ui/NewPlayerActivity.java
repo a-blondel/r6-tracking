@@ -28,6 +28,7 @@ public class NewPlayerActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent replyIntent = new Intent();
                 if (TextUtils.isEmpty(mEditPlayerView.getText())) {
+                    replyIntent.putExtra(EXTRA_REPLY, getResources().getString(R.string.error_empty));
                     setResult(RESULT_CANCELED, replyIntent);
                 } else {
                     String playerName = mEditPlayerView.getText().toString();

@@ -3,15 +3,14 @@ package com.rainbow6.siege.r6_app.ui;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.view.KeyEvent;
@@ -23,8 +22,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.rainbow6.siege.r6_app.R;
+import com.rainbow6.siege.r6_app.db.entity.ConnectionEntity;
+import com.rainbow6.siege.r6_app.service.UbiService;
+import com.rainbow6.siege.r6_app.viewmodel.ConnectionViewModel;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 
 /**
  * A login screen that offers login via email/password.
@@ -32,15 +35,11 @@ import java.io.UnsupportedEncodingException;
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
     /**
-     * Id to identity READ_CONTACTS permission request.
-     */
-    private static final int REQUEST_READ_CONTACTS = 0;
-
-    /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
-//    private ConnectViewModel connectViewModel;
+    private UbiService ubiService;
+    private ConnectionViewModel connectionViewModel;
 
     // UI references.
     private EditText mEmailView;
@@ -66,6 +65,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
         });
+
+        ubiService = new UbiService();
+
+        connectionViewModel = ViewModelProviders.of(this).get(ConnectionViewModel.class);
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
@@ -101,16 +104,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-//            focusView = mPasswordView;
-            cancel = true;
-        }
-
-        if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-//            focusView = mEmailView;
+        if (TextUtils.isEmpty(password) || TextUtils.isEmpty(email)) {
+            focusView = mPasswordView;
             cancel = true;
         }
 
@@ -125,14 +120,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
         }
-    }
-
-    private boolean isEmailValid(String email) {
-        return true;
-    }
-
-    private boolean isPasswordValid(String password) {
-        return true;
     }
 
     /**
@@ -203,20 +190,30 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
             // attempt authentication against a network service.
+             String key = mEmail + ":" + mPassword;
 
-            String key = mEmail + ":" + mPassword;
-
-            byte[] data;
+            byte[] keyBytes;
             try {
-                data = key.getBytes("UTF-8");
+                keyBytes = key.getBytes("UTF-8");
 
-                String base64 = Base64.encodeToString(data, Base64.DEFAULT);
+                String encodedKey = Base64.encodeToString(keyBytes, Base64.NO_WRAP);
 
-                // insert or update DB
-                return true;
+                String response = ubiService.callUbiConnectionService();
+                //on utilise Json reader si la reponse n'est pas erreur
+
+                if(response.equals("")) {
+
+                    ConnectionEntity connectionEntity = new ConnectionEntity(UbiService.APP_ID, encodedKey, "ticket", new Date());
+                    connectionViewModel.insert(connectionEntity);
+
+                }else{
+                    return false;
+                }
+
             } catch (UnsupportedEncodingException e) {
                 return false;
             }
+            return true;
         }
 
         @Override
@@ -227,7 +224,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             if (success) {
                 finish();
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
             }
         }

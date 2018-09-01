@@ -4,7 +4,7 @@ import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
 
-import com.rainbow6.siege.r6_app.db.AppRoomDatabase;
+import com.rainbow6.siege.r6_app.db.AppDatabase;
 import com.rainbow6.siege.r6_app.db.dao.PlayerDao;
 import com.rainbow6.siege.r6_app.db.entity.PlayerEntity;
 
@@ -17,7 +17,7 @@ public class PlayerRepository {
     private LiveData<List<PlayerEntity>> mAllPlayers;
 
     public PlayerRepository(Application application){
-        AppRoomDatabase db = AppRoomDatabase.getDatabase(application);
+        AppDatabase db = AppDatabase.getDatabase(application);
         mPlayerDao = db.playerDao();
         mAllPlayers = mPlayerDao.getAllPlayers();
     }
