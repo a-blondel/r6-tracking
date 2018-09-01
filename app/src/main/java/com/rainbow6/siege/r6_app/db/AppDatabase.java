@@ -23,7 +23,7 @@ import com.rainbow6.siege.r6_app.db.entity.StatsEntity;
 import com.rainbow6.siege.r6_app.db.entity.SynchEntity;
 
 @Database(entities = {ConnectionEntity.class, GeneralEntity.class,PlayerEntity.class, ProgressionEntity.class, SkillEntity.class, StatsEntity.class, SynchEntity.class},
-        version = 5)
+        version = 6)
 @TypeConverters({DateConverter.class})
 public abstract  class AppDatabase extends RoomDatabase {
 
@@ -44,6 +44,7 @@ public abstract  class AppDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             AppDatabase.class, "rainbow_database")
+                            .fallbackToDestructiveMigration()
                             .build();
 //                    .fallbackToDestructiveMigration()
 //                    .addMigrations(MIGRATION_2_3)

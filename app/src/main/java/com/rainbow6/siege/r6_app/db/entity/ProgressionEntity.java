@@ -1,6 +1,5 @@
 package com.rainbow6.siege.r6_app.db.entity;
 
-import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
@@ -28,13 +27,15 @@ public class ProgressionEntity {
     private int id;
     private String profileId;
     private Date updateDate;
+    private int xp;
     private int level;
     private int lootChance;
 
-    public ProgressionEntity(int id, String profileId, Date updateDate, int level, int lootChance) {
+    public ProgressionEntity(int id, String profileId, Date updateDate, int xp, int level, int lootChance) {
         this.id = id;
         this.profileId = profileId;
         this.updateDate = updateDate;
+        this.xp = xp;
         this.level = level;
         this.lootChance = lootChance;
     }
@@ -63,6 +64,10 @@ public class ProgressionEntity {
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
     }
+
+    public int getXp() { return xp; }
+
+    public void setXp(int xp) { this.xp = xp; }
 
     public int getLevel() {
         return level;

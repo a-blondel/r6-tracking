@@ -8,11 +8,25 @@
     <string name="button_add">Add</string>
     <string name="player_added">%1$s added</string>
     <string name="error_empty">Empty</string>
-
+    <string name="textPlateformType">Plateform</string>
+    <string-array name="platformType_array">
+        <item>psn</item>
+    </string-array>
+    <string name="synchronisationSettings">Synchronisation settings</string>
+    <string name="syncProgression">Progression (XP - Level - Loot chances)</string>
+    <string name="syncEmeaSeason">EMEA Season (MMR, rank, W/L)</string>
+    <string name="syncNcsaSeason">NCSA Season (MMR, rank, W/L)</string>
+    <string name="syncApacSeason">APAC Season (MMR, rank, W/L)</string>
+    <string name="syncStats">Casual and Ranked Stats (K/D, W/L)</string>
+    <string name="syncGeneral">Global Stats (Headshots, accuracy)</string>
+    <string name="syncTimer">Timer</string>
+    <string name="syncTimerTitle">Sync. Timer</string>
+    <string name="timePattern">%1$d:%2$d</string>
 
     <!-- Strings related to login -->
     <string name="title_activity_login">Sign in</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>
+
 </resources>

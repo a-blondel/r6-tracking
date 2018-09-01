@@ -12,4 +12,8 @@ public class UbiService {
 
         return response;
     }
+
+
+    //get stats... (String plateformType) psn ... not implemented yet
+
 }

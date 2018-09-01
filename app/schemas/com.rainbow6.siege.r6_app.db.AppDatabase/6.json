@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 5,
-    "identityHash": "70852e06531edd08621e26d9abbf7d06",
+    "version": 6,
+    "identityHash": "314c5ecba9ae80b6cceb2747379054ca",
     "entities": [
       {
         "tableName": "ConnectionEntity",
@@ -195,7 +195,7 @@
       },
       {
         "tableName": "ProgressionEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `profileId` TEXT, `updateDate` INTEGER, `level` INTEGER NOT NULL, `lootChance` INTEGER NOT NULL, FOREIGN KEY(`profileId`) REFERENCES `PlayerEntity`(`profileId`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `profileId` TEXT, `updateDate` INTEGER, `xp` INTEGER NOT NULL, `level` INTEGER NOT NULL, `lootChance` INTEGER NOT NULL, FOREIGN KEY(`profileId`) REFERENCES `PlayerEntity`(`profileId`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -214,6 +214,12 @@
             "columnName": "updateDate",
             "affinity": "INTEGER",
             "notNull": false
+          },
+          {
+            "fieldPath": "xp",
+            "columnName": "xp",
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
             "fieldPath": "level",
@@ -576,7 +582,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"70852e06531edd08621e26d9abbf7d06\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"314c5ecba9ae80b6cceb2747379054ca\")"
     ]
   }
 }
