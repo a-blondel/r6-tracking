@@ -25,5 +25,4 @@ public interface PlayerDao {
     @Delete
     void delete(PlayerEntity playerEntity);
 
-
 }

@@ -15,7 +15,7 @@ public class ConnectionRepository {
 
     public ConnectionRepository(Application application){
         AppDatabase db = AppDatabase.getDatabase(application);
-        mConnectionDao = db.connectDao();
+        mConnectionDao = db.connectionDao();
     }
 
     public void insert (ConnectionEntity connectionEntity) {

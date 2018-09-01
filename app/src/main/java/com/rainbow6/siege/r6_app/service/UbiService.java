@@ -5,15 +5,16 @@ public class UbiService {
     public static final String APP_ID = "39baebad-39e5-4552-8c25-2c9b919064e2";
 
 
-    public String callUbiConnectionService (){
+    public String callUbiConnectionService (String encodedKey){
 
         String response = "";
+
 
 
         return response;
     }
 
 
-    //get stats... (String plateformType) psn ... not implemented yet
+    //get stats... (String ticket, String plateformType) psn ... not implemented yet
 
 }

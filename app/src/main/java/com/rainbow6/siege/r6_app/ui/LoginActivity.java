@@ -198,7 +198,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                 String encodedKey = Base64.encodeToString(keyBytes, Base64.NO_WRAP);
 
-                String response = ubiService.callUbiConnectionService();
+                String response = ubiService.callUbiConnectionService(encodedKey);
                 //on utilise Json reader si la reponse n'est pas erreur
 
                 if(response.equals("")) {

@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 6,
-    "identityHash": "314c5ecba9ae80b6cceb2747379054ca",
+    "version": 7,
+    "identityHash": "a4f2ae869a90db58bc4c6395a1c37e7b",
     "entities": [
       {
         "tableName": "ConnectionEntity",
@@ -503,8 +503,8 @@
         ]
       },
       {
-        "tableName": "SynchEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`profileId` TEXT NOT NULL, `synchEmea` INTEGER NOT NULL, `synchNcsa` INTEGER NOT NULL, `synchApac` INTEGER NOT NULL, `synchDelay` INTEGER NOT NULL, `synchGeneral` INTEGER NOT NULL, `synchStats` INTEGER NOT NULL, PRIMARY KEY(`profileId`), FOREIGN KEY(`profileId`) REFERENCES `PlayerEntity`(`profileId`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "tableName": "SyncEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`profileId` TEXT NOT NULL, `syncProgression` INTEGER NOT NULL, `syncEmea` INTEGER NOT NULL, `syncNcsa` INTEGER NOT NULL, `syncApac` INTEGER NOT NULL, `syncGeneral` INTEGER NOT NULL, `syncStats` INTEGER NOT NULL, `syncDelay` INTEGER NOT NULL, PRIMARY KEY(`profileId`), FOREIGN KEY(`profileId`) REFERENCES `PlayerEntity`(`profileId`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "profileId",
@@ -513,38 +513,44 @@
             "notNull": true
           },
           {
-            "fieldPath": "synchEmea",
-            "columnName": "synchEmea",
+            "fieldPath": "syncProgression",
+            "columnName": "syncProgression",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "synchNcsa",
-            "columnName": "synchNcsa",
+            "fieldPath": "syncEmea",
+            "columnName": "syncEmea",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "synchApac",
-            "columnName": "synchApac",
+            "fieldPath": "syncNcsa",
+            "columnName": "syncNcsa",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "synchDelay",
-            "columnName": "synchDelay",
+            "fieldPath": "syncApac",
+            "columnName": "syncApac",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "synchGeneral",
-            "columnName": "synchGeneral",
+            "fieldPath": "syncGeneral",
+            "columnName": "syncGeneral",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "synchStats",
-            "columnName": "synchStats",
+            "fieldPath": "syncStats",
+            "columnName": "syncStats",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "syncDelay",
+            "columnName": "syncDelay",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -557,12 +563,12 @@
         },
         "indices": [
           {
-            "name": "index_SynchEntity_profileId",
+            "name": "index_SyncEntity_profileId",
             "unique": false,
             "columnNames": [
               "profileId"
             ],
-            "createSql": "CREATE  INDEX `index_SynchEntity_profileId` ON `${TABLE_NAME}` (`profileId`)"
+            "createSql": "CREATE  INDEX `index_SyncEntity_profileId` ON `${TABLE_NAME}` (`profileId`)"
           }
         ],
         "foreignKeys": [
@@ -582,7 +588,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"314c5ecba9ae80b6cceb2747379054ca\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"a4f2ae869a90db58bc4c6395a1c37e7b\")"
     ]
   }
 }
