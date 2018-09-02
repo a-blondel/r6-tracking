@@ -28,5 +28,6 @@
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>
+    <string name="successful_connection">Connected</string>
 
 </resources>

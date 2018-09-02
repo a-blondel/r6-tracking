@@ -26,18 +26,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rainbow6.siege.r6_app.R;
-import com.rainbow6.siege.r6_app.db.entity.ConnectionEntity;
 import com.rainbow6.siege.r6_app.service.UbiService;
+import com.rainbow6.siege.r6_app.tools.ServiceHelper;
 import com.rainbow6.siege.r6_app.viewmodel.ConnectionViewModel;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+
+import static com.rainbow6.siege.r6_app.service.UbiService.CHARSET_UTF8;
+import static com.rainbow6.siege.r6_app.service.UbiService.EXCEPTION_PATTERN;
+import static com.rainbow6.siege.r6_app.tools.ServiceHelper.UBI_ERROR_CODE;
 
 /**
  * A login screen that offers login via email/password.
@@ -50,6 +50,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private UserLoginTask mAuthTask = null;
     private UbiService ubiService;
     private ConnectionViewModel connectionViewModel;
+    private ServiceHelper serviceHelper;
 
     // UI references.
     private EditText mEmailView;
@@ -79,6 +80,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
 
         ubiService = new UbiService();
+        serviceHelper = new ServiceHelper();
 
         connectionViewModel = ViewModelProviders.of(this).get(ConnectionViewModel.class);
 
@@ -133,8 +135,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
             focusView.requestFocus();
         } else {
             // Show a progress spinner, and kick off a background task to
@@ -216,42 +216,22 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             String key = mEmail + ":" + mPassword;
 
             boolean isOk = false;
-            String message = "Connected";
+            String message = getString(R.string.successful_connection);
 
             byte[] keyBytes;
             try {
-                keyBytes = key.getBytes("UTF-8");
+                keyBytes = key.getBytes(CHARSET_UTF8);
 
                 String encodedKey = Base64.encodeToString(keyBytes, Base64.NO_WRAP);
 
                 String response = ubiService.callUbiConnectionService(encodedKey);
-                JSONObject json = new JSONObject(response);
 
-                if (response != null && !response.equals("") && !response.contains("errorCode") &&!response.contains("ERROR:")) {
-
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
-
-                    String ticket = "Ubi_v1 t=" + json.getString("ticket");
-                    Date expiration = formatter.parse(json.getString("expiration").split("\\.")[0]);
-
-                    ConnectionEntity connectionEntity = new ConnectionEntity(UbiService.APP_ID, encodedKey, ticket, expiration);
-                    connectionViewModel.insert(connectionEntity);
+                if (response != null && !response.equals("") && !response.contains(UBI_ERROR_CODE) &&!response.contains(EXCEPTION_PATTERN)) {
+                    connectionViewModel.insert(serviceHelper.generateConnectionEntity(response, encodedKey));
                     isOk = true;
                 } else {
-                    if (response.contains("errorCode")) {
-                        String errorMessageBegining = "\"message\":\"";
-                        String errorMessageEnding = "\",\"";
-                        int pFrom = response.indexOf(errorMessageBegining) + errorMessageBegining.length();
-                        int pTo = response.indexOf(errorMessageEnding, pFrom);
-
-                        message = response.substring(pFrom, pTo);
-                    } else if(response.contains("ERROR:")) {
-                        message = response;
-                    } else {
-                        message = "Empty response";
-                    }
+                    message = serviceHelper.getErrorMessage(response);
                 }
-
             } catch (UnsupportedEncodingException e) {
                 message = e.getMessage();
             } catch (JSONException e) {
@@ -260,17 +240,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 message = e.getMessage();
             }
 
-            Message msg = Message.obtain();
-            msg.obj = message;
-            msg.setTarget(mHandler);
-            msg.sendToTarget();
+            sendMessage(message);
 
             if (isOk) {
                 return true;
             } else {
                 return false;
             }
-
         }
 
         @Override
@@ -289,6 +265,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected void onCancelled() {
             mAuthTask = null;
             showProgress(false);
+        }
+
+        private void sendMessage(String message){
+            Message msg = Message.obtain();
+            msg.obj = message;
+            msg.setTarget(mHandler);
+            msg.sendToTarget();
         }
     }
 }
