@@ -1,6 +1,7 @@
 package com.rainbow6.siege.r6_app.tools;
 
 import com.rainbow6.siege.r6_app.db.entity.ConnectionEntity;
+import com.rainbow6.siege.r6_app.db.entity.PlayerEntity;
 import com.rainbow6.siege.r6_app.service.UbiService;
 
 import org.json.JSONException;
@@ -34,6 +35,22 @@ public class ServiceHelper {
         Date expiration = formatter.parse(json.getString(UBI_EXPIRATION_KEY).split(UBI_DATE_DELIMITER)[0]);
 
         return new ConnectionEntity(UbiService.APP_ID, encodedKey, ticket, expiration);
+    }
+
+    public PlayerEntity generatePlayerEntity(String response) throws JSONException, ParseException {
+        PlayerEntity playerEntity = new PlayerEntity();
+
+        if (response != "{\"profiles\":[]}" && response != ""){
+            JSONObject json = new JSONObject(response);
+
+            playerEntity.setProfileId(json.optJSONArray("profiles").getJSONObject(0).getString("profileId"));
+            playerEntity.setNameOnPlatform(json.optJSONArray("profiles").getJSONObject(0).getString("nameOnPlatform"));
+            playerEntity.setUserId(json.optJSONArray("profiles").getJSONObject(0).getString("userId"));
+            playerEntity.setPlatformType(json.optJSONArray("profiles").getJSONObject(0).getString("platformType"));
+            playerEntity.setAddedDate(new Date());
+        }
+
+        return playerEntity;
     }
 
     public String getErrorMessage(String response){

@@ -1,6 +1,7 @@
 package com.rainbow6.siege.r6_app.db.entity;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
@@ -23,6 +24,10 @@ public class PlayerEntity {
         this.nameOnPlatform = nameOnPlatform;
         this.platformType = platformType;
         this.addedDate = addedDate;
+    }
+
+    @Ignore
+    public PlayerEntity() {
     }
 
     @NonNull

@@ -19,23 +19,34 @@ import com.rainbow6.siege.r6_app.db.entity.ConnectionEntity;
 import com.rainbow6.siege.r6_app.db.entity.PlayerEntity;
 import com.rainbow6.siege.r6_app.db.entity.SyncEntity;
 import com.rainbow6.siege.r6_app.service.UbiService;
+import com.rainbow6.siege.r6_app.tools.ServiceHelper;
 import com.rainbow6.siege.r6_app.viewmodel.ConnectionViewModel;
 import com.rainbow6.siege.r6_app.viewmodel.PlayerViewModel;
 
-import java.util.Date;
+import org.json.JSONException;
+
+import java.text.ParseException;
+
+import static com.rainbow6.siege.r6_app.service.UbiService.EXCEPTION_PATTERN;
+import static com.rainbow6.siege.r6_app.tools.ServiceHelper.UBI_ERROR_CODE;
 
 public class NewPlayerActivity extends AppCompatActivity {
 
     public static final String EXTRA_REPLY = "";
+    private static final String VIDE = "";
 
     private ConnectionViewModel connectionViewModel;
     private PlayerViewModel playerViewModel;
+    private UbiService ubiService;
+    private ServiceHelper serviceHelper;
     private ConnectionEntity connectionEntity;
+    private Intent replyIntent;
 
+    private String playerName;
+    private String plateformType;
     private EditText mEditPlayerView;
     private Spinner spinner;
     private EditText pickSyncTimer;
-
     private boolean syncProgression;
     private boolean syncEmeaSeason;
     private boolean syncNcsaSeason;
@@ -51,9 +62,10 @@ public class NewPlayerActivity extends AppCompatActivity {
 
         connectionViewModel = ViewModelProviders.of(this).get(ConnectionViewModel.class);
         playerViewModel = ViewModelProviders.of(this).get(PlayerViewModel.class);
+        ubiService = new UbiService();
+        serviceHelper = new ServiceHelper();
 
         mEditPlayerView = findViewById(R.id.edit_player);
-
 
         spinner = findViewById(R.id.plateformType_spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -91,66 +103,78 @@ public class NewPlayerActivity extends AppCompatActivity {
         final Button button = findViewById(R.id.button_add_player);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent replyIntent = new Intent();
+                replyIntent = new Intent();
+                String response;
                 if (TextUtils.isEmpty(mEditPlayerView.getText())) {
                     replyIntent.putExtra(EXTRA_REPLY, getResources().getString(R.string.error_empty));
                     setResult(RESULT_CANCELED, replyIntent);
                 } else {
 
-                    connectionEntity = connectionViewModel.getConnection(UbiService.APP_ID);
+                    try {
+                        connectionEntity = connectionViewModel.getConnection(UbiService.APP_ID);
 
-                    boolean connectionNeeded = false;
+                        if (connectionEntity != null) {
+                            // Ticket found
+                            if (isTicketInvalid()) {
+                                // Invalid ticket, new connection is needed
+                                response = ubiService.callUbiConnectionService(connectionEntity.getEncodedKey());
 
-                    if(connectionEntity != null){
-                        // Ticket found
-                        if(isTicketInvalid()){
-                            // Invalid ticket
-                            connectionNeeded = true;
+                                if (isValidResponse(response)) {
+                                    connectionViewModel.insert(serviceHelper.generateConnectionEntity(response, connectionEntity.getEncodedKey()));
+                                } else {
+                                    sendError(serviceHelper.getErrorMessage(response));
+                                }
+                            }
+                        } else {
+                            // No ticket (the user has never signed in)
+                            sendError(getResources().getString(R.string.errorNoConnection));
                         }
-                    }else{
-                        // No ticket
-                        connectionNeeded = true;
-                    }
 
-                    if(connectionNeeded){
-                        // Call the Ubi Connection service to get a ticket
-                    }
+                        // Synchronisation settings
+                        populateSynchronisationSettings();
 
-                    // Now let's call the Web Services
-                    boolean isOk = false;
+                        // Don't do anything if there is nothing
+                        if (VIDE.equals(playerName)) {
+                            sendError(getResources().getString(R.string.error_empty));
+                        }
 
-                    String playerName = mEditPlayerView.getText().toString();
+                        // Now let's call the Web Services
+                        // First, get the profile
+                        String profileUrl = "https://public-ubiservices.ubi.com/v2/profiles?nameOnPlatform=" + playerName + "&platformType=" + plateformType;
+                        String profileResponse = ubiService.callWebService(profileUrl, connectionEntity.getTicket());
 
-                    // Used as a parameter
-                    String plateformType = spinner.getSelectedItem().toString();
-                    // Get profile String ticket, playerName, plateformType (obligatoire la 1ere fois uniquement)
+                        PlayerEntity playerEntity = new PlayerEntity();
 
-                    // Synchronisation settings
-                    populateSynchronisationSettings();
+                        if (isValidResponse(profileResponse)) {
+                            playerEntity = serviceHelper.generatePlayerEntity(profileResponse);
+                        } else {
+                            sendError(serviceHelper.getErrorMessage(profileResponse));
+                        }
 
-                    // Get Progression (only the first time) if wanted
+                        if(playerEntity.getProfileId() == null){
+                            sendError(getResources().getString(R.string.playerDoesNotExist, playerName));
+                        }
 
-                    // Get Skill emea
-                    // Get Skill cnsa
-                    // Get Skill apac
+                        // Get Progression (only the first time) if wanted
 
-                    // Get Stats (Casual / Ranked)
+                        // Get Skill emea
+                        // Get Skill cnsa
+                        // Get Skill apac
 
-                    // Get General (accuracy)
+                        // Get Stats (Casual / Ranked)
+
+                        // Get General (accuracy)
 
 
+//                        playerViewModel.insert(playerEntity);
+                        SyncEntity syncEntity = new SyncEntity(playerEntity.getProfileId(), syncProgression, syncEmeaSeason, syncNcsaSeason, syncApacSeason, syncGeneral, syncStats, syncTimer);
 
-                    if(isOk) {
-                        PlayerEntity playerEntity = new PlayerEntity(new Date() + "", new Date() + "", playerName, new Date() + "", new Date());
-                        playerViewModel.insert(playerEntity);
-
-                        SyncEntity syncEntity = new SyncEntity(new Date() + "", syncProgression, syncEmeaSeason, syncNcsaSeason, syncApacSeason, syncGeneral, syncStats, syncTimer);
                         replyIntent.putExtra(EXTRA_REPLY, getResources().getString(R.string.player_added, playerName));
                         setResult(RESULT_OK, replyIntent);
-                    }else{
-                        // change with error
-                        replyIntent.putExtra(EXTRA_REPLY, getResources().getString(R.string.error_empty));
-                        setResult(RESULT_CANCELED, replyIntent);
+                    } catch (JSONException e) {
+                        sendError(e.getMessage());
+                    } catch (ParseException e) {
+                        sendError(e.getMessage());
                     }
                 }
                 finish();
@@ -158,11 +182,20 @@ public class NewPlayerActivity extends AppCompatActivity {
         });
     }
 
+    private void sendError(String msg){
+        replyIntent.putExtra(EXTRA_REPLY, msg);
+        setResult(RESULT_CANCELED, replyIntent);
+    }
+
     private boolean isTicketInvalid(){
         return System.currentTimeMillis() > connectionEntity.getExpiration().getTime();
     }
 
     private void populateSynchronisationSettings(){
+        playerName = mEditPlayerView.getText().toString();
+
+        plateformType = spinner.getSelectedItem().toString();
+
         Switch switchSyncProgression = findViewById(R.id.switchSyncProgression);
         syncProgression = switchSyncProgression.isChecked();
 
@@ -188,5 +221,9 @@ public class NewPlayerActivity extends AppCompatActivity {
             int minutes = Integer.parseInt(separated[1]);
             syncTimer = hours * 60 + minutes;
         }
+    }
+
+    private boolean isValidResponse(String response){
+        return response != null && !VIDE.equals(response) && !response.contains(UBI_ERROR_CODE) &&!response.contains(EXCEPTION_PATTERN);
     }
 }
