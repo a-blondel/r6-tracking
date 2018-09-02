@@ -10,6 +10,9 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -20,6 +23,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.rainbow6.siege.r6_app.R;
 import com.rainbow6.siege.r6_app.db.entity.ConnectionEntity;
@@ -52,6 +56,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private Handler mHandler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +92,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        mHandler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message message) {
+                Toast.makeText(
+                        getApplicationContext(),
+                        (String) message.obj,
+                        Toast.LENGTH_LONG).show();
+
+            }
+        };
     }
 
 
@@ -227,7 +244,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         int pFrom = response.indexOf(errorMessageBegining) + errorMessageBegining.length();
                         int pTo = response.indexOf(errorMessageEnding, pFrom);
 
-                        message = response.substring(pFrom, pTo - pFrom);
+                        message = response.substring(pFrom, pTo);
                     } else if(response.contains("ERROR:")) {
                         message = response;
                     } else {
@@ -243,10 +260,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 message = e.getMessage();
             }
 
-            /*Toast.makeText(
-                    getApplicationContext(),
-                    message,
-                    Toast.LENGTH_LONG).show();*/
+            Message msg = Message.obtain();
+            msg.obj = message;
+            msg.setTarget(mHandler);
+            msg.sendToTarget();
 
             if (isOk) {
                 return true;
