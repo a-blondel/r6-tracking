@@ -26,8 +26,14 @@ import com.rainbow6.siege.r6_app.db.entity.ConnectionEntity;
 import com.rainbow6.siege.r6_app.service.UbiService;
 import com.rainbow6.siege.r6_app.viewmodel.ConnectionViewModel;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * A login screen that offers login via email/password.
@@ -190,7 +196,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
             // attempt authentication against a network service.
-             String key = mEmail + ":" + mPassword;
+            String key = mEmail + ":" + mPassword;
+
+            boolean isOk = false;
+            String message = "Connected";
 
             byte[] keyBytes;
             try {
@@ -199,21 +208,52 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 String encodedKey = Base64.encodeToString(keyBytes, Base64.NO_WRAP);
 
                 String response = ubiService.callUbiConnectionService(encodedKey);
-                //on utilise Json reader si la reponse n'est pas erreur
+                JSONObject json = new JSONObject(response);
 
-                if(response.equals("")) {
+                if (response != null && !response.equals("") && !response.contains("errorCode") &&!response.contains("ERROR:")) {
 
-                    ConnectionEntity connectionEntity = new ConnectionEntity(UbiService.APP_ID, encodedKey, "ticket", new Date());
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
+
+                    String ticket = "Ubi_v1 t=" + json.getString("ticket");
+                    Date expiration = formatter.parse(json.getString("expiration").split("\\.")[0]);
+
+                    ConnectionEntity connectionEntity = new ConnectionEntity(UbiService.APP_ID, encodedKey, ticket, expiration);
                     connectionViewModel.insert(connectionEntity);
+                    isOk = true;
+                } else {
+                    if (response.contains("errorCode")) {
+                        String errorMessageBegining = "\"message\":\"";
+                        String errorMessageEnding = "\",\"";
+                        int pFrom = response.indexOf(errorMessageBegining) + errorMessageBegining.length();
+                        int pTo = response.indexOf(errorMessageEnding, pFrom);
 
-                }else{
-                    return false;
+                        message = response.substring(pFrom, pTo - pFrom);
+                    } else if(response.contains("ERROR:")) {
+                        message = response;
+                    } else {
+                        message = "Empty response";
+                    }
                 }
 
             } catch (UnsupportedEncodingException e) {
+                message = e.getMessage();
+            } catch (JSONException e) {
+                message = e.getMessage();
+            } catch (ParseException e) {
+                message = e.getMessage();
+            }
+
+            /*Toast.makeText(
+                    getApplicationContext(),
+                    message,
+                    Toast.LENGTH_LONG).show();*/
+
+            if (isOk) {
+                return true;
+            } else {
                 return false;
             }
-            return true;
+
         }
 
         @Override
