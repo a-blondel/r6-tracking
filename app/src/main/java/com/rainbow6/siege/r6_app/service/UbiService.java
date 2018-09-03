@@ -17,6 +17,7 @@ public class UbiService {
     public static final String EXCEPTION_PATTERN = "ERROR: ";
     public static final String CHARSET_UTF8 = "UTF-8";
     private static final String POST_METHOD = "POST";
+    private static final String GET_METHOD = "GET";
     private static final String HEADER_UBI_APPID = "Ubi-AppId";
     private static final String HEADER_CONTENT_TYPE = "Content-Type";
     private static final String CONTENT_TYPE_JSON = "application/json";
@@ -35,14 +36,7 @@ public class UbiService {
 
         HttpURLConnection urlConnection = null;
         try {
-            urlConnection = prepareRequest(connectionUrl, AUTHORIZATION_BASIC + encodedKey);
-
-            OutputStream os = urlConnection.getOutputStream();
-            OutputStreamWriter osw = new OutputStreamWriter(os, CHARSET_UTF8);
-            osw.write(REMEMBER_BE);
-            osw.flush();
-            osw.close();
-            os.close();
+            urlConnection = prepareRequest(connectionUrl, AUTHORIZATION_BASIC + encodedKey, POST_METHOD);
             urlConnection.connect();
 
             response = getResponse(urlConnection);
@@ -62,10 +56,7 @@ public class UbiService {
 
             HttpURLConnection urlConnection = null;
             try {
-                urlConnection = prepareRequest(serviceUrl, ticket);
-
-                OutputStream os = urlConnection.getOutputStream();
-                os.close();
+                urlConnection = prepareRequest(serviceUrl, ticket, GET_METHOD);
                 urlConnection.connect();
 
                 response = getResponse(urlConnection);
@@ -82,16 +73,26 @@ public class UbiService {
         return response;
     }
 
-    private HttpURLConnection prepareRequest(String connectionUrl, String authorization) throws IOException {
+    private HttpURLConnection prepareRequest(String connectionUrl, String authorization, String method) throws IOException {
         HttpURLConnection urlConnection = null;
         URL url;
         url = new URL(connectionUrl);
         urlConnection = (HttpURLConnection) url.openConnection();
-        urlConnection.setDoOutput(true);
-        urlConnection.setRequestMethod(POST_METHOD);
+        if(method.equals(POST_METHOD)) {
+            urlConnection.setDoOutput(true);
+            urlConnection.setRequestMethod(POST_METHOD);
+        }
         urlConnection.setRequestProperty(HEADER_UBI_APPID, APP_ID);
         urlConnection.setRequestProperty(HEADER_CONTENT_TYPE, CONTENT_TYPE_JSON);
         urlConnection.setRequestProperty(HEADER_AUTHORIZATION, authorization);
+        if(method.equals(POST_METHOD)){
+            OutputStream os = urlConnection.getOutputStream();
+            OutputStreamWriter osw = new OutputStreamWriter(os, CHARSET_UTF8);
+            osw.write(REMEMBER_BE);
+            osw.flush();
+            osw.close();
+            os.close();
+        }
         return urlConnection;
     }
 
