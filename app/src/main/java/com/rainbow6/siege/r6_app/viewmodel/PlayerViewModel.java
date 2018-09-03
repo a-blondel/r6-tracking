@@ -4,7 +4,6 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 
-import com.rainbow6.siege.r6_app.db.entity.ConnectionEntity;
 import com.rainbow6.siege.r6_app.db.entity.PlayerEntity;
 import com.rainbow6.siege.r6_app.repository.ConnectionRepository;
 import com.rainbow6.siege.r6_app.repository.PlayerRepository;
@@ -32,9 +31,5 @@ public class PlayerViewModel extends AndroidViewModel {
     public void delete(PlayerEntity playerEntity) { mPlayerRepository.delete(playerEntity); }
 
 //    public PlayerEntity(String name) { mPlayerRepository.getPlayerByName(name); }
-
-    public void insert(ConnectionEntity connectionEntity) { mConnectRepository.insert(connectionEntity); }
-
-    public ConnectionEntity getConnection(String appId) { return mConnectRepository.getConnection(appId); }
 
 }

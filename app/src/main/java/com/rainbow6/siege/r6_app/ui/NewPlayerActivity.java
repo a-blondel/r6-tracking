@@ -28,6 +28,7 @@ import com.rainbow6.siege.r6_app.db.entity.PlayerEntity;
 import com.rainbow6.siege.r6_app.db.entity.SyncEntity;
 import com.rainbow6.siege.r6_app.service.UbiService;
 import com.rainbow6.siege.r6_app.tools.ServiceHelper;
+import com.rainbow6.siege.r6_app.viewmodel.ConnectionViewModel;
 import com.rainbow6.siege.r6_app.viewmodel.PlayerViewModel;
 
 import org.json.JSONException;
@@ -43,7 +44,7 @@ public class NewPlayerActivity extends AppCompatActivity implements LoaderManage
     private static final String EMPTY_STRING = "";
 
     private NewPlayerTask newPlayerTask = null;
-//    private ConnectionViewModel connectionViewModel;
+    private ConnectionViewModel connectionViewModel;
     private PlayerViewModel playerViewModel;
     private UbiService ubiService;
     private ServiceHelper serviceHelper;
@@ -77,7 +78,7 @@ public class NewPlayerActivity extends AppCompatActivity implements LoaderManage
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
-//        connectionViewModel = ViewModelProviders.of(this).get(ConnectionViewModel.class);
+        connectionViewModel = ViewModelProviders.of(this).get(ConnectionViewModel.class);
         playerViewModel = ViewModelProviders.of(this).get(PlayerViewModel.class);
 
 
@@ -143,6 +144,7 @@ public class NewPlayerActivity extends AppCompatActivity implements LoaderManage
                         (String) message.obj,
                         Toast.LENGTH_LONG).show();*/
 
+                Log.d("Debug---SuccessMessage", "Received message : " + message.obj);
                 replyIntent.putExtra(EXTRA_REPLY, (String) message.obj);
                 setResult(RESULT_OK, replyIntent);
 
@@ -249,16 +251,17 @@ public class NewPlayerActivity extends AppCompatActivity implements LoaderManage
         protected Boolean doInBackground(Void... params) {
 
             try {
-                connectionEntity = playerViewModel.getConnection(UbiService.APP_ID);
+                connectionEntity = connectionViewModel.getConnection(UbiService.APP_ID);
 
                 if (connectionEntity != null) {
-                    Log.d("Debug---", isTicketInvalid() + " ticket valid");
+                    Log.d("Debug---Connectivity", "Valid ticket : " + !isTicketInvalid());
                     // Ticket found
                     if (isTicketInvalid()) {
                         // Invalid ticket, new connection is needed
                         String response = ubiService.callUbiConnectionService(connectionEntity.getEncodedKey());
                         if (isValidResponse(response)) {
-                            playerViewModel.insert(serviceHelper.generateConnectionEntity(response, connectionEntity.getEncodedKey()));
+                            connectionViewModel.insert(serviceHelper.generateConnectionEntity(response, connectionEntity.getEncodedKey()));
+                            Log.d("Debug---Connectivity", "New ticket generated!");
                         } else {
                             sendErrorMessage(serviceHelper.getErrorMessage(response));
                             return false;
@@ -341,6 +344,7 @@ public class NewPlayerActivity extends AppCompatActivity implements LoaderManage
         }
 
         private void sendSuccessMessage(String message){
+            Log.d("Debug---SuccessMessage", "Sending message to handler");
             Message msg = Message.obtain();
             msg.obj = message;
             msg.setTarget(mSuccessHandler);
