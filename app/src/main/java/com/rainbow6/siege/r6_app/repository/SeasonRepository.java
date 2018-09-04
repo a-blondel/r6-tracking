@@ -1,7 +1,9 @@
 package com.rainbow6.siege.r6_app.repository;
 
+import android.app.Application;
 import android.os.AsyncTask;
 
+import com.rainbow6.siege.r6_app.db.AppDatabase;
 import com.rainbow6.siege.r6_app.db.dao.SeasonDao;
 import com.rainbow6.siege.r6_app.db.entity.SeasonEntity;
 
@@ -9,6 +11,11 @@ import com.rainbow6.siege.r6_app.db.entity.SeasonEntity;
 public class SeasonRepository {
 
     private SeasonDao mSeasonDao;
+
+    public SeasonRepository(Application application){
+        AppDatabase db = AppDatabase.getDatabase(application);
+        mSeasonDao = db.seasonDao();
+    }
 
 
     public void insert (SeasonEntity seasonEntity) {

@@ -291,7 +291,11 @@ public class NewPlayerActivity extends AppCompatActivity implements LoaderManage
 
                 SyncEntity syncEntity = new SyncEntity(playerEntity.getProfileId(), syncProgression, syncEmeaSeason, syncNcsaSeason, syncApacSeason, syncStats, syncTimer);
 
-//                playerViewModel.insert(playerEntity);
+                playerViewModel.insertPlayer(playerEntity);
+                playerViewModel.insertProgression(progressionEntity);
+                playerViewModel.insertSeason(seasonEntity);
+                playerViewModel.insertStats(statsEntity);
+                playerViewModel.insertSync(syncEntity);
 
                 sendMessage(getResources().getString(R.string.player_added, playerName));
             } catch (JSONException e) {

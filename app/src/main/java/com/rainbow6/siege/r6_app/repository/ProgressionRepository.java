@@ -1,7 +1,9 @@
 package com.rainbow6.siege.r6_app.repository;
 
+import android.app.Application;
 import android.os.AsyncTask;
 
+import com.rainbow6.siege.r6_app.db.AppDatabase;
 import com.rainbow6.siege.r6_app.db.dao.ProgressionDao;
 import com.rainbow6.siege.r6_app.db.entity.ProgressionEntity;
 
@@ -9,6 +11,11 @@ import com.rainbow6.siege.r6_app.db.entity.ProgressionEntity;
 public class ProgressionRepository {
 
     private ProgressionDao mProgressionDao;
+
+    public ProgressionRepository(Application application){
+        AppDatabase db = AppDatabase.getDatabase(application);
+        mProgressionDao = db.progressionDao();
+    }
 
 
     public void insert (ProgressionEntity progressionEntity) {

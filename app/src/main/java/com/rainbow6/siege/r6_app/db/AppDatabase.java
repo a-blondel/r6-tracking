@@ -41,7 +41,6 @@ public abstract  class AppDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             AppDatabase.class, "rainbow_database")
-                            .fallbackToDestructiveMigration()
                             .build();
 //                    .fallbackToDestructiveMigration()
 //                    .addMigrations(MIGRATION_2_3)
@@ -97,9 +96,9 @@ public abstract  class AppDatabase extends RoomDatabase {
 ////             To delete all content and repopulate the database whenever the app is started
 ////            mDao.delete();
 //            PlayerEntity player = new PlayerEntity("Hello","1","Test 1", new Date());
-//            mDao.insert(player);
+//            mDao.insertPlayer(player);
 //            player = new PlayerEntity("World","2","Test 2", new Date());
-//            mDao.insert(player);
+//            mDao.insertPlayer(player);
 //            return null;
 //        }
 //    }

@@ -1,7 +1,9 @@
 package com.rainbow6.siege.r6_app.repository;
 
+import android.app.Application;
 import android.os.AsyncTask;
 
+import com.rainbow6.siege.r6_app.db.AppDatabase;
 import com.rainbow6.siege.r6_app.db.dao.SyncDao;
 import com.rainbow6.siege.r6_app.db.entity.SyncEntity;
 
@@ -10,6 +12,10 @@ public class SyncRepository {
 
     private SyncDao mSyncDao;
 
+    public SyncRepository(Application application){
+        AppDatabase db = AppDatabase.getDatabase(application);
+        mSyncDao = db.syncDao();
+    }
 
     public void insert (SyncEntity syncEntity) {
         new insertAsyncTask(mSyncDao).execute(syncEntity);
