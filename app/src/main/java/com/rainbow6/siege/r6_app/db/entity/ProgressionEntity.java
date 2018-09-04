@@ -2,6 +2,7 @@ package com.rainbow6.siege.r6_app.db.entity;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
@@ -38,6 +39,10 @@ public class ProgressionEntity {
         this.xp = xp;
         this.level = level;
         this.lootChance = lootChance;
+    }
+
+    @Ignore
+    public ProgressionEntity() {
     }
 
     @NonNull

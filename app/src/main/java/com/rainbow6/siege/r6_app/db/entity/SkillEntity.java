@@ -3,6 +3,7 @@ package com.rainbow6.siege.r6_app.db.entity;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
@@ -40,6 +41,8 @@ public class SkillEntity {
     private int nextRankMmr;
     private int rank;
     private int maxRank;
+//    private String BoardId
+//    private Double skillStdev;
 
     public SkillEntity(@NonNull int id, String profileId, Date updateDate, Double skillMean, int wins, int losses, int abandons, int season, String region, Double maxMmr, Double mmr, int previousRankMmr, int nextRankMmr, int rank, int maxRank) {
         this.id = id;
@@ -57,6 +60,10 @@ public class SkillEntity {
         this.nextRankMmr = nextRankMmr;
         this.rank = rank;
         this.maxRank = maxRank;
+    }
+
+    @Ignore
+    public SkillEntity() {
     }
 
     @NonNull

@@ -55,12 +55,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, NewPlayerActivity.class);
-                startActivityForResult(intent, NEW_PLAYER_ACTIVITY_REQUEST_CODE);
+                startActivity(intent);
+//                startActivity(intent, NEW_PLAYER_ACTIVITY_REQUEST_CODE);
             }
         });
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    /*public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         // should I create a specific thing on success ?
@@ -78,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
             }
         }
-    }
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

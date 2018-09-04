@@ -21,10 +21,13 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.rainbow6.siege.r6_app.R;
 import com.rainbow6.siege.r6_app.db.entity.ConnectionEntity;
 import com.rainbow6.siege.r6_app.db.entity.PlayerEntity;
+import com.rainbow6.siege.r6_app.db.entity.ProgressionEntity;
+import com.rainbow6.siege.r6_app.db.entity.SkillEntity;
 import com.rainbow6.siege.r6_app.db.entity.SyncEntity;
 import com.rainbow6.siege.r6_app.service.UbiService;
 import com.rainbow6.siege.r6_app.tools.ServiceHelper;
@@ -35,13 +38,10 @@ import org.json.JSONException;
 
 import java.text.ParseException;
 
-import static com.rainbow6.siege.r6_app.service.UbiService.EXCEPTION_PATTERN;
-import static com.rainbow6.siege.r6_app.tools.ServiceHelper.UBI_ERROR_CODE;
+import static com.rainbow6.siege.r6_app.service.UbiService.CURRENT_SEASON;
+import static com.rainbow6.siege.r6_app.service.UbiService.REGION_EAMEA;
 
 public class NewPlayerActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
-
-    public static final String EXTRA_REPLY = "";
-    private static final String EMPTY_STRING = "";
 
     private NewPlayerTask newPlayerTask = null;
     private ConnectionViewModel connectionViewModel;
@@ -49,9 +49,7 @@ public class NewPlayerActivity extends AppCompatActivity implements LoaderManage
     private UbiService ubiService;
     private ServiceHelper serviceHelper;
     private ConnectionEntity connectionEntity;
-    private Intent replyIntent;
-    private Handler mErrorHandler;
-    private Handler mSuccessHandler;
+    private Handler mHandler;
 
     private EditText playerNameText;
     private EditText pickSyncTimer;
@@ -108,46 +106,21 @@ public class NewPlayerActivity extends AppCompatActivity implements LoaderManage
         final Button button = findViewById(R.id.button_add_player);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                replyIntent = new Intent();
                 if (TextUtils.isEmpty(playerNameText.getText())) {
-                    replyIntent.putExtra(EXTRA_REPLY, getResources().getString(R.string.error_empty));
-                    setResult(RESULT_CANCELED, replyIntent);
+                    Toast.makeText(getApplicationContext(),getResources().getString(R.string.error_empty),
+                            Toast.LENGTH_LONG).show();
+                    playerNameText.requestFocus();
                 } else {
-
-//                    connectionEntity = connectionViewModel.getConnection(UbiService.APP_ID);
-
                     attemptAddPlayer();
                 }
-                finish();
             }
         });
 
-        mErrorHandler = new Handler(Looper.getMainLooper()) {
+        mHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message message) {
-                /*Toast.makeText(
-                        getApplicationContext(),
-                        (String) message.obj,
-                        Toast.LENGTH_LONG).show();*/
-
-                replyIntent.putExtra(EXTRA_REPLY, (String) message.obj);
-                setResult(RESULT_CANCELED, replyIntent);
-
-            }
-        };
-
-        mSuccessHandler = new Handler(Looper.getMainLooper()) {
-            @Override
-            public void handleMessage(Message message) {
-                /*Toast.makeText(
-                        getApplicationContext(),
-                        (String) message.obj,
-                        Toast.LENGTH_LONG).show();*/
-
-                Log.d("Debug---SuccessMessage", "Received message : " + message.obj);
-                replyIntent.putExtra(EXTRA_REPLY, (String) message.obj);
-                setResult(RESULT_OK, replyIntent);
-
+                Toast.makeText(getApplicationContext(),
+                        (String) message.obj, Toast.LENGTH_LONG).show();
             }
         };
     }
@@ -252,77 +225,85 @@ public class NewPlayerActivity extends AppCompatActivity implements LoaderManage
 
             try {
                 connectionEntity = connectionViewModel.getConnection(UbiService.APP_ID);
-
                 if (connectionEntity != null) {
                     Log.d("Debug---Connectivity", "Valid ticket : " + !isTicketInvalid());
                     // Ticket found
                     if (isTicketInvalid()) {
                         // Invalid ticket, new connection is needed
                         String response = ubiService.callUbiConnectionService(connectionEntity.getEncodedKey());
-                        if (isValidResponse(response)) {
+                        if (serviceHelper.isValidResponse(response)) {
                             connectionViewModel.insert(serviceHelper.generateConnectionEntity(response, connectionEntity.getEncodedKey()));
                             Log.d("Debug---Connectivity", "New ticket generated!");
                         } else {
-                            sendErrorMessage(serviceHelper.getErrorMessage(response));
+                            sendMessage(serviceHelper.getErrorMessage(response));
                             return false;
                         }
                     }
                 } else {
                     // No ticket (the user has never signed in)
-                    sendErrorMessage(getResources().getString(R.string.errorNoConnection));
+                    sendMessage(getResources().getString(R.string.errorNoConnection));
                     return false;
                 }
 
-                // Don't do anything if there is nothing
-                if (EMPTY_STRING.equals(playerName)) {
-                    sendErrorMessage(getResources().getString(R.string.error_empty));
-                    return false;
-                }
-
-                // Now let's call the Web Services
-                // First, get the profile
-                String profileUrl = "https://public-ubiservices.ubi.com/v2/profiles?nameOnPlatform=" + playerName + "&platformType=" + plateformType;
-
-                Log.d("Debug---profileUrl", profileUrl);
-
-                String profileResponse = ubiService.callWebService(profileUrl, connectionEntity.getTicket());
-
-                Log.d("Debug---profileResponse", profileResponse);
-
-                PlayerEntity playerEntity = new PlayerEntity();
-
-                if (isValidResponse(profileResponse)) {
+                // Get profile
+                String profileResponse = ubiService.getProfileResponse(connectionEntity.getTicket(), playerName, plateformType);
+                PlayerEntity playerEntity;
+                if (serviceHelper.isValidResponse(profileResponse)) {
                     playerEntity = serviceHelper.generatePlayerEntity(profileResponse);
                 } else {
-                    sendErrorMessage(serviceHelper.getErrorMessage(profileResponse));
+                    sendMessage(serviceHelper.getErrorMessage(profileResponse));
                     return false;
                 }
 
                 if(playerEntity.getProfileId() == null){
-                    sendErrorMessage(getResources().getString(R.string.playerDoesNotExist, playerName));
+                    sendMessage(getResources().getString(R.string.playerDoesNotExist, playerName));
                     return false;
                 }
 
-                // Get Progression
+                // Get progression
+                String progressionResponse = ubiService.getProgressionResponse(connectionEntity.getTicket(), playerEntity.getProfileId(), plateformType);
+                ProgressionEntity progressionEntity;
+                if (serviceHelper.isValidResponse(progressionResponse)) {
+                    progressionEntity = serviceHelper.generateProgressionEntity(progressionResponse);
+                } else {
+                    sendMessage(serviceHelper.getErrorMessage(progressionResponse));
+                    return false;
+                }
 
-                // Get Skill emea
-                // Get Skill cnsa
-                // Get Skill apac
+                // Get season emea
+                String seasonEmeaResponse = ubiService.getSeasonResponse(connectionEntity.getTicket(), playerEntity.getProfileId(), REGION_EAMEA, CURRENT_SEASON, plateformType);
+                SkillEntity skillEntity;
+                if (serviceHelper.isValidResponse(seasonEmeaResponse)) {
+                    skillEntity = serviceHelper.generateSeasonEntity(seasonEmeaResponse);
+                } else {
+                    sendMessage(serviceHelper.getErrorMessage(seasonEmeaResponse));
+                    return false;
+                }
+                // Get season cnsa - Disabled here
+                // Get season apac - Disabled here
 
-                // Get Stats (Casual / Ranked)
+                // Get stats (Casual / Ranked)
+                /*String statsResponse = ubiService.getStatsResponse(connectionEntity.getTicket(), playerEntity.getProfileId(), plateformType);
+                SkillEntity statsEntity;
+                if (serviceHelper.isValidResponse(statsResponse)) {
+                    statsEntity = serviceHelper.generateStatsEntity(statsResponse);
+                } else {
+                    sendMessage(serviceHelper.getErrorMessage(statsResponse));
+                    return false;
+                }*/
 
-                // Get General (accuracy)
+                // Get general (accuracy, headshots)
 
 
 //                        playerViewModel.insert(playerEntity);
                 SyncEntity syncEntity = new SyncEntity(playerEntity.getProfileId(), syncProgression, syncEmeaSeason, syncNcsaSeason, syncApacSeason, syncGeneral, syncStats, syncTimer);
 
-                sendSuccessMessage(getResources().getString(R.string.player_added, playerName));
+                sendMessage(getResources().getString(R.string.player_added, playerName));
             } catch (JSONException e) {
-                sendErrorMessage(e.getMessage());
+                sendMessage(e.getMessage());
                 return false;
             } catch (ParseException e) {
-                sendErrorMessage(e.getMessage());
+                sendMessage(e.getMessage());
                 return false;
             }
             return true;
@@ -332,22 +313,10 @@ public class NewPlayerActivity extends AppCompatActivity implements LoaderManage
             return System.currentTimeMillis() > connectionEntity.getExpiration().getTime();
         }
 
-        private boolean isValidResponse(String response){
-            return response != null && !EMPTY_STRING.equals(response) && !response.contains(UBI_ERROR_CODE) &&!response.contains(EXCEPTION_PATTERN);
-        }
-
-        private void sendErrorMessage(String message){
+        private void sendMessage(String message){
             Message msg = Message.obtain();
             msg.obj = message;
-            msg.setTarget(mErrorHandler);
-            msg.sendToTarget();
-        }
-
-        private void sendSuccessMessage(String message){
-            Log.d("Debug---SuccessMessage", "Sending message to handler");
-            Message msg = Message.obtain();
-            msg.obj = message;
-            msg.setTarget(mSuccessHandler);
+            msg.setTarget(mHandler);
             msg.sendToTarget();
         }
 
