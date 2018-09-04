@@ -1,6 +1,5 @@
 package com.rainbow6.siege.r6_app.db.entity;
 
-import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
@@ -22,7 +21,7 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
         )},
         indices = {@Index("profileId")}
         )
-public class SkillEntity {
+public class SeasonEntity {
 
     @PrimaryKey(autoGenerate = true)
     @NonNull
@@ -37,14 +36,14 @@ public class SkillEntity {
     private String region;
     private Double maxMmr;
     private Double mmr;
-    private int previousRankMmr;
-    private int nextRankMmr;
+    private Double previousRankMmr;
+    private Double nextRankMmr;
     private int rank;
     private int maxRank;
-//    private String BoardId
-//    private Double skillStdev;
+    private String boardId;
+    private Double skillStdev;
 
-    public SkillEntity(@NonNull int id, String profileId, Date updateDate, Double skillMean, int wins, int losses, int abandons, int season, String region, Double maxMmr, Double mmr, int previousRankMmr, int nextRankMmr, int rank, int maxRank) {
+    public SeasonEntity(@NonNull int id, String profileId, Date updateDate, Double skillMean, int wins, int losses, int abandons, int season, String region, Double maxMmr, Double mmr, Double previousRankMmr, Double nextRankMmr, int rank, int maxRank, String boardId, Double skillStdev) {
         this.id = id;
         this.profileId = profileId;
         this.updateDate = updateDate;
@@ -60,10 +59,12 @@ public class SkillEntity {
         this.nextRankMmr = nextRankMmr;
         this.rank = rank;
         this.maxRank = maxRank;
+        this.boardId = boardId;
+        this.skillStdev = skillStdev;
     }
 
     @Ignore
-    public SkillEntity() {
+    public SeasonEntity() {
     }
 
     @NonNull
@@ -155,19 +156,19 @@ public class SkillEntity {
         this.mmr = mmr;
     }
 
-    public int getPreviousRankMmr() {
+    public Double getPreviousRankMmr() {
         return previousRankMmr;
     }
 
-    public void setPreviousRankMmr(int previousRankMmr) {
+    public void setPreviousRankMmr(Double previousRankMmr) {
         this.previousRankMmr = previousRankMmr;
     }
 
-    public int getNextRankMmr() {
+    public Double getNextRankMmr() {
         return nextRankMmr;
     }
 
-    public void setNextRankMmr(int nextRankMmr) {
+    public void setNextRankMmr(Double nextRankMmr) {
         this.nextRankMmr = nextRankMmr;
     }
 
@@ -185,5 +186,21 @@ public class SkillEntity {
 
     public void setMaxRank(int maxRank) {
         this.maxRank = maxRank;
+    }
+
+    public String getBoardId() {
+        return boardId;
+    }
+
+    public void setBoardId(String boardId) {
+        this.boardId = boardId;
+    }
+
+    public Double getSkillStdev() {
+        return skillStdev;
+    }
+
+    public void setSkillStdev(Double skillStdev) {
+        this.skillStdev = skillStdev;
     }
 }

@@ -3,7 +3,6 @@ package com.rainbow6.siege.r6_app.ui;
 import android.app.LoaderManager;
 import android.app.TimePickerDialog;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -27,7 +26,8 @@ import com.rainbow6.siege.r6_app.R;
 import com.rainbow6.siege.r6_app.db.entity.ConnectionEntity;
 import com.rainbow6.siege.r6_app.db.entity.PlayerEntity;
 import com.rainbow6.siege.r6_app.db.entity.ProgressionEntity;
-import com.rainbow6.siege.r6_app.db.entity.SkillEntity;
+import com.rainbow6.siege.r6_app.db.entity.SeasonEntity;
+import com.rainbow6.siege.r6_app.db.entity.StatsEntity;
 import com.rainbow6.siege.r6_app.db.entity.SyncEntity;
 import com.rainbow6.siege.r6_app.service.UbiService;
 import com.rainbow6.siege.r6_app.tools.ServiceHelper;
@@ -152,9 +152,6 @@ public class NewPlayerActivity extends AppCompatActivity implements LoaderManage
         Switch switchStats = findViewById(R.id.switchStats);
         boolean syncStats = switchStats.isChecked();
 
-        Switch switchGeneral = findViewById(R.id.switchGeneral);
-        boolean syncGeneral = switchGeneral.isChecked();
-
         int syncTimer = 0;
 
         String syncTimerString = pickSyncTimer.getText().toString();
@@ -174,7 +171,7 @@ public class NewPlayerActivity extends AppCompatActivity implements LoaderManage
         if (cancel) {
             focusView.requestFocus();
         } else {
-            newPlayerTask = new NewPlayerTask(playerName, plateformType, syncProgression, syncEmeaSeason, syncNcsaSeason, syncApacSeason, syncStats, syncGeneral, syncTimer);
+            newPlayerTask = new NewPlayerTask(playerName, plateformType, syncProgression, syncEmeaSeason, syncNcsaSeason, syncApacSeason, syncStats, syncTimer);
 //            newPlayerTask.execute((Void) null);
             newPlayerTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
@@ -204,11 +201,10 @@ public class NewPlayerActivity extends AppCompatActivity implements LoaderManage
         private final boolean syncNcsaSeason;
         private final boolean syncApacSeason;
         private final boolean syncStats;
-        private final boolean syncGeneral;
         private final int syncTimer;
 
 
-        NewPlayerTask(String playerName, String plateformType, boolean syncProgression, boolean syncEmeaSeason, boolean syncNcsaSeason, boolean syncApacSeason, boolean syncStats, boolean syncGeneral, int syncTimer) {
+        NewPlayerTask(String playerName, String plateformType, boolean syncProgression, boolean syncEmeaSeason, boolean syncNcsaSeason, boolean syncApacSeason, boolean syncStats, int syncTimer) {
             this.playerName = playerName;
             this.plateformType = plateformType;
             this.syncProgression = syncProgression;
@@ -216,7 +212,6 @@ public class NewPlayerActivity extends AppCompatActivity implements LoaderManage
             this.syncNcsaSeason = syncNcsaSeason;
             this.syncApacSeason = syncApacSeason;
             this.syncStats = syncStats;
-            this.syncGeneral = syncGeneral;
             this.syncTimer = syncTimer;
         }
 
@@ -255,13 +250,15 @@ public class NewPlayerActivity extends AppCompatActivity implements LoaderManage
                     return false;
                 }
 
-                if(playerEntity.getProfileId() == null){
+                String profileId = playerEntity.getProfileId();
+
+                if(profileId == null){
                     sendMessage(getResources().getString(R.string.playerDoesNotExist, playerName));
                     return false;
                 }
 
                 // Get progression
-                String progressionResponse = ubiService.getProgressionResponse(connectionEntity.getTicket(), playerEntity.getProfileId(), plateformType);
+                String progressionResponse = ubiService.getProgressionResponse(connectionEntity.getTicket(), profileId, plateformType);
                 ProgressionEntity progressionEntity;
                 if (serviceHelper.isValidResponse(progressionResponse)) {
                     progressionEntity = serviceHelper.generateProgressionEntity(progressionResponse);
@@ -271,10 +268,10 @@ public class NewPlayerActivity extends AppCompatActivity implements LoaderManage
                 }
 
                 // Get season emea
-                String seasonEmeaResponse = ubiService.getSeasonResponse(connectionEntity.getTicket(), playerEntity.getProfileId(), REGION_EAMEA, CURRENT_SEASON, plateformType);
-                SkillEntity skillEntity;
+                String seasonEmeaResponse = ubiService.getSeasonResponse(connectionEntity.getTicket(), profileId, REGION_EAMEA, CURRENT_SEASON, plateformType);
+                SeasonEntity seasonEntity;
                 if (serviceHelper.isValidResponse(seasonEmeaResponse)) {
-                    skillEntity = serviceHelper.generateSeasonEntity(seasonEmeaResponse);
+                    seasonEntity = serviceHelper.generateSeasonEntity(seasonEmeaResponse, profileId);
                 } else {
                     sendMessage(serviceHelper.getErrorMessage(seasonEmeaResponse));
                     return false;
@@ -282,27 +279,27 @@ public class NewPlayerActivity extends AppCompatActivity implements LoaderManage
                 // Get season cnsa - Disabled here
                 // Get season apac - Disabled here
 
-                // Get stats (Casual / Ranked)
-                /*String statsResponse = ubiService.getStatsResponse(connectionEntity.getTicket(), playerEntity.getProfileId(), plateformType);
-                SkillEntity statsEntity;
+                // Get stats
+                String statsResponse = ubiService.getStatsResponse(connectionEntity.getTicket(), playerEntity.getProfileId(), plateformType);
+                StatsEntity statsEntity;
                 if (serviceHelper.isValidResponse(statsResponse)) {
-                    statsEntity = serviceHelper.generateStatsEntity(statsResponse);
+                    statsEntity = serviceHelper.generateStatsEntity(statsResponse, profileId);
                 } else {
                     sendMessage(serviceHelper.getErrorMessage(statsResponse));
                     return false;
-                }*/
+                }
 
-                // Get general (accuracy, headshots)
+                SyncEntity syncEntity = new SyncEntity(playerEntity.getProfileId(), syncProgression, syncEmeaSeason, syncNcsaSeason, syncApacSeason, syncStats, syncTimer);
 
-
-//                        playerViewModel.insert(playerEntity);
-                SyncEntity syncEntity = new SyncEntity(playerEntity.getProfileId(), syncProgression, syncEmeaSeason, syncNcsaSeason, syncApacSeason, syncGeneral, syncStats, syncTimer);
+//                playerViewModel.insert(playerEntity);
 
                 sendMessage(getResources().getString(R.string.player_added, playerName));
             } catch (JSONException e) {
+                Log.d("Debug---JSONException", e.getMessage());
                 sendMessage(e.getMessage());
                 return false;
             } catch (ParseException e) {
+                Log.d("Debug---ParseException", e.getMessage());
                 sendMessage(e.getMessage());
                 return false;
             }

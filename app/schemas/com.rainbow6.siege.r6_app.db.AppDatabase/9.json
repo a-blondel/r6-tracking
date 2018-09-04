@@ -1,0 +1,583 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 9,
+    "identityHash": "87eba268830da8f5c63581884da5ea08",
+    "entities": [
+      {
+        "tableName": "ConnectionEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`appId` TEXT NOT NULL, `encodedKey` TEXT, `ticket` TEXT, `expiration` INTEGER, PRIMARY KEY(`appId`))",
+        "fields": [
+          {
+            "fieldPath": "appId",
+            "columnName": "appId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "encodedKey",
+            "columnName": "encodedKey",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ticket",
+            "columnName": "ticket",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "expiration",
+            "columnName": "expiration",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "appId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "PlayerEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`profileId` TEXT NOT NULL, `userId` TEXT, `nameOnPlatform` TEXT, `platformType` TEXT, `addedDate` INTEGER, PRIMARY KEY(`profileId`))",
+        "fields": [
+          {
+            "fieldPath": "profileId",
+            "columnName": "profileId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nameOnPlatform",
+            "columnName": "nameOnPlatform",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "platformType",
+            "columnName": "platformType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "addedDate",
+            "columnName": "addedDate",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "profileId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "ProgressionEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `profileId` TEXT, `updateDate` INTEGER, `xp` INTEGER NOT NULL, `level` INTEGER NOT NULL, `lootChance` INTEGER NOT NULL, FOREIGN KEY(`profileId`) REFERENCES `PlayerEntity`(`profileId`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "profileId",
+            "columnName": "profileId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "updateDate",
+            "columnName": "updateDate",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "xp",
+            "columnName": "xp",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "level",
+            "columnName": "level",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lootChance",
+            "columnName": "lootChance",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_ProgressionEntity_profileId",
+            "unique": false,
+            "columnNames": [
+              "profileId"
+            ],
+            "createSql": "CREATE  INDEX `index_ProgressionEntity_profileId` ON `${TABLE_NAME}` (`profileId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "PlayerEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "profileId"
+            ],
+            "referencedColumns": [
+              "profileId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "SeasonEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `profileId` TEXT, `updateDate` INTEGER, `skillMean` REAL, `wins` INTEGER NOT NULL, `losses` INTEGER NOT NULL, `abandons` INTEGER NOT NULL, `season` INTEGER NOT NULL, `region` TEXT, `maxMmr` REAL, `mmr` REAL, `previousRankMmr` REAL, `nextRankMmr` REAL, `rank` INTEGER NOT NULL, `maxRank` INTEGER NOT NULL, `boardId` TEXT, `skillStdev` REAL, FOREIGN KEY(`profileId`) REFERENCES `PlayerEntity`(`profileId`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "profileId",
+            "columnName": "profileId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "updateDate",
+            "columnName": "updateDate",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "skillMean",
+            "columnName": "skillMean",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "wins",
+            "columnName": "wins",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "losses",
+            "columnName": "losses",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "abandons",
+            "columnName": "abandons",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "season",
+            "columnName": "season",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "region",
+            "columnName": "region",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "maxMmr",
+            "columnName": "maxMmr",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mmr",
+            "columnName": "mmr",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "previousRankMmr",
+            "columnName": "previousRankMmr",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nextRankMmr",
+            "columnName": "nextRankMmr",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "rank",
+            "columnName": "rank",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "maxRank",
+            "columnName": "maxRank",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "boardId",
+            "columnName": "boardId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "skillStdev",
+            "columnName": "skillStdev",
+            "affinity": "REAL",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_SeasonEntity_profileId",
+            "unique": false,
+            "columnNames": [
+              "profileId"
+            ],
+            "createSql": "CREATE  INDEX `index_SeasonEntity_profileId` ON `${TABLE_NAME}` (`profileId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "PlayerEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "profileId"
+            ],
+            "referencedColumns": [
+              "profileId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "StatsEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `profileId` TEXT, `updateDate` INTEGER, `timePlayedRanked` INTEGER NOT NULL, `matchPlayedRanked` INTEGER NOT NULL, `matchWonRanked` INTEGER NOT NULL, `matchLostRanked` INTEGER NOT NULL, `killsRanked` INTEGER NOT NULL, `deathRanked` INTEGER NOT NULL, `timePlayedCasual` INTEGER NOT NULL, `matchPlayedCasual` INTEGER NOT NULL, `matchWonCasual` INTEGER NOT NULL, `matchLostCasual` INTEGER NOT NULL, `killsCasual` INTEGER NOT NULL, `deathCasual` INTEGER NOT NULL, `generalTimePlayed` INTEGER NOT NULL, `generalMatchPlayed` INTEGER NOT NULL, `generalMatchWon` INTEGER NOT NULL, `generalMatchLost` INTEGER NOT NULL, `generalKills` INTEGER NOT NULL, `generalDeath` INTEGER NOT NULL, `generalHeadshots` INTEGER NOT NULL, `generalBulletHit` INTEGER NOT NULL, `generalBulletFired` INTEGER NOT NULL, `generalKillAssists` INTEGER NOT NULL, `generalPenetrationKills` INTEGER NOT NULL, `generalMeleeKills` INTEGER NOT NULL, `generalRevive` INTEGER NOT NULL, FOREIGN KEY(`profileId`) REFERENCES `PlayerEntity`(`profileId`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "profileId",
+            "columnName": "profileId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "updateDate",
+            "columnName": "updateDate",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "timePlayedRanked",
+            "columnName": "timePlayedRanked",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "matchPlayedRanked",
+            "columnName": "matchPlayedRanked",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "matchWonRanked",
+            "columnName": "matchWonRanked",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "matchLostRanked",
+            "columnName": "matchLostRanked",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "killsRanked",
+            "columnName": "killsRanked",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deathRanked",
+            "columnName": "deathRanked",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timePlayedCasual",
+            "columnName": "timePlayedCasual",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "matchPlayedCasual",
+            "columnName": "matchPlayedCasual",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "matchWonCasual",
+            "columnName": "matchWonCasual",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "matchLostCasual",
+            "columnName": "matchLostCasual",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "killsCasual",
+            "columnName": "killsCasual",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deathCasual",
+            "columnName": "deathCasual",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "generalTimePlayed",
+            "columnName": "generalTimePlayed",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "generalMatchPlayed",
+            "columnName": "generalMatchPlayed",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "generalMatchWon",
+            "columnName": "generalMatchWon",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "generalMatchLost",
+            "columnName": "generalMatchLost",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "generalKills",
+            "columnName": "generalKills",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "generalDeath",
+            "columnName": "generalDeath",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "generalHeadshots",
+            "columnName": "generalHeadshots",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "generalBulletHit",
+            "columnName": "generalBulletHit",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "generalBulletFired",
+            "columnName": "generalBulletFired",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "generalKillAssists",
+            "columnName": "generalKillAssists",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "generalPenetrationKills",
+            "columnName": "generalPenetrationKills",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "generalMeleeKills",
+            "columnName": "generalMeleeKills",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "generalRevive",
+            "columnName": "generalRevive",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_StatsEntity_profileId",
+            "unique": false,
+            "columnNames": [
+              "profileId"
+            ],
+            "createSql": "CREATE  INDEX `index_StatsEntity_profileId` ON `${TABLE_NAME}` (`profileId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "PlayerEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "profileId"
+            ],
+            "referencedColumns": [
+              "profileId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "SyncEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`profileId` TEXT NOT NULL, `syncProgression` INTEGER NOT NULL, `syncEmea` INTEGER NOT NULL, `syncNcsa` INTEGER NOT NULL, `syncApac` INTEGER NOT NULL, `syncStats` INTEGER NOT NULL, `syncDelay` INTEGER NOT NULL, PRIMARY KEY(`profileId`), FOREIGN KEY(`profileId`) REFERENCES `PlayerEntity`(`profileId`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "profileId",
+            "columnName": "profileId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "syncProgression",
+            "columnName": "syncProgression",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "syncEmea",
+            "columnName": "syncEmea",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "syncNcsa",
+            "columnName": "syncNcsa",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "syncApac",
+            "columnName": "syncApac",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "syncStats",
+            "columnName": "syncStats",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "syncDelay",
+            "columnName": "syncDelay",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "profileId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_SyncEntity_profileId",
+            "unique": false,
+            "columnNames": [
+              "profileId"
+            ],
+            "createSql": "CREATE  INDEX `index_SyncEntity_profileId` ON `${TABLE_NAME}` (`profileId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "PlayerEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "profileId"
+            ],
+            "referencedColumns": [
+              "profileId"
+            ]
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"87eba268830da8f5c63581884da5ea08\")"
+    ]
+  }
+}

@@ -13,6 +13,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 public class UbiService {
@@ -35,15 +36,17 @@ public class UbiService {
     private static final int RESPONSE_CODE_200 = 200;
     private static final int RESPONSE_CODE_299 = 299;
     private static final List<String> statsNames = Arrays.asList(
-            "rankedpvp_timeplayed:infinite", "rankedpvp_matchplayed:infinite", "rankedpvp_matchwon:infinite", "rankedpvp_matchlost:infinite",
-            "rankedpvp_death:infinite", "rankedpvp_kills:infinite",
-            "casualpvp_timeplayed:infinite", "casualpvp_matchplayed:infinite", "casualpvp_matchwon:infinite", "casualpvp_matchlost:infinite",
-            "casualpvp_kills:infinite", "casualpvp_death:infinite",
-            "generalpvp_timeplayed:infinite", "generalpvp_matchplayed:infinite", "generalpvp_matchwon:infinite", "generalpvp_matchlost:infinite",
-            "generalpvp_kills:infinite", "generalpvp_death:infinite", "generalpvp_killassists:infinite",
-            "generalpvp_headshot:infinite", "generalpvp_meleekills:infinite", "generalpvp_penetrationkills:infinite",
-            "generalpvp_bulletfired:infinite", "generalpvp_bullethit:infinite", "generalpvp_revive:infinite"
+            "rankedpvp_timeplayed", "rankedpvp_matchplayed", "rankedpvp_matchwon", "rankedpvp_matchlost",
+            "rankedpvp_death", "rankedpvp_kills",
+            "casualpvp_timeplayed", "casualpvp_matchplayed", "casualpvp_matchwon", "casualpvp_matchlost",
+            "casualpvp_kills", "casualpvp_death",
+            "generalpvp_timeplayed", "generalpvp_matchplayed", "generalpvp_matchwon", "generalpvp_matchlost",
+            "generalpvp_kills", "generalpvp_death", "generalpvp_killassists",
+            "generalpvp_headshot", "generalpvp_meleekills", "generalpvp_penetrationkills",
+            "generalpvp_bulletfired", "generalpvp_bullethit", "generalpvp_revive"
     );
+
+
 
     private static final String PLAYSTATION = "psn";
 
@@ -121,7 +124,18 @@ public class UbiService {
     }
 
     public String getStatsResponse(String ticket, String profileId, String plateformType){
-        String statsUrl = "https://public-ubiservices.ubi.com/v1/spaces/05bfb3f7-6c21-4c42-be1f-97a33fb5cf66/sandboxes/OSBOR_PS4_LNCH_A/playerstats2/statistics?populations=" + profileId + "&statistics=";
+        StringBuilder builder = new StringBuilder();
+
+        Iterator<String> it = statsNames.iterator();
+        while (it.hasNext()){
+            String value = it.next();
+            builder.append(value);
+            if (it.hasNext()) {
+                builder.append(",");
+            }
+        }
+        String text = builder.toString();
+        String statsUrl = "https://public-ubiservices.ubi.com/v1/spaces/05bfb3f7-6c21-4c42-be1f-97a33fb5cf66/sandboxes/OSBOR_PS4_LNCH_A/playerstats2/statistics?populations=" + profileId + "&statistics=" + text;
         Log.d("Debug---statsUrl", statsUrl);
 
         String statsResponse = callWebService(statsUrl, ticket);

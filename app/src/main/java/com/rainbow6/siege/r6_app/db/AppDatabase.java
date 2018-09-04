@@ -7,31 +7,28 @@ import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
 import com.rainbow6.siege.r6_app.db.dao.ConnectionDao;
-import com.rainbow6.siege.r6_app.db.dao.GeneralDao;
 import com.rainbow6.siege.r6_app.db.dao.PlayerDao;
 import com.rainbow6.siege.r6_app.db.dao.ProgressionDao;
-import com.rainbow6.siege.r6_app.db.dao.SkillDao;
+import com.rainbow6.siege.r6_app.db.dao.SeasonDao;
 import com.rainbow6.siege.r6_app.db.dao.StatsDao;
 import com.rainbow6.siege.r6_app.db.dao.SyncDao;
 import com.rainbow6.siege.r6_app.db.entity.ConnectionEntity;
 import com.rainbow6.siege.r6_app.db.converter.DateConverter;
-import com.rainbow6.siege.r6_app.db.entity.GeneralEntity;
 import com.rainbow6.siege.r6_app.db.entity.PlayerEntity;
 import com.rainbow6.siege.r6_app.db.entity.ProgressionEntity;
-import com.rainbow6.siege.r6_app.db.entity.SkillEntity;
+import com.rainbow6.siege.r6_app.db.entity.SeasonEntity;
 import com.rainbow6.siege.r6_app.db.entity.StatsEntity;
 import com.rainbow6.siege.r6_app.db.entity.SyncEntity;
 
-@Database(entities = {ConnectionEntity.class, GeneralEntity.class,PlayerEntity.class, ProgressionEntity.class, SkillEntity.class, StatsEntity.class, SyncEntity.class},
-        version = 7)
+@Database(entities = {ConnectionEntity.class,PlayerEntity.class, ProgressionEntity.class, SeasonEntity.class, StatsEntity.class, SyncEntity.class},
+        version = 9)
 @TypeConverters({DateConverter.class})
 public abstract  class AppDatabase extends RoomDatabase {
 
     public abstract ConnectionDao connectionDao();
-    public abstract GeneralDao generalDao();
     public abstract PlayerDao playerDao();
     public abstract ProgressionDao progressionDao();
-    public abstract SkillDao skillDao();
+    public abstract SeasonDao seasonDao();
     public abstract StatsDao statsDao();
     public abstract SyncDao syncDao();
 
