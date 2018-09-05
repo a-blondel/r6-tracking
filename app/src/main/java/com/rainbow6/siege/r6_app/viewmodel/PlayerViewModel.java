@@ -43,14 +43,18 @@ public class PlayerViewModel extends AndroidViewModel {
 
     public void insertProgression(ProgressionEntity progressionEntity) { progressionRepository.insert(progressionEntity); }
 
+    public ProgressionEntity getLastProgressionEntityByProfileId(String profileId) { return progressionRepository.getLastProgressionEntityByProfileId(profileId); }
+
     public void insertSeason(SeasonEntity seasonEntity) { seasonRepository.insert(seasonEntity); }
 
+    public SeasonEntity getLastSeasonEntityByProfileIdAndRegion(String profileId, String regionId) { return seasonRepository.getLastSeasonEntityByProfileIdAndRegionId(profileId, regionId); }
+
     public void insertStats(StatsEntity statsEntity) { statsRepository.insert(statsEntity); }
+
+    public StatsEntity getLastStatsByProfileId(String profileId) { return statsRepository.getLastStatsEntityByProfileId(profileId); }
 
     public void insertSync(SyncEntity syncEntity) { syncRepository.insert(syncEntity); }
 
     public void delete(PlayerEntity playerEntity) { playerRepository.delete(playerEntity); }
-
-//    public PlayerEntity(String name) { playerRepository.getPlayerByName(name); }
 
 }

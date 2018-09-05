@@ -7,6 +7,8 @@ import com.rainbow6.siege.r6_app.db.AppDatabase;
 import com.rainbow6.siege.r6_app.db.dao.StatsDao;
 import com.rainbow6.siege.r6_app.db.entity.StatsEntity;
 
+import java.util.concurrent.ExecutionException;
+
 
 public class StatsRepository {
 
@@ -37,22 +39,28 @@ public class StatsRepository {
         }
     }
 
-    public void getLastStats (String profileId) {
-        new getLastStatsAsyncTask(mStatsDao).execute(profileId);
+    public StatsEntity getLastStatsEntityByProfileId(String profileId) {
+        try {
+            return new getLastStatsEntityByProfileIdAsyncTask(mStatsDao).execute(profileId).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    private static class getLastStatsAsyncTask extends AsyncTask<String, Void, Void> {
+    private static class getLastStatsEntityByProfileIdAsyncTask extends AsyncTask<String, Void, StatsEntity> {
 
         private StatsDao mAsyncTaskDao;
 
-        getLastStatsAsyncTask(StatsDao dao) {
+        getLastStatsEntityByProfileIdAsyncTask(StatsDao dao) {
             mAsyncTaskDao = dao;
         }
 
         @Override
-        protected Void doInBackground(final String... params) {
-            mAsyncTaskDao.getLastStats(params[0]);
-            return null;
+        protected StatsEntity doInBackground(final String... params) {
+            return mAsyncTaskDao.getLastStatsEntityByProfileId(params[0]);
         }
     }
 }

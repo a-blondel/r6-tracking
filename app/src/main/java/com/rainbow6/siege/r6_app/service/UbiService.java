@@ -21,7 +21,7 @@ public class UbiService {
     public static final String APP_ID = "39baebad-39e5-4552-8c25-2c9b919064e2";
     public static final String EXCEPTION_PATTERN = "EXCEPTION: ";
     public static final String CHARSET_UTF8 = "UTF-8";
-    public static final String REGION_EAMEA = "emea";
+    public static final String REGION_EMEA = "emea";
     public static final String REGION_NCSA = "ncsa";
     public static final String REGION_APAC = "apac";
     public static final int CURRENT_SEASON = -1;

@@ -39,7 +39,7 @@ import org.json.JSONException;
 import java.text.ParseException;
 
 import static com.rainbow6.siege.r6_app.service.UbiService.CURRENT_SEASON;
-import static com.rainbow6.siege.r6_app.service.UbiService.REGION_EAMEA;
+import static com.rainbow6.siege.r6_app.service.UbiService.REGION_EMEA;
 
 public class NewPlayerActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -269,7 +269,7 @@ public class NewPlayerActivity extends AppCompatActivity implements LoaderManage
                 }
 
                 // Get season emea
-                String seasonEmeaResponse = ubiService.getSeasonResponse(connectionEntity.getTicket(), profileId, REGION_EAMEA, CURRENT_SEASON, plateformType);
+                String seasonEmeaResponse = ubiService.getSeasonResponse(connectionEntity.getTicket(), profileId, REGION_EMEA, CURRENT_SEASON, plateformType);
                 SeasonEntity seasonEntity;
                 if (serviceHelper.isValidResponse(seasonEmeaResponse)) {
                     seasonEntity = serviceHelper.generateSeasonEntity(seasonEmeaResponse, profileId);

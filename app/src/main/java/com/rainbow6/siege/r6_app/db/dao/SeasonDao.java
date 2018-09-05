@@ -12,7 +12,7 @@ public interface SeasonDao {
     @Insert
     void insert(SeasonEntity seasonEntity);
 
-    @Query("SELECT * FROM SeasonEntity WHERE profileId = :profileId ORDER BY updateDate DESC LIMIT 1")
-    SeasonEntity getLastSeasonEntity(String profileId);
+    @Query("SELECT * FROM SeasonEntity WHERE profileId = :profileId AND region = :regionId ORDER BY updateDate DESC LIMIT 1")
+    SeasonEntity getLastSeasonEntityByProfileIdAndRegionId(String profileId, String regionId);
 
 }

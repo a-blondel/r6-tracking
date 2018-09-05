@@ -7,6 +7,8 @@ import com.rainbow6.siege.r6_app.db.AppDatabase;
 import com.rainbow6.siege.r6_app.db.dao.ProgressionDao;
 import com.rainbow6.siege.r6_app.db.entity.ProgressionEntity;
 
+import java.util.concurrent.ExecutionException;
+
 
 public class ProgressionRepository {
 
@@ -37,22 +39,28 @@ public class ProgressionRepository {
         }
     }
 
-    public void getLastProgression (String profileId) {
-        new getLastProgressionAsyncTask(mProgressionDao).execute(profileId);
+    public ProgressionEntity getLastProgressionEntityByProfileId(String profileId) {
+        try {
+            return new getLastProgressionEntityByProfileIdAsyncTask(mProgressionDao).execute(profileId).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    private static class getLastProgressionAsyncTask extends AsyncTask<String, Void, Void> {
+    private static class getLastProgressionEntityByProfileIdAsyncTask extends AsyncTask<String, Void, ProgressionEntity> {
 
         private ProgressionDao mAsyncTaskDao;
 
-        getLastProgressionAsyncTask(ProgressionDao dao) {
+        getLastProgressionEntityByProfileIdAsyncTask(ProgressionDao dao) {
             mAsyncTaskDao = dao;
         }
 
         @Override
-        protected Void doInBackground(final String... params) {
-            mAsyncTaskDao.getLastProgression(params[0]);
-            return null;
+        protected ProgressionEntity doInBackground(final String... params) {
+            return mAsyncTaskDao.getLastProgressionEntityByProfileId(params[0]);
         }
     }
 }

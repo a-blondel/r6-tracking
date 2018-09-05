@@ -1,6 +1,5 @@
 package com.rainbow6.siege.r6_app.ui;
 
-import android.app.Activity;
 import android.app.LoaderManager;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Loader;
@@ -11,8 +10,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +27,6 @@ import com.rainbow6.siege.r6_app.db.entity.PlayerEntity;
 import com.rainbow6.siege.r6_app.db.entity.ProgressionEntity;
 import com.rainbow6.siege.r6_app.db.entity.SeasonEntity;
 import com.rainbow6.siege.r6_app.db.entity.StatsEntity;
-import com.rainbow6.siege.r6_app.repository.PlayerRepository;
 import com.rainbow6.siege.r6_app.service.UbiService;
 import com.rainbow6.siege.r6_app.tools.ServiceHelper;
 import com.rainbow6.siege.r6_app.viewmodel.ConnectionViewModel;
@@ -41,9 +37,8 @@ import org.json.JSONException;
 import java.text.ParseException;
 
 import static com.rainbow6.siege.r6_app.service.UbiService.CURRENT_SEASON;
-import static com.rainbow6.siege.r6_app.service.UbiService.REGION_EAMEA;
+import static com.rainbow6.siege.r6_app.service.UbiService.REGION_EMEA;
 import static com.rainbow6.siege.r6_app.service.UbiService.REGION_NCSA;
-import static com.rainbow6.siege.r6_app.ui.PlayerActivity.PLAYER;
 
 public class TabSettings extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -136,7 +131,6 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
         boolean syncStats = switchStats.isChecked();
 
         updatePlayerTask = new UpdatePlayerTask(profileId, plateformType, syncProgression, syncEmeaSeason, syncNcsaSeason, syncApacSeason, syncStats);
-//            newPlayerTask.execute((Void) null);
         updatePlayerTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
     }
@@ -217,7 +211,7 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
                 // Get season emea
                 SeasonEntity seasonEmeaEntity = null;
                 if(syncEmeaSeason) {
-                    String seasonEmeaResponse = ubiService.getSeasonResponse(connectionEntity.getTicket(), profileId, REGION_EAMEA, CURRENT_SEASON, plateformType);
+                    String seasonEmeaResponse = ubiService.getSeasonResponse(connectionEntity.getTicket(), profileId, REGION_EMEA, CURRENT_SEASON, plateformType);
                     if (serviceHelper.isValidResponse(seasonEmeaResponse)) {
                         seasonEmeaEntity = serviceHelper.generateSeasonEntity(seasonEmeaResponse, profileId);
                     } else {
@@ -252,20 +246,43 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
                     }
                 }
 
+                boolean newStats = false;
+
                 if(syncProgression && progressionEntity != null) {
-                    playerViewModel.insertProgression(progressionEntity);
+                    ProgressionEntity progressionEntityFromDB = playerViewModel.getLastProgressionEntityByProfileId(profileId);
+                    if(progressionEntityFromDB == null || progressionEntityFromDB.getXp() != progressionEntity.getXp()) {
+                        playerViewModel.insertProgression(progressionEntity);
+                        newStats = true;
+                    }
                 }
                 if(syncEmeaSeason && seasonEmeaEntity != null) {
-                    playerViewModel.insertSeason(seasonEmeaEntity);
+                    SeasonEntity seasonEmeaEntityFromDB = playerViewModel.getLastSeasonEntityByProfileIdAndRegion(profileId,REGION_EMEA);
+                    if(seasonEmeaEntityFromDB == null || Double.compare(seasonEmeaEntityFromDB.getMmr(), seasonEmeaEntity.getMmr()) != 0) {
+                        playerViewModel.insertSeason(seasonEmeaEntity);
+                        newStats = true;
+                    }
                 }
                 if(syncNcsaSeason && seasonNcsaEntity != null) {
-                    playerViewModel.insertSeason(seasonNcsaEntity);
+                    SeasonEntity seasonNcsaEntityFromDB = playerViewModel.getLastSeasonEntityByProfileIdAndRegion(profileId,REGION_NCSA);
+                    if(seasonNcsaEntityFromDB == null || Double.compare(seasonNcsaEntityFromDB.getMmr(), seasonNcsaEntity.getMmr()) != 0) {
+                        playerViewModel.insertSeason(seasonNcsaEntity);
+                        newStats = true;
+                    }
                 }
                 if(syncStats && statsEntity != null) {
-                    playerViewModel.insertStats(statsEntity);
+                    StatsEntity statsEntityFromDB = playerViewModel.getLastStatsByProfileId(profileId);
+                    if(statsEntityFromDB == null || statsEntityFromDB.getGeneralTimePlayed() != statsEntity.getGeneralTimePlayed()) {
+                        playerViewModel.insertStats(statsEntity);
+                        newStats = true;
+                    }
                 }
 
-                sendMessage(getResources().getString(R.string.player_updated));
+                if(newStats){
+                    sendMessage(getResources().getString(R.string.player_updated));
+                }else{
+                    sendMessage(getResources().getString(R.string.nothing_new));
+                }
+
             } catch (JSONException e) {
                 Log.d("Debug---JSONException", e.getMessage());
                 sendMessage(e.getMessage());

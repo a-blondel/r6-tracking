@@ -13,6 +13,6 @@ public interface ProgressionDao {
     void insert(ProgressionEntity progressionEntity);
 
     @Query("SELECT * FROM ProgressionEntity WHERE profileId = :profileId ORDER BY updateDate DESC LIMIT 1")
-    ProgressionEntity getLastProgression(String profileId);
+    ProgressionEntity getLastProgressionEntityByProfileId(String profileId);
 
 }

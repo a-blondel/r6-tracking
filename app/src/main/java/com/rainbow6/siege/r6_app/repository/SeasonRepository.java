@@ -7,6 +7,8 @@ import com.rainbow6.siege.r6_app.db.AppDatabase;
 import com.rainbow6.siege.r6_app.db.dao.SeasonDao;
 import com.rainbow6.siege.r6_app.db.entity.SeasonEntity;
 
+import java.util.concurrent.ExecutionException;
+
 
 public class SeasonRepository {
 
@@ -37,22 +39,28 @@ public class SeasonRepository {
         }
     }
 
-    public void getLastSeasonEntity(String profileId) {
-        new getLastSeasonEntityAsyncTask(mSeasonDao).execute(profileId);
+    public SeasonEntity getLastSeasonEntityByProfileIdAndRegionId(String profileId, String regionId) {
+        try {
+            return new getLastSeasonEntityByProfileIdAndRegionIdAsyncTask(mSeasonDao).execute(profileId, regionId).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    private static class getLastSeasonEntityAsyncTask extends AsyncTask<String, Void, Void> {
+    private static class getLastSeasonEntityByProfileIdAndRegionIdAsyncTask extends AsyncTask<String, Void, SeasonEntity> {
 
         private SeasonDao mAsyncTaskDao;
 
-        getLastSeasonEntityAsyncTask(SeasonDao dao) {
+        getLastSeasonEntityByProfileIdAndRegionIdAsyncTask(SeasonDao dao) {
             mAsyncTaskDao = dao;
         }
 
         @Override
-        protected Void doInBackground(final String... params) {
-            mAsyncTaskDao.getLastSeasonEntity(params[0]);
-            return null;
+        protected SeasonEntity doInBackground(final String... params) {
+            return mAsyncTaskDao.getLastSeasonEntityByProfileIdAndRegionId(params[0], params[1]);
         }
     }
 }

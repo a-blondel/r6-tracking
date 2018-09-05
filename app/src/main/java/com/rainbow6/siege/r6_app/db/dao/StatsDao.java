@@ -13,6 +13,6 @@ public interface StatsDao {
     void insert(StatsEntity statsEntity);
 
     @Query("SELECT * FROM StatsEntity WHERE profileId = :profileId ORDER BY updateDate DESC LIMIT 1")
-    StatsEntity getLastStats(String profileId);
+    StatsEntity getLastStatsEntityByProfileId(String profileId);
 
 }
