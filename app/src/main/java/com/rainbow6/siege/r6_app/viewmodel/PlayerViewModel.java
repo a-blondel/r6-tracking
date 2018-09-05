@@ -55,6 +55,8 @@ public class PlayerViewModel extends AndroidViewModel {
 
     public void insertSync(SyncEntity syncEntity) { syncRepository.insert(syncEntity); }
 
+    public void updateSync(SyncEntity syncEntity) { syncRepository.update(syncEntity); }
+
     public void delete(PlayerEntity playerEntity) { playerRepository.delete(playerEntity); }
 
 }

@@ -36,6 +36,25 @@ public class SyncRepository {
         }
     }
 
+    public void update (SyncEntity syncEntity) {
+        new updateAsyncTask(mSyncDao).execute(syncEntity);
+    }
+
+    private static class updateAsyncTask extends AsyncTask<SyncEntity, Void, Void> {
+
+        private SyncDao mAsyncTaskDao;
+
+        updateAsyncTask(SyncDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final SyncEntity... params) {
+            mAsyncTaskDao.update(params[0]);
+            return null;
+        }
+    }
+
     public void getSyncParams(String profileId) {
         new getSyncParamsAsyncTask(mSyncDao).execute(profileId);
     }

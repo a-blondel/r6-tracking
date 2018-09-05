@@ -30,6 +30,7 @@ import com.rainbow6.siege.r6_app.db.entity.PlayerEntity;
 import com.rainbow6.siege.r6_app.db.entity.ProgressionEntity;
 import com.rainbow6.siege.r6_app.db.entity.SeasonEntity;
 import com.rainbow6.siege.r6_app.db.entity.StatsEntity;
+import com.rainbow6.siege.r6_app.db.entity.SyncEntity;
 import com.rainbow6.siege.r6_app.service.UbiService;
 import com.rainbow6.siege.r6_app.tools.ServiceHelper;
 import com.rainbow6.siege.r6_app.viewmodel.ConnectionViewModel;
@@ -199,6 +200,8 @@ public class TabAlarm extends Fragment implements LoaderManager.LoaderCallbacks<
         private final boolean syncStats;
         private final int syncTimer;
 
+        private static final boolean SKIPPED_FOR_DEBUGGUER = true;
+
 
         AlarmPlayerTask(String profileId, String plateformType, boolean syncProgression, boolean syncEmeaSeason, boolean syncNcsaSeason, boolean syncApacSeason, boolean syncStats, int syncTimer) {
             this.profileId = profileId;
@@ -219,120 +222,137 @@ public class TabAlarm extends Fragment implements LoaderManager.LoaderCallbacks<
                 // SI OUI, LE SUPPRIMER
                 // ENVOYER MESSAGE (AUCUN PRESENT, SUPPRIME)
 //                sendMessage(getResources().getString(R.string.player_updated));
-                sendMessage("Timer to 0");
+                sendMessage("Timer set to 0");
                 return true;
 
             }else {
 
                 try {
-                    connectionEntity = connectionViewModel.getConnection(UbiService.APP_ID);
-                    if (connectionEntity != null) {
-                        Log.d("Debug---Connectivity", "Valid ticket : " + !isTicketInvalid());
-                        // Ticket found
-                        if (isTicketInvalid()) {
-                            // Invalid ticket, new connection is needed
-                            String response = ubiService.callUbiConnectionService(connectionEntity.getEncodedKey());
-                            if (serviceHelper.isValidResponse(response)) {
-                                connectionEntity = serviceHelper.generateConnectionEntity(response, connectionEntity.getEncodedKey());
-                                connectionViewModel.insert(connectionEntity);
-                                Log.d("Debug---Connectivity", "New ticket generated!");
+
+                    // EVERYTHING IN THE ALARM MANAGER
+                    boolean newStats = false;
+
+                    if(!SKIPPED_FOR_DEBUGGUER) {
+
+                        connectionEntity = connectionViewModel.getConnection(UbiService.APP_ID);
+                        if (connectionEntity != null) {
+                            Log.d("Debug---Connectivity", "Valid ticket : " + !isTicketInvalid());
+                            // Ticket found
+                            if (isTicketInvalid()) {
+                                // Invalid ticket, new connection is needed
+                                String response = ubiService.callUbiConnectionService(connectionEntity.getEncodedKey());
+                                if (serviceHelper.isValidResponse(response)) {
+                                    connectionEntity = serviceHelper.generateConnectionEntity(response, connectionEntity.getEncodedKey());
+                                    connectionViewModel.insert(connectionEntity);
+                                    Log.d("Debug---Connectivity", "New ticket generated!");
+                                } else {
+                                    sendMessage(serviceHelper.getErrorMessage(response));
+                                    return false;
+                                }
+                            }
+                        } else {
+                            // No ticket (the user has never signed in)
+                            sendMessage(getResources().getString(R.string.errorNoConnection));
+                            return false;
+                        }
+
+                        // Get progression
+                        ProgressionEntity progressionEntity = null;
+                        if (syncProgression) {
+                            String progressionResponse = ubiService.getProgressionResponse(connectionEntity.getTicket(), profileId, plateformType);
+                            if (serviceHelper.isValidResponse(progressionResponse)) {
+                                progressionEntity = serviceHelper.generateProgressionEntity(progressionResponse);
                             } else {
-                                sendMessage(serviceHelper.getErrorMessage(response));
+                                sendMessage(serviceHelper.getErrorMessage(progressionResponse));
                                 return false;
                             }
                         }
-                    } else {
-                        // No ticket (the user has never signed in)
-                        sendMessage(getResources().getString(R.string.errorNoConnection));
-                        return false;
+
+                        // Get season emea
+                        SeasonEntity seasonEmeaEntity = null;
+                        if (syncEmeaSeason) {
+                            String seasonEmeaResponse = ubiService.getSeasonResponse(connectionEntity.getTicket(), profileId, REGION_EMEA, CURRENT_SEASON, plateformType);
+                            if (serviceHelper.isValidResponse(seasonEmeaResponse)) {
+                                seasonEmeaEntity = serviceHelper.generateSeasonEntity(seasonEmeaResponse, profileId);
+                            } else {
+                                sendMessage(serviceHelper.getErrorMessage(seasonEmeaResponse));
+                                return false;
+                            }
+                        }
+
+                        // Get season ncsa
+                        SeasonEntity seasonNcsaEntity = null;
+                        if (syncNcsaSeason) {
+                            String seasonNcsaResponse = ubiService.getSeasonResponse(connectionEntity.getTicket(), profileId, REGION_NCSA, CURRENT_SEASON, plateformType);
+                            if (serviceHelper.isValidResponse(seasonNcsaResponse)) {
+                                seasonNcsaEntity = serviceHelper.generateSeasonEntity(seasonNcsaResponse, profileId);
+                            } else {
+                                sendMessage(serviceHelper.getErrorMessage(seasonNcsaResponse));
+                                return false;
+                            }
+                        }
+
+                        // Get season apac - Disabled here
+
+                        // Get stats
+                        StatsEntity statsEntity = null;
+                        if (syncStats) {
+                            String statsResponse = ubiService.getStatsResponse(connectionEntity.getTicket(), playerEntity.getProfileId(), plateformType);
+                            if (serviceHelper.isValidResponse(statsResponse)) {
+                                statsEntity = serviceHelper.generateStatsEntity(statsResponse, profileId);
+                            } else {
+                                sendMessage(serviceHelper.getErrorMessage(statsResponse));
+                                return false;
+                            }
+                        }
+
+                        if(syncProgression && progressionEntity != null) {
+                            ProgressionEntity progressionEntityFromDB = playerViewModel.getLastProgressionEntityByProfileId(profileId);
+                            if(progressionEntityFromDB == null || progressionEntityFromDB.getXp() != progressionEntity.getXp()) {
+                                playerViewModel.insertProgression(progressionEntity);
+                                newStats = true;
+                            }
+                        }
+                        if(syncEmeaSeason && seasonEmeaEntity != null) {
+                            SeasonEntity seasonEmeaEntityFromDB = playerViewModel.getLastSeasonEntityByProfileIdAndRegion(profileId,REGION_EMEA);
+                            if(seasonEmeaEntityFromDB == null || Double.compare(seasonEmeaEntityFromDB.getMmr(), seasonEmeaEntity.getMmr()) != 0) {
+                                playerViewModel.insertSeason(seasonEmeaEntity);
+                                newStats = true;
+                            }
+                        }
+                        if(syncNcsaSeason && seasonNcsaEntity != null) {
+                            SeasonEntity seasonNcsaEntityFromDB = playerViewModel.getLastSeasonEntityByProfileIdAndRegion(profileId,REGION_NCSA);
+                            if(seasonNcsaEntityFromDB == null || Double.compare(seasonNcsaEntityFromDB.getMmr(), seasonNcsaEntity.getMmr()) != 0) {
+                                playerViewModel.insertSeason(seasonNcsaEntity);
+                                newStats = true;
+                            }
+                        }
+                        if(syncStats && statsEntity != null) {
+                            StatsEntity statsEntityFromDB = playerViewModel.getLastStatsByProfileId(profileId);
+                            if(statsEntityFromDB == null || statsEntityFromDB.getGeneralTimePlayed() != statsEntity.getGeneralTimePlayed()) {
+                                playerViewModel.insertStats(statsEntity);
+                                newStats = true;
+                            }
+                        }
+
                     }
 
-                    // Get progression
-                    ProgressionEntity progressionEntity = null;
-                    if (syncProgression) {
-                        String progressionResponse = ubiService.getProgressionResponse(connectionEntity.getTicket(), profileId, plateformType);
-                        if (serviceHelper.isValidResponse(progressionResponse)) {
-                            progressionEntity = serviceHelper.generateProgressionEntity(progressionResponse);
-                        } else {
-                            sendMessage(serviceHelper.getErrorMessage(progressionResponse));
-                            return false;
-                        }
-                    }
+                    // UPDATE THE ALARM MANAGER WITH THE NEW SYNC ENTITY BY CHANNEL ( = PROFILE)
+                    // DON'T FORGET TO SHOW THE LAST VALUES IN THE VIEW
 
-                    // Get season emea
-                    SeasonEntity seasonEmeaEntity = null;
-                    if (syncEmeaSeason) {
-                        String seasonEmeaResponse = ubiService.getSeasonResponse(connectionEntity.getTicket(), profileId, REGION_EMEA, CURRENT_SEASON, plateformType);
-                        if (serviceHelper.isValidResponse(seasonEmeaResponse)) {
-                            seasonEmeaEntity = serviceHelper.generateSeasonEntity(seasonEmeaResponse, profileId);
-                        } else {
-                            sendMessage(serviceHelper.getErrorMessage(seasonEmeaResponse));
-                            return false;
-                        }
-                    }
-
-                    // Get season ncsa
-                    SeasonEntity seasonNcsaEntity = null;
-                    if (syncNcsaSeason) {
-                        String seasonNcsaResponse = ubiService.getSeasonResponse(connectionEntity.getTicket(), profileId, REGION_NCSA, CURRENT_SEASON, plateformType);
-                        if (serviceHelper.isValidResponse(seasonNcsaResponse)) {
-                            seasonNcsaEntity = serviceHelper.generateSeasonEntity(seasonNcsaResponse, profileId);
-                        } else {
-                            sendMessage(serviceHelper.getErrorMessage(seasonNcsaResponse));
-                            return false;
-                        }
-                    }
-
-                    // Get season apac - Disabled here
-
-                    // Get stats
-                    StatsEntity statsEntity = null;
-                    if (syncStats) {
-                        String statsResponse = ubiService.getStatsResponse(connectionEntity.getTicket(), playerEntity.getProfileId(), plateformType);
-                        if (serviceHelper.isValidResponse(statsResponse)) {
-                            statsEntity = serviceHelper.generateStatsEntity(statsResponse, profileId);
-                        } else {
-                            sendMessage(serviceHelper.getErrorMessage(statsResponse));
-                            return false;
-                        }
-                    }
-
-                    boolean newStats = false;
-
-                    if(syncProgression && progressionEntity != null) {
-                        ProgressionEntity progressionEntityFromDB = playerViewModel.getLastProgressionEntityByProfileId(profileId);
-                        if(progressionEntityFromDB == null || progressionEntityFromDB.getXp() != progressionEntity.getXp()) {
-                            playerViewModel.insertProgression(progressionEntity);
-                            newStats = true;
-                        }
-                    }
-                    if(syncEmeaSeason && seasonEmeaEntity != null) {
-                        SeasonEntity seasonEmeaEntityFromDB = playerViewModel.getLastSeasonEntityByProfileIdAndRegion(profileId,REGION_EMEA);
-                        if(seasonEmeaEntityFromDB == null || Double.compare(seasonEmeaEntityFromDB.getMmr(), seasonEmeaEntity.getMmr()) != 0) {
-                            playerViewModel.insertSeason(seasonEmeaEntity);
-                            newStats = true;
-                        }
-                    }
-                    if(syncNcsaSeason && seasonNcsaEntity != null) {
-                        SeasonEntity seasonNcsaEntityFromDB = playerViewModel.getLastSeasonEntityByProfileIdAndRegion(profileId,REGION_NCSA);
-                        if(seasonNcsaEntityFromDB == null || Double.compare(seasonNcsaEntityFromDB.getMmr(), seasonNcsaEntity.getMmr()) != 0) {
-                            playerViewModel.insertSeason(seasonNcsaEntity);
-                            newStats = true;
-                        }
-                    }
-                    if(syncStats && statsEntity != null) {
-                        StatsEntity statsEntityFromDB = playerViewModel.getLastStatsByProfileId(profileId);
-                        if(statsEntityFromDB == null || statsEntityFromDB.getGeneralTimePlayed() != statsEntity.getGeneralTimePlayed()) {
-                            playerViewModel.insertStats(statsEntity);
-                            newStats = true;
-                        }
-                    }
+                    SyncEntity syncEntity = new SyncEntity(profileId, syncProgression, syncEmeaSeason, syncNcsaSeason, syncApacSeason, syncStats, syncTimer);
+                    playerViewModel.updateSync(syncEntity);
 
                     if(newStats){
+                        // SendNotification
                         sendMessage(getResources().getString(R.string.player_updated));
+
                     }else{
+                        // Do nothing
                         sendMessage(getResources().getString(R.string.nothing_new));
+
                     }
+
                 } catch (JSONException e) {
                     Log.d("Debug---JSONException", e.getMessage());
                     sendMessage(e.getMessage());
