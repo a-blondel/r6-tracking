@@ -27,7 +27,11 @@
             android:label="@string/title_activity_new_player" />
         <activity
             android:name=".ui.LoginActivity"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login" />
+        <activity
+            android:name=".ui.PlayerActivity"
+            android:label="@string/title_activity_player"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

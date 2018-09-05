@@ -227,7 +227,8 @@ public class NewPlayerActivity extends AppCompatActivity implements LoaderManage
                         // Invalid ticket, new connection is needed
                         String response = ubiService.callUbiConnectionService(connectionEntity.getEncodedKey());
                         if (serviceHelper.isValidResponse(response)) {
-                            connectionViewModel.insert(serviceHelper.generateConnectionEntity(response, connectionEntity.getEncodedKey()));
+                            connectionEntity = serviceHelper.generateConnectionEntity(response, connectionEntity.getEncodedKey());
+                            connectionViewModel.insert(connectionEntity);
                             Log.d("Debug---Connectivity", "New ticket generated!");
                         } else {
                             sendMessage(serviceHelper.getErrorMessage(response));
@@ -276,7 +277,7 @@ public class NewPlayerActivity extends AppCompatActivity implements LoaderManage
                     sendMessage(serviceHelper.getErrorMessage(seasonEmeaResponse));
                     return false;
                 }
-                // Get season cnsa - Disabled here
+                // Get season ncsa - Disabled here
                 // Get season apac - Disabled here
 
                 // Get stats

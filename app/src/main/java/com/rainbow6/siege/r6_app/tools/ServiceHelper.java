@@ -21,7 +21,7 @@ public class ServiceHelper {
 
     public static final String UBI_ERROR_CODE = "errorCode";
     private static final String UBI_ERROR_BEGIN = "\"message\":\"";
-    private static final String UBI_ERROR_END = "\",\"";
+    private static final String UBI_ERROR_END = "\",";
     private static final String UBI_TICKET_BEGIN = "Ubi_v1 t=";
     private static final String UBI_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
     private static final String UBI_DATE_DELIMITER = "\\.";

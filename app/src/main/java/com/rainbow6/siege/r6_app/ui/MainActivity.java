@@ -21,11 +21,12 @@ import com.rainbow6.siege.r6_app.viewmodel.PlayerViewModel;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+import static com.rainbow6.siege.r6_app.ui.PlayerActivity.PLAYER;
 
-    public static final int NEW_PLAYER_ACTIVITY_REQUEST_CODE = 1;
+public class MainActivity extends AppCompatActivity implements PlayerListAdapter.OnItemClicked {
 
     private PlayerViewModel playerViewModel;
+    private PlayerListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +36,13 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
-        final PlayerListAdapter adapter = new PlayerListAdapter(this);
-        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 //        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+
+        adapter = new PlayerListAdapter(this);
+        recyclerView.setAdapter(adapter);
+
+        adapter.setOnClick(MainActivity.this);
 
         playerViewModel = ViewModelProviders.of(this).get(PlayerViewModel.class);
 
@@ -56,30 +60,17 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, NewPlayerActivity.class);
                 startActivity(intent);
-//                startActivity(intent, NEW_PLAYER_ACTIVITY_REQUEST_CODE);
             }
         });
     }
 
-    /*public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // should I create a specific thing on success ?
-        if (requestCode == NEW_PLAYER_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            Toast.makeText(
-                    getApplicationContext(),
-                    data.getStringExtra(NewPlayerActivity.EXTRA_REPLY),
-                    Toast.LENGTH_LONG).show();
-        } else {
-
-            if(data != null) {
-                Toast.makeText(
-                        getApplicationContext(),
-                        data.getStringExtra(NewPlayerActivity.EXTRA_REPLY),
-                        Toast.LENGTH_LONG).show();
-            }
-        }
-    }*/
+    @Override
+    public void onItemClick(int position) {
+        Intent intent = new Intent(getBaseContext(), PlayerActivity.class);
+        intent.putExtra(PLAYER, adapter.getPlayer(position));
+        startActivity(intent);
+//        Toast.makeText(getBaseContext(), "Item Clicked: " + adapter.getPlayer(position).getNameOnPlatform(), Toast.LENGTH_LONG).show();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
