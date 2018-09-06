@@ -41,6 +41,8 @@ public class PlayerViewModel extends AndroidViewModel {
 
     public void insertPlayer(PlayerEntity playerEntity) { playerRepository.insert(playerEntity); }
 
+    public PlayerEntity getPlayerByProfileId(String profileId) { return playerRepository.getPlayerByProfileId(profileId); }
+
     public void insertProgression(ProgressionEntity progressionEntity) { progressionRepository.insert(progressionEntity); }
 
     public ProgressionEntity getLastProgressionEntityByProfileId(String profileId) { return progressionRepository.getLastProgressionEntityByProfileId(profileId); }

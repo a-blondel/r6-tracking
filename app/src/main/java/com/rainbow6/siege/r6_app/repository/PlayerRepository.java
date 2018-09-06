@@ -9,6 +9,7 @@ import com.rainbow6.siege.r6_app.db.dao.PlayerDao;
 import com.rainbow6.siege.r6_app.db.entity.PlayerEntity;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 
 public class PlayerRepository {
@@ -65,11 +66,18 @@ public class PlayerRepository {
         }
     }
 
-    public void getPlayerByName (String name) {
-        new getPlayerByNameAsyncTask(mPlayerDao).execute(name);
+    public PlayerEntity getPlayerByProfileId (String profileId) {
+        try{
+            return new getPlayerByNameAsyncTask(mPlayerDao).execute(profileId).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    private static class getPlayerByNameAsyncTask extends AsyncTask<String, Void, Void> {
+    private static class getPlayerByNameAsyncTask extends AsyncTask<String, Void, PlayerEntity> {
 
         private PlayerDao mAsyncTaskDao;
 
@@ -78,9 +86,8 @@ public class PlayerRepository {
         }
 
         @Override
-        protected Void doInBackground(final String... params) {
-            mAsyncTaskDao.getPlayerByName(params[0]);
-            return null;
+        protected PlayerEntity doInBackground(final String... params) {
+            return mAsyncTaskDao.getPlayerByProfileId(params[0]);
         }
     }
 }

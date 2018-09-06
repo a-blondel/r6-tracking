@@ -16,8 +16,8 @@ public interface PlayerDao {
     @Insert
     void insert(PlayerEntity playerEntity);
 
-    @Query("SELECT * FROM PlayerEntity WHERE nameOnPlatform = :name")
-    PlayerEntity getPlayerByName(String name);
+    @Query("SELECT * FROM PlayerEntity WHERE profileId = :profileId")
+    PlayerEntity getPlayerByProfileId(String profileId);
 
     @Query("SELECT * from PlayerEntity ORDER BY nameOnPlatform ASC")
     LiveData<List<PlayerEntity>> getAllPlayers();
