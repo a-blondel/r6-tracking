@@ -53,7 +53,13 @@ import static com.rainbow6.siege.r6_app.service.UbiService.REGION_NCSA;
 
 public class TabAlarm extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    public static final String PROFILE_ID = "PROFILE";
+    public static final String PROFILE_ID = "PROFILE_ID";
+    public static final String PLATEFORM_TYPE = "PLATEFORM_TYPE";
+    public static final String SYNC_PROGRESSION = "SYNC_PROGRESSION";
+    public static final String SYNC_EMEA = "SYNC_EMEA";
+    public static final String SYNC_NCSA = "SYNC_NCSA";
+    public static final String SYNC_APAC = "SYNC_APAC";
+    public static final String SYNC_STATS = "SYNC_STATS";
 
     private AlarmPlayerTask alarmPlayerTask = null;
 
@@ -169,7 +175,6 @@ public class TabAlarm extends Fragment implements LoaderManager.LoaderCallbacks<
         }
 
         alarmPlayerTask = new AlarmPlayerTask(profileId, plateformType, syncProgression, syncEmeaSeason, syncNcsaSeason, syncApacSeason, syncStats, syncTimer, getActivity().getApplicationContext());
-//            newPlayerTask.execute((Void) null);
         alarmPlayerTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
     }
@@ -225,11 +230,15 @@ public class TabAlarm extends Fragment implements LoaderManager.LoaderCallbacks<
             alarmManager = (AlarmManager)context.getSystemService(ALARM_SERVICE);
             Intent intent = new Intent(context, AlarmReceiver.class);
             intent.putExtra(PROFILE_ID, profileId);
+            intent.putExtra(PLATEFORM_TYPE, plateformType);
+            intent.putExtra(SYNC_PROGRESSION, syncProgression);
+            intent.putExtra(SYNC_EMEA, syncEmeaSeason);
+            intent.putExtra(SYNC_NCSA, syncNcsaSeason);
+            intent.putExtra(SYNC_APAC, syncApacSeason);
+            intent.putExtra(SYNC_STATS, syncStats);
 
             // Must be a unique user identifier
             int broadcastId = (int) (playerEntity.getAddedDate().getTime() / 1000L);
-
-            Log.d(profileId, "broadcastId :" + broadcastId);
 
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, broadcastId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -239,15 +248,15 @@ public class TabAlarm extends Fragment implements LoaderManager.LoaderCallbacks<
                     alarmManager.cancel(pendingIntent);
                 }
 
-                sendMessage("Timer disabled");
+                sendMessage(getString(R.string.timer_disabled));
                 return true;
 
             }else {
 
                 alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() +
-                        syncTimer * 60 * 1000,syncTimer * 60 * 1000, pendingIntent);
+                        (long)syncTimer * 60L * 1000L,(long)syncTimer * 60L * 1000L, pendingIntent);
 
-                sendMessage("Timer set !");
+                sendMessage(getString(R.string.timer_set));
                 return true;
             }
         }
@@ -262,11 +271,6 @@ public class TabAlarm extends Fragment implements LoaderManager.LoaderCallbacks<
         @Override
         protected void onPostExecute(final Boolean success) {
             alarmPlayerTask = null;
-            if (success) {
-//                finish();
-            } else {
-//                playerNameText.requestFocus();
-            }
         }
 
         @Override

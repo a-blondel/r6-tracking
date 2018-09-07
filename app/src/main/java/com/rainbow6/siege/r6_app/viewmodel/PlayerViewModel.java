@@ -59,6 +59,8 @@ public class PlayerViewModel extends AndroidViewModel {
 
     public void updateSync(SyncEntity syncEntity) { syncRepository.update(syncEntity); }
 
+    public SyncEntity getSyncByProfileId(String profileId) { return syncRepository.getSyncByProfileId(profileId); }
+
     public void delete(PlayerEntity playerEntity) { playerRepository.delete(playerEntity); }
 
 }

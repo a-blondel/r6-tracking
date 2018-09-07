@@ -1,9 +1,8 @@
 package com.rainbow6.siege.r6_app.ui;
 
+import android.app.Application;
 import android.content.Context;
-import android.database.Observable;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,21 +11,25 @@ import android.widget.TextView;
 
 import com.rainbow6.siege.r6_app.db.entity.PlayerEntity;
 import com.rainbow6.siege.r6_app.R;
+import com.rainbow6.siege.r6_app.db.entity.SeasonEntity;
+import com.rainbow6.siege.r6_app.repository.SeasonRepository;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
+import static com.rainbow6.siege.r6_app.service.UbiService.REGION_EMEA;
 
 public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.PlayerViewHolder> {
 
     class PlayerViewHolder extends RecyclerView.ViewHolder {
-        private final TextView playerNameItemView;
-        private final ImageView playerRankImageItemView;
+        private final TextView playerName;
+        private final ImageView playerRank;
+        private final TextView playerMmr;
 
         private PlayerViewHolder(View itemView) {
             super(itemView);
-            playerNameItemView = itemView.findViewById(R.id.playerNameText);
-            playerRankImageItemView = itemView.findViewById(R.id.playerRankImage);
+            playerName = itemView.findViewById(R.id.playerName);
+            playerRank = itemView.findViewById(R.id.playerRank);
+            playerMmr = itemView.findViewById(R.id.playerMmr);
         }
     }
 
@@ -34,6 +37,7 @@ public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.Pl
     private List<PlayerEntity> mPlayerEntities; // Cached copy of players
     private OnItemClicked onClick;
     private Context mContext;
+    private SeasonRepository seasonRepository;
 
     public interface OnItemClicked {
         void onItemClick(int position);
@@ -54,11 +58,21 @@ public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.Pl
     public void onBindViewHolder(PlayerViewHolder holder, final int position) {
         if (mPlayerEntities != null) {
             PlayerEntity current = mPlayerEntities.get(position);
-            holder.playerNameItemView.setText(current.getNameOnPlatform());
-//            holder.playerRankImageItemView.setImageResource(getDrawable(mContext, "rank_" + current.getRank()));
+
+            seasonRepository = new SeasonRepository((Application) mContext.getApplicationContext());
+
+//            ProgressionEntity
+            SeasonEntity seasonEntity = seasonRepository.getLastSeasonEntityByProfileIdAndRegionId(current.getProfileId(),REGION_EMEA);
+//            StatsEntity
+
+            holder.playerName.setText(current.getNameOnPlatform());
+            holder.playerRank.setImageResource(getDrawable(mContext, "rank_" + seasonEntity.getRank()));
+            holder.playerMmr.setText(String.valueOf((int) Math.floor(seasonEntity.getMmr())));
         } else {
             // Covers the case of data not being ready yet.
-            holder.playerNameItemView.setText("No PlayerEntity");
+            holder.playerName.setText("Nobody");
+            holder.playerRank.setImageResource(getDrawable(mContext, "rank_0"));
+            holder.playerMmr.setText("2500");
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

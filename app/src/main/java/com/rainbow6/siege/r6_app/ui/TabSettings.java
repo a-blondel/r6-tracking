@@ -1,7 +1,11 @@
 package com.rainbow6.siege.r6_app.ui;
 
+import android.app.AlarmManager;
 import android.app.LoaderManager;
+import android.app.PendingIntent;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -27,7 +31,9 @@ import com.rainbow6.siege.r6_app.db.entity.PlayerEntity;
 import com.rainbow6.siege.r6_app.db.entity.ProgressionEntity;
 import com.rainbow6.siege.r6_app.db.entity.SeasonEntity;
 import com.rainbow6.siege.r6_app.db.entity.StatsEntity;
+import com.rainbow6.siege.r6_app.db.entity.SyncEntity;
 import com.rainbow6.siege.r6_app.service.UbiService;
+import com.rainbow6.siege.r6_app.tools.AlarmReceiver;
 import com.rainbow6.siege.r6_app.tools.ServiceHelper;
 import com.rainbow6.siege.r6_app.viewmodel.ConnectionViewModel;
 import com.rainbow6.siege.r6_app.viewmodel.PlayerViewModel;
@@ -36,13 +42,23 @@ import org.json.JSONException;
 
 import java.text.ParseException;
 
+import static android.content.Context.ALARM_SERVICE;
 import static com.rainbow6.siege.r6_app.service.UbiService.CURRENT_SEASON;
+import static com.rainbow6.siege.r6_app.service.UbiService.PLAYSTATION;
 import static com.rainbow6.siege.r6_app.service.UbiService.REGION_EMEA;
 import static com.rainbow6.siege.r6_app.service.UbiService.REGION_NCSA;
+import static com.rainbow6.siege.r6_app.ui.TabAlarm.PLATEFORM_TYPE;
+import static com.rainbow6.siege.r6_app.ui.TabAlarm.PROFILE_ID;
+import static com.rainbow6.siege.r6_app.ui.TabAlarm.SYNC_APAC;
+import static com.rainbow6.siege.r6_app.ui.TabAlarm.SYNC_EMEA;
+import static com.rainbow6.siege.r6_app.ui.TabAlarm.SYNC_NCSA;
+import static com.rainbow6.siege.r6_app.ui.TabAlarm.SYNC_PROGRESSION;
+import static com.rainbow6.siege.r6_app.ui.TabAlarm.SYNC_STATS;
 
 public class TabSettings extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private UpdatePlayerTask updatePlayerTask = null;
+    private DeletePlayerTask deletePlayerTask = null;
 
     private TextView playerNameItemView;
     private View rootView;
@@ -91,6 +107,14 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
             }
         });
 
+
+        final Button buttonDelete = rootView.findViewById(R.id.button_delete_player);
+        buttonDelete.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                attemptDeletePlayer();
+            }
+        });
+
         mHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message message) {
@@ -102,14 +126,18 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
         return rootView;
     }
 
+    private void attemptDeletePlayer(){
+
+        deletePlayerTask = new DeletePlayerTask(playerEntity, getActivity().getApplicationContext());
+        deletePlayerTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+    }
+
     private void attemptUpdatePlayer(){
 
         if (updatePlayerTask != null) {
             return;
         }
-        boolean cancel = false;
-        View focusView = null;
-
         // Get ui values
         String profileId = playerEntity.getProfileId();
 
@@ -132,7 +160,6 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
 
         updatePlayerTask = new UpdatePlayerTask(profileId, plateformType, syncProgression, syncEmeaSeason, syncNcsaSeason, syncApacSeason, syncStats);
         updatePlayerTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
     }
 
     @Override
@@ -148,6 +175,67 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
 
+    }
+
+    public class DeletePlayerTask extends AsyncTask<Void, Void, Boolean> {
+        private final PlayerEntity playerEntity;
+        private final Context context;
+
+        private AlarmManager alarmManager;
+
+        DeletePlayerTask(PlayerEntity playerEntity, Context context) {
+            this.playerEntity = playerEntity;
+            this.context = context;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+
+            alarmManager = (AlarmManager)context.getSystemService(ALARM_SERVICE);
+            Intent intent = new Intent(context, AlarmReceiver.class);
+            intent.putExtra(PROFILE_ID, playerEntity.getProfileId());
+            // TODO search platformType in Bd based on the profileId
+            intent.putExtra(PLATEFORM_TYPE, PLAYSTATION);
+
+            SyncEntity syncEntity = playerViewModel.getSyncByProfileId(playerEntity.getProfileId());
+
+            intent.putExtra(SYNC_PROGRESSION, syncEntity.isSyncProgression());
+            intent.putExtra(SYNC_EMEA, syncEntity.isSyncEmea());
+            intent.putExtra(SYNC_NCSA, syncEntity.isSyncNcsa());
+            intent.putExtra(SYNC_APAC, syncEntity.isSyncApac());
+            intent.putExtra(SYNC_STATS, syncEntity.isSyncStats());
+
+            int broadcastId = (int) (playerEntity.getAddedDate().getTime() / 1000L);
+
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, broadcastId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            if (alarmManager != null) {
+                alarmManager.cancel(pendingIntent);
+            }
+
+            playerViewModel.delete(playerEntity);
+
+            sendMessage(getString(R.string.player_deleted));
+            return true;
+        }
+
+        private void sendMessage(String message){
+            Message msg = Message.obtain();
+            msg.obj = message;
+            msg.setTarget(mHandler);
+            msg.sendToTarget();
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            updatePlayerTask = null;
+            getActivity().finish();
+        }
+
+        @Override
+        protected void onCancelled() {
+            updatePlayerTask = null;
+        }
     }
 
     public class UpdatePlayerTask extends AsyncTask<Void, Void, Boolean> {
@@ -310,9 +398,7 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
         protected void onPostExecute(final Boolean success) {
             updatePlayerTask = null;
             if (success) {
-//                finish();
             } else {
-//                playerNameText.requestFocus();
             }
         }
 

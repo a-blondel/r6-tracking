@@ -48,7 +48,7 @@ public class UbiService {
 
 
 
-    private static final String PLAYSTATION = "psn";
+    public static final String PLAYSTATION = "psn";
 
     public String callUbiConnectionService (String encodedKey){
 

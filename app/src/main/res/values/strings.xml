@@ -36,13 +36,18 @@
     <!-- Strings related to Player -->
     <string name="update">Update</string>
     <string name="delete">Delete</string>
-    <string name="set_timer">Set Timet</string>
+    <string name="player_deleted">Player deleted</string>
+    <string name="set_timer">Set Timer</string>
     <string name="title_activity_player">PlayerActivity</string>
     <string name="tab_stats">Stats</string>
     <string name="tab_settings">Settings</string>
     <string name="tab_timer">Timer</string>
+    <string name="timer_set">Timer set !</string>
     <string name="player_updated">Player updated</string>
     <string name="nothing_new">Nothing new</string>
-    <string name="timer_set">Timer set</string>
+    <string name="timer_disabled">Timer disabled</string>
+
+    <!--Strings related to notifications-->
+    <string name="notif_base_message">New statistics</string>
 
 </resources>

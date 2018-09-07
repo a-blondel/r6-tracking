@@ -7,6 +7,8 @@ import com.rainbow6.siege.r6_app.db.AppDatabase;
 import com.rainbow6.siege.r6_app.db.dao.SyncDao;
 import com.rainbow6.siege.r6_app.db.entity.SyncEntity;
 
+import java.util.concurrent.ExecutionException;
+
 
 public class SyncRepository {
 
@@ -55,22 +57,28 @@ public class SyncRepository {
         }
     }
 
-    public void getSyncParams(String profileId) {
-        new getSyncParamsAsyncTask(mSyncDao).execute(profileId);
+    public SyncEntity getSyncByProfileId(String profileId) {
+        try {
+            return new getSyncByProfileIdAsyncTask(mSyncDao).execute(profileId).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    private static class getSyncParamsAsyncTask extends AsyncTask<String, Void, Void> {
+    private static class getSyncByProfileIdAsyncTask extends AsyncTask<String, Void, SyncEntity> {
 
         private SyncDao mAsyncTaskDao;
 
-        getSyncParamsAsyncTask(SyncDao dao) {
+        getSyncByProfileIdAsyncTask(SyncDao dao) {
             mAsyncTaskDao = dao;
         }
 
         @Override
-        protected Void doInBackground(final String... params) {
-            mAsyncTaskDao.getSyncParams(params[0]);
-            return null;
+        protected SyncEntity doInBackground(final String... params) {
+            return mAsyncTaskDao.getSyncByProfileId(params[0]);
         }
     }
 }

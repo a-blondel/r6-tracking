@@ -6,7 +6,7 @@
     android:background="@color/colorPrimaryDark" >
 
     <TextView
-        android:id="@+id/playerNameText"
+        android:id="@+id/playerName"
         style="@style/playerEntity"
         android:layout_marginTop="7dp"
         android:gravity="center_vertical"
@@ -19,16 +19,15 @@
         android:textSize="20dp" />
 
     <ImageView
-        android:id="@+id/playerRankImage"
+        android:id="@+id/playerRank"
         android:layout_marginLeft="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:scaleType="fitXY"
-        android:src="@drawable/rank_20" />
+        android:scaleType="fitXY" />
 
     <TextView
-        android:id="@+id/playerXPText"
+        android:id="@+id/playerMmr"
         style="@style/playerEntity"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
@@ -36,9 +35,8 @@
         android:layout_marginLeft="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/vertFluo"
-        android:textSize="15dp"
-        android:text="2500" />
+        android:textColor="@color/colorAccent"
+        android:textSize="15dp" />
 
     <TextView
         android:id="@+id/playerKDText"

@@ -17,6 +17,6 @@ public interface SyncDao {
     void update(SyncEntity syncEntity);
 
     @Query("SELECT * FROM SyncEntity WHERE profileId = :profileId")
-    SyncEntity getSyncParams(String profileId);
+    SyncEntity getSyncByProfileId(String profileId);
 
 }
