@@ -100,33 +100,39 @@ public class ServiceHelper {
         JSONObject json = new JSONObject(response);
         statsEntity.setProfileId(profileId);
         statsEntity.setUpdateDate(new Date());
-        statsEntity.setTimePlayedRanked(Integer.parseInt(json.getJSONObject("results").getJSONObject(profileId).getString("rankedpvp_timeplayed:infinite")));
-        statsEntity.setMatchPlayedRanked(Integer.parseInt(json.getJSONObject("results").getJSONObject(profileId).getString("rankedpvp_matchplayed:infinite")));
-        statsEntity.setMatchWonRanked(Integer.parseInt(json.getJSONObject("results").getJSONObject(profileId).getString("rankedpvp_matchwon:infinite")));
-        statsEntity.setMatchLostRanked(Integer.parseInt(json.getJSONObject("results").getJSONObject(profileId).getString("rankedpvp_matchlost:infinite")));
-        statsEntity.setKillsRanked(Integer.parseInt(json.getJSONObject("results").getJSONObject(profileId).getString("rankedpvp_kills:infinite")));
-        statsEntity.setDeathRanked(Integer.parseInt(json.getJSONObject("results").getJSONObject(profileId).getString("rankedpvp_death:infinite")));
-        statsEntity.setTimePlayedCasual(Integer.parseInt(json.getJSONObject("results").getJSONObject(profileId).getString("casualpvp_timeplayed:infinite")));
-        statsEntity.setMatchPlayedCasual(Integer.parseInt(json.getJSONObject("results").getJSONObject(profileId).getString("casualpvp_matchplayed:infinite")));
-        statsEntity.setMatchWonCasual(Integer.parseInt(json.getJSONObject("results").getJSONObject(profileId).getString("casualpvp_matchwon:infinite")));
-        statsEntity.setMatchLostCasual(Integer.parseInt(json.getJSONObject("results").getJSONObject(profileId).getString("casualpvp_matchlost:infinite")));
-        statsEntity.setKillsCasual(Integer.parseInt(json.getJSONObject("results").getJSONObject(profileId).getString("casualpvp_kills:infinite")));
-        statsEntity.setDeathCasual(Integer.parseInt(json.getJSONObject("results").getJSONObject(profileId).getString("casualpvp_death:infinite")));
-        statsEntity.setGeneralTimePlayed(Integer.parseInt(json.getJSONObject("results").getJSONObject(profileId).getString("generalpvp_timeplayed:infinite")));
-        statsEntity.setGeneralMatchPlayed(Integer.parseInt(json.getJSONObject("results").getJSONObject(profileId).getString("generalpvp_matchplayed:infinite")));
-        statsEntity.setGeneralMatchWon(Integer.parseInt(json.getJSONObject("results").getJSONObject(profileId).getString("generalpvp_matchwon:infinite")));
-        statsEntity.setGeneralMatchLost(Integer.parseInt(json.getJSONObject("results").getJSONObject(profileId).getString("generalpvp_matchlost:infinite")));
-        statsEntity.setGeneralKills(Integer.parseInt(json.getJSONObject("results").getJSONObject(profileId).getString("generalpvp_kills:infinite")));
-        statsEntity.setGeneralDeath(Integer.parseInt(json.getJSONObject("results").getJSONObject(profileId).getString("generalpvp_death:infinite")));
-        statsEntity.setGeneralHeadshots(Integer.parseInt(json.getJSONObject("results").getJSONObject(profileId).getString("generalpvp_headshot:infinite")));
-        statsEntity.setGeneralBulletFired(Integer.parseInt(json.getJSONObject("results").getJSONObject(profileId).getString("generalpvp_bulletfired:infinite")));
-        statsEntity.setGeneralBulletHit(Integer.parseInt(json.getJSONObject("results").getJSONObject(profileId).getString("generalpvp_bullethit:infinite")));
-        statsEntity.setGeneralKillAssists(Integer.parseInt(json.getJSONObject("results").getJSONObject(profileId).getString("generalpvp_killassists:infinite")));
-        statsEntity.setGeneralPenetrationKills(Integer.parseInt(json.getJSONObject("results").getJSONObject(profileId).getString("generalpvp_penetrationkills:infinite")));
-        statsEntity.setGeneralMeleeKills(Integer.parseInt(json.getJSONObject("results").getJSONObject(profileId).getString("generalpvp_meleekills:infinite")));
-        statsEntity.setGeneralRevive(Integer.parseInt(json.getJSONObject("results").getJSONObject(profileId).getString("generalpvp_revive:infinite")));
+        statsEntity.setTimePlayedRanked(getValue(json, profileId,"rankedpvp_timeplayed:infinite"));
+        statsEntity.setMatchPlayedRanked(getValue(json, profileId,"rankedpvp_matchplayed:infinite"));
+        statsEntity.setMatchWonRanked(getValue(json, profileId,"rankedpvp_matchwon:infinite"));
+        statsEntity.setMatchLostRanked(getValue(json, profileId,"rankedpvp_matchlost:infinite"));
+        statsEntity.setKillsRanked(getValue(json, profileId,"rankedpvp_kills:infinite"));
+        statsEntity.setDeathRanked(getValue(json, profileId,"rankedpvp_death:infinite"));
+        statsEntity.setTimePlayedCasual(getValue(json, profileId,"casualpvp_timeplayed:infinite"));
+        statsEntity.setMatchPlayedCasual(getValue(json, profileId,"casualpvp_matchplayed:infinite"));
+        statsEntity.setMatchWonCasual(getValue(json, profileId,"casualpvp_matchwon:infinite"));
+        statsEntity.setMatchLostCasual(getValue(json, profileId,"casualpvp_matchlost:infinite"));
+        statsEntity.setKillsCasual(getValue(json, profileId,"casualpvp_kills:infinite"));
+        statsEntity.setDeathCasual(getValue(json, profileId,"casualpvp_death:infinite"));
+        statsEntity.setGeneralTimePlayed(getValue(json, profileId,"generalpvp_timeplayed:infinite"));
+        statsEntity.setGeneralMatchPlayed(getValue(json, profileId,"generalpvp_matchplayed:infinite"));
+        statsEntity.setGeneralMatchWon(getValue(json, profileId,"generalpvp_matchwon:infinite"));
+        statsEntity.setGeneralMatchLost(getValue(json, profileId,"generalpvp_matchlost:infinite"));
+        statsEntity.setGeneralKills(getValue(json, profileId,"generalpvp_kills:infinite"));
+        statsEntity.setGeneralDeath(getValue(json, profileId,"generalpvp_death:infinite"));
+        statsEntity.setGeneralHeadshots(getValue(json, profileId,"generalpvp_headshot:infinite"));
+        statsEntity.setGeneralBulletFired(getValue(json, profileId,"generalpvp_bulletfired:infinite"));
+        statsEntity.setGeneralBulletHit(getValue(json, profileId,"generalpvp_bullethit:infinite"));
+        statsEntity.setGeneralKillAssists(getValue(json, profileId,"generalpvp_killassists:infinite"));
+        statsEntity.setGeneralPenetrationKills(getValue(json, profileId,"generalpvp_penetrationkills:infinite"));
+        statsEntity.setGeneralMeleeKills(getValue(json, profileId,"generalpvp_meleekills:infinite"));
+        statsEntity.setGeneralRevive(getValue(json, profileId,"generalpvp_revive:infinite"));
 
         return statsEntity;
+    }
+
+    private Integer getValue(JSONObject json, String profileId, String key) throws JSONException {
+        if(json.getJSONObject("results").getJSONObject(profileId).has(key)){
+            return Integer.parseInt(json.getJSONObject("results").getJSONObject(profileId).getString(key));
+        }else return 0;
     }
 
     public boolean isValidResponse(String response){

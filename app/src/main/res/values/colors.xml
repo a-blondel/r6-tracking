@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#003380</color>
-    <color name="colorPrimaryDark">#FFFFFF</color>
-    <!--<color name="colorPrimaryDark">#080808</color>-->
-    <color name="colorAccent">#0080FF</color>
-    <color name="grey">#97999B</color>
-    <!--<color name="specialRed">#E55753</color>-->
-    <color name="specialRedDark">#F74E54</color>
-    <!--<color name="vertKaki">#256645</color>-->
-    <color name="vertFluo">#16f1b4</color>
+    <!--Full Dark-->
+    <!--<color name="colorPrimary">#424242</color>
+    <color name="colorPrimaryDark">#212121</color>
+    <color name="colorAccent">#000000</color>
+    &lt;!&ndash;<color name="colorAccent">#97999B</color>&ndash;&gt;
+    <color name="lightBlue">#0080FF</color>
+    <color name="blue">#0288d1</color>-->
 
-    <color name="primary">#C41230</color>
-    <color name="primaryDark">#9E0C24</color>
-    <color name="textPrimary">#000</color>
+    <color name="colorPrimary">#0288d1</color>
+    <color name="colorPrimaryLight">#5eb8ff</color>
+    <color name="colorPrimaryDark">#005b9f</color>
+    <color name="colorAccent">#212121</color>
+    <color name="white">#FFFFFF</color>
+
 </resources>

@@ -58,6 +58,7 @@ public class PlayerActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
         playerEntity = (PlayerEntity) getIntent().getSerializableExtra(PLAYER);
+        toolbar.setTitle(playerEntity.getNameOnPlatform());
 
     }
 

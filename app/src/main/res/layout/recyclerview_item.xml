@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/playerName"
-        style="@style/playerEntity"
+        style="@style/playerEntityTheme"
         android:layout_marginTop="7dp"
         android:gravity="center_vertical"
         android:layout_gravity="center_vertical"
@@ -29,7 +29,7 @@
 
     <TextView
         android:id="@+id/playerMmr"
-        style="@style/playerEntity"
+        style="@style/playerEntityTheme"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:layout_gravity="center_vertical"
@@ -41,7 +41,7 @@
 
     <TextView
         android:id="@+id/playerKd"
-        style="@style/playerEntity"
+        style="@style/playerEntityTheme"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:layout_gravity="center_vertical"

@@ -5,19 +5,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="@string/textPlateformType" />
+            android:text="@string/textPlateformType"
+            android:textColor="@color/colorAccent" />
 
         <Spinner
             android:id="@+id/plateformType_spinner"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp" />
+            android:padding="5dp"
+            android:popupBackground="@color/colorPrimaryDark" />
 
         <TextView
             android:id="@+id/textSynchronisation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
+            android:textColor="@color/colorAccent"
             android:text="@string/synchronisationSettings" />
 
         <Switch

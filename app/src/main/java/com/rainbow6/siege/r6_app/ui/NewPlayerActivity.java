@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -61,6 +62,9 @@ public class NewPlayerActivity extends AppCompatActivity implements LoaderManage
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_player);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         ubiService = new UbiService();
         serviceHelper = new ServiceHelper();
 
@@ -68,13 +72,12 @@ public class NewPlayerActivity extends AppCompatActivity implements LoaderManage
         pickSyncTimer = findViewById(R.id.pickRefreshTimer);
 
         spinner = findViewById(R.id.plateformType_spinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.platformType_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+
+        ArrayAdapter<CharSequence> spinnerArrayAdapter =  ArrayAdapter.createFromResource(
+                this, R.array.platformType_array, R.layout.spinner_item
+        );
+        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_item);
+        spinner.setAdapter(spinnerArrayAdapter);
 
         connectionViewModel = ViewModelProviders.of(this).get(ConnectionViewModel.class);
         playerViewModel = ViewModelProviders.of(this).get(PlayerViewModel.class);

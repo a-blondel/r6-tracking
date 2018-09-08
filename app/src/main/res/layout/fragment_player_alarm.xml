@@ -8,13 +8,11 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark">
-
-        <TextView
-            android:id="@+id/playerName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp" />
+        android:background="@color/colorPrimaryDark"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
 
         <include layout="@layout/common_player_settings" />
 
@@ -28,6 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
+                android:textColor="@color/colorAccent"
                 android:text="@string/syncTimer" />
 
             <EditText
@@ -46,6 +45,7 @@
             android:id="@+id/button_set_timer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:background="@color/colorAccent"
             android:text="@string/set_timer"
             android:textColor="@color/colorPrimaryDark" />

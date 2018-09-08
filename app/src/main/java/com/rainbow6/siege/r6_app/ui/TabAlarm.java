@@ -63,7 +63,6 @@ public class TabAlarm extends Fragment implements LoaderManager.LoaderCallbacks<
 
     private AlarmPlayerTask alarmPlayerTask = null;
 
-    private TextView playerNameItemView;
     private View rootView;
     private PlayerViewModel playerViewModel;
     private Handler mHandler;
@@ -86,17 +85,12 @@ public class TabAlarm extends Fragment implements LoaderManager.LoaderCallbacks<
 
         pickSyncTimer = rootView.findViewById(R.id.pickRefreshTimer);
 
-        playerNameItemView = rootView.findViewById(R.id.playerName);
-        playerNameItemView.setText(playerEntity.getNameOnPlatform());
-
         spinner = rootView.findViewById(R.id.plateformType_spinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
-                R.array.platformType_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+        ArrayAdapter<CharSequence> spinnerArrayAdapter =  ArrayAdapter.createFromResource(
+                getActivity(), R.array.platformType_array, R.layout.spinner_item
+        );
+        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_item);
+        spinner.setAdapter(spinnerArrayAdapter);
 
         pickSyncTimer.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
