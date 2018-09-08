@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.rainbow6.siege.r6_app.R;
@@ -27,6 +28,9 @@ public class MainActivity extends AppCompatActivity implements PlayerListAdapter
 
     private PlayerViewModel playerViewModel;
     private PlayerListAdapter adapter;
+    private RecyclerView recyclerView;
+
+    private static MainActivity mainActivityRunningInstance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +39,9 @@ public class MainActivity extends AppCompatActivity implements PlayerListAdapter
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerview);
+        mainActivityRunningInstance =this;
+
+        recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 //        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
@@ -60,6 +66,20 @@ public class MainActivity extends AppCompatActivity implements PlayerListAdapter
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, NewPlayerActivity.class);
                 startActivity(intent);
+            }
+        });
+    }
+
+    public static MainActivity  getInstance(){
+        return mainActivityRunningInstance;
+    }
+
+    public void updateUI() {
+        MainActivity.this.runOnUiThread(new Runnable() {
+            public void run() {
+                ViewGroup vg = (ViewGroup) recyclerView;
+                vg.removeAllViews();
+                vg.refreshDrawableState();
             }
         });
     }

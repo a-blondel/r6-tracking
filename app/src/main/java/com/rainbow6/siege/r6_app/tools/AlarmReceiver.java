@@ -26,6 +26,7 @@ import com.rainbow6.siege.r6_app.repository.ProgressionRepository;
 import com.rainbow6.siege.r6_app.repository.SeasonRepository;
 import com.rainbow6.siege.r6_app.repository.StatsRepository;
 import com.rainbow6.siege.r6_app.service.UbiService;
+import com.rainbow6.siege.r6_app.ui.MainActivity;
 
 import org.json.JSONException;
 
@@ -251,7 +252,6 @@ public class AlarmReceiver extends BroadcastReceiver {
                         imageRank = "rank_" + seasonNcsaEntity.getRank();
                     }
 
-                    // Put rank icon, Player name, MMR (+ difference mmr, + new rank)
                     NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, profileId)
                             .setSmallIcon(R.drawable.rank_0)
                             .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), context.getResources().getIdentifier(imageRank, "drawable", context.getPackageName())))
@@ -260,7 +260,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                             .setContentText(message)
                             .setContentIntent(PendingIntent.getActivity(context, 0, new Intent(), 0)) // needed to allow AutoCancel
                             .setAutoCancel(true)
-                            .setVibrate(new long[] { 1000, 1000 })
+                            .setVibrate(new long[] { 500, 500 })
                             .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
                     NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
@@ -320,7 +320,9 @@ public class AlarmReceiver extends BroadcastReceiver {
         @Override
         protected void onPostExecute(final Boolean success) {
             alarmServiceTask = null;
-            // Do something on success ?
+            if(MainActivity.getInstance()!=null) {
+                MainActivity.getInstance().updateUI();
+            }
         }
 
         @Override
