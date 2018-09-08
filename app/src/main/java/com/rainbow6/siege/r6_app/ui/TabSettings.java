@@ -54,6 +54,8 @@ import static com.rainbow6.siege.r6_app.ui.TabAlarm.SYNC_EMEA;
 import static com.rainbow6.siege.r6_app.ui.TabAlarm.SYNC_NCSA;
 import static com.rainbow6.siege.r6_app.ui.TabAlarm.SYNC_PROGRESSION;
 import static com.rainbow6.siege.r6_app.ui.TabAlarm.SYNC_STATS;
+import static com.rainbow6.siege.r6_app.viewmodel.PlayerViewModel.COUNT_1;
+import static com.rainbow6.siege.r6_app.viewmodel.PlayerViewModel.SKIP_0;
 
 public class TabSettings extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -344,14 +346,14 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
                     }
                 }
                 if(syncEmeaSeason && seasonEmeaEntity != null) {
-                    SeasonEntity seasonEmeaEntityFromDB = playerViewModel.getLastSeasonEntityByProfileIdAndRegion(profileId,REGION_EMEA);
+                    SeasonEntity seasonEmeaEntityFromDB = playerViewModel.getLastSeasonEntityByProfileIdAndRegion(profileId,REGION_EMEA, SKIP_0, COUNT_1);
                     if(seasonEmeaEntityFromDB == null || Double.compare(seasonEmeaEntityFromDB.getMmr(), seasonEmeaEntity.getMmr()) != 0) {
                         playerViewModel.insertSeason(seasonEmeaEntity);
                         newStats = true;
                     }
                 }
                 if(syncNcsaSeason && seasonNcsaEntity != null) {
-                    SeasonEntity seasonNcsaEntityFromDB = playerViewModel.getLastSeasonEntityByProfileIdAndRegion(profileId,REGION_NCSA);
+                    SeasonEntity seasonNcsaEntityFromDB = playerViewModel.getLastSeasonEntityByProfileIdAndRegion(profileId,REGION_NCSA, SKIP_0, COUNT_1);
                     if(seasonNcsaEntityFromDB == null || Double.compare(seasonNcsaEntityFromDB.getMmr(), seasonNcsaEntity.getMmr()) != 0) {
                         playerViewModel.insertSeason(seasonNcsaEntity);
                         newStats = true;

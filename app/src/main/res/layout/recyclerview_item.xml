@@ -5,22 +5,23 @@
     android:layout_height="wrap_content"
     android:background="@color/colorPrimaryDark" >
 
+
     <TextView
         android:id="@+id/playerName"
         style="@style/playerEntity"
         android:layout_marginTop="7dp"
         android:gravity="center_vertical"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="7dp"
         android:layout_width="fill_parent"
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:textColor="@color/colorAccent"
-        android:textSize="20dp" />
+        android:textSize="15dp" />
 
     <ImageView
         android:id="@+id/playerRank"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -32,23 +33,23 @@
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorAccent"
         android:textSize="15dp" />
 
     <TextView
-        android:id="@+id/playerKDText"
+        android:id="@+id/playerKd"
         style="@style/playerEntity"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="7dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorAccent"
-        android:textSize="15dp"
-        android:text="1.785" />
+        android:textSize="15dp" />
 
 </LinearLayout>

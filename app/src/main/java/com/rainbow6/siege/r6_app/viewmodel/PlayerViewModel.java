@@ -19,6 +19,10 @@ import java.util.List;
 
 public class PlayerViewModel extends AndroidViewModel {
 
+    public static String SKIP_0 = "0";
+    public static String SKIP_1 = "1";
+    public static String COUNT_1 = "1";
+
     private PlayerRepository playerRepository;
     private ProgressionRepository progressionRepository;
     private SeasonRepository seasonRepository;
@@ -49,7 +53,7 @@ public class PlayerViewModel extends AndroidViewModel {
 
     public void insertSeason(SeasonEntity seasonEntity) { seasonRepository.insert(seasonEntity); }
 
-    public SeasonEntity getLastSeasonEntityByProfileIdAndRegion(String profileId, String regionId) { return seasonRepository.getLastSeasonEntityByProfileIdAndRegionId(profileId, regionId); }
+    public SeasonEntity getLastSeasonEntityByProfileIdAndRegion(String profileId, String regionId, String skip, String count) { return seasonRepository.getLastSeasonEntityByProfileIdAndRegionId(profileId, regionId, skip, count); }
 
     public void insertStats(StatsEntity statsEntity) { statsRepository.insert(statsEntity); }
 

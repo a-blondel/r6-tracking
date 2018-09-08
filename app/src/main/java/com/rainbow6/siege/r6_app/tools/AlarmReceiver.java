@@ -43,6 +43,8 @@ import static com.rainbow6.siege.r6_app.ui.TabAlarm.SYNC_EMEA;
 import static com.rainbow6.siege.r6_app.ui.TabAlarm.SYNC_NCSA;
 import static com.rainbow6.siege.r6_app.ui.TabAlarm.SYNC_PROGRESSION;
 import static com.rainbow6.siege.r6_app.ui.TabAlarm.SYNC_STATS;
+import static com.rainbow6.siege.r6_app.viewmodel.PlayerViewModel.COUNT_1;
+import static com.rainbow6.siege.r6_app.viewmodel.PlayerViewModel.SKIP_0;
 
 public class AlarmReceiver extends BroadcastReceiver {
     private PlayerRepository playerRepository;
@@ -58,7 +60,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        // We can start services on phone boot
+        // TODO restart alarms on phone boot ?
         /*if (intent.getAction() != null && intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
 
         }*/
@@ -201,14 +203,14 @@ public class AlarmReceiver extends BroadcastReceiver {
                     }
                 }
 
-                SeasonEntity seasonEmeaEntityFromDB = seasonRepository.getLastSeasonEntityByProfileIdAndRegionId(profileId,REGION_EMEA);
+                SeasonEntity seasonEmeaEntityFromDB = seasonRepository.getLastSeasonEntityByProfileIdAndRegionId(profileId,REGION_EMEA, SKIP_0, COUNT_1);
                 if(syncEmeaSeason && seasonEmeaEntity != null) {
                     if(seasonEmeaEntityFromDB == null || Double.compare(seasonEmeaEntityFromDB.getMmr(), seasonEmeaEntity.getMmr()) != 0) {
                         seasonRepository.insert(seasonEmeaEntity);
                         newStats = true;
                     }
                 }
-                SeasonEntity seasonNcsaEntityFromDB = seasonRepository.getLastSeasonEntityByProfileIdAndRegionId(profileId,REGION_NCSA);
+                SeasonEntity seasonNcsaEntityFromDB = seasonRepository.getLastSeasonEntityByProfileIdAndRegionId(profileId,REGION_NCSA, SKIP_0, COUNT_1);
                 if(syncNcsaSeason && seasonNcsaEntity != null) {
                     if(seasonNcsaEntityFromDB == null || Double.compare(seasonNcsaEntityFromDB.getMmr(), seasonNcsaEntity.getMmr()) != 0) {
                         seasonRepository.insert(seasonNcsaEntity);
@@ -320,6 +322,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         @Override
         protected void onPostExecute(final Boolean success) {
             alarmServiceTask = null;
+            // TODO move Notification here on Success ?
             if(MainActivity.getInstance()!=null) {
                 MainActivity.getInstance().updateUI();
             }

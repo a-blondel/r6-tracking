@@ -144,28 +144,19 @@ public class TabAlarm extends Fragment implements LoaderManager.LoaderCallbacks<
             return;
         }
 
-        // Get ui values
         String profileId = playerEntity.getProfileId();
-
         String plateformType = spinner.getSelectedItem().toString();
-
         Switch switchSyncProgression = rootView.findViewById(R.id.switchSyncProgression);
         boolean syncProgression = switchSyncProgression.isChecked();
-
         Switch switchEmeaSeason = rootView.findViewById(R.id.switchEmeaSeason);
         boolean syncEmeaSeason = switchEmeaSeason.isChecked();
-
         Switch switchNcsaSeason = rootView.findViewById(R.id.switchNcsaSeason);
         boolean syncNcsaSeason = switchNcsaSeason.isChecked();
-
         Switch switchApacSeason = rootView.findViewById(R.id.switchApacSeason);
         boolean syncApacSeason = switchApacSeason.isChecked();
-
         Switch switchStats = rootView.findViewById(R.id.switchStats);
         boolean syncStats = switchStats.isChecked();
-
         int syncTimer = 0;
-
         String syncTimerString = pickSyncTimer.getText().toString();
         if(!syncTimerString.equals("") && !syncTimerString.equals("0:0") ){
             String[] separated = syncTimerString.split(":");
@@ -173,10 +164,8 @@ public class TabAlarm extends Fragment implements LoaderManager.LoaderCallbacks<
             int minutes = Integer.parseInt(separated[1]);
             syncTimer = hours * 60 + minutes;
         }
-
         alarmPlayerTask = new AlarmPlayerTask(profileId, plateformType, syncProgression, syncEmeaSeason, syncNcsaSeason, syncApacSeason, syncStats, syncTimer, getActivity().getApplicationContext());
         alarmPlayerTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
     }
 
     @Override

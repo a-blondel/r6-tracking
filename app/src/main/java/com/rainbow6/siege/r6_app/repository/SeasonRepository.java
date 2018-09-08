@@ -40,9 +40,9 @@ public class SeasonRepository {
         }
     }
 
-    public SeasonEntity getLastSeasonEntityByProfileIdAndRegionId(String profileId, String regionId) {
+    public SeasonEntity getLastSeasonEntityByProfileIdAndRegionId(String profileId, String regionId, String skip, String count) {
         try {
-            return new getLastSeasonEntityByProfileIdAndRegionIdAsyncTask(mSeasonDao).execute(profileId, regionId).get();
+            return new getLastSeasonEntityByProfileIdAndRegionIdAsyncTask(mSeasonDao).execute(profileId, regionId, skip, count).get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -52,16 +52,13 @@ public class SeasonRepository {
     }
 
     private static class getLastSeasonEntityByProfileIdAndRegionIdAsyncTask extends AsyncTask<String, Void, SeasonEntity> {
-
         private SeasonDao mAsyncTaskDao;
-
         getLastSeasonEntityByProfileIdAndRegionIdAsyncTask(SeasonDao dao) {
             mAsyncTaskDao = dao;
         }
-
         @Override
         protected SeasonEntity doInBackground(final String... params) {
-            return mAsyncTaskDao.getLastSeasonEntityByProfileIdAndRegionId(params[0], params[1]);
+            return mAsyncTaskDao.getLastSeasonEntityByProfileIdAndRegionId(params[0], params[1], params[2], params[3]);
         }
     }
 }
