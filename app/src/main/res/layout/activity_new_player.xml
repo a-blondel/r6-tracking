@@ -19,70 +19,74 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/constraintLayout"
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:background="@color/colorPrimaryDark">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="vertical"
+        <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin"
-            android:background="@color/colorPrimaryDark">
+            android:layout_height="wrap_content">
 
-            <EditText
-                android:id="@+id/edit_player"
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-light"
-                android:hint="@string/hint_player"
-                android:inputType="textAutoComplete"
-                android:padding="10dp"
-                android:textSize="18sp"
-                android:textColor="@color/colorAccent"
-                android:textColorHint="@color/colorAccent" />
+                android:layout_height="match_parent"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin">
 
-            <include layout="@layout/common_player_settings" />
+                <EditText
+                    android:id="@+id/edit_player"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:hint="@string/hint_player"
+                    android:inputType="textAutoComplete"
+                    android:padding="10dp"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHint="@color/colorAccent" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                <include layout="@layout/common_player_settings" />
 
-            <TextView
-                android:id="@+id/textSyncTimer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:textColor="@color/colorAccent"
-                android:text="@string/syncTimer" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
 
-            <EditText
-                android:id="@+id/pickRefreshTimer"
-                android:layout_toRightOf="@id/textSyncTimer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="time"
-                android:focusable="false"
-                android:focusableInTouchMode="true" />
+                <TextView
+                    android:id="@+id/textSyncTimer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textColor="@color/colorAccent"
+                    android:text="@string/syncTimer" />
 
+                <EditText
+                    android:id="@+id/pickRefreshTimer"
+                    android:layout_toRightOf="@id/textSyncTimer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="time"
+                    android:focusable="false"
+                    android:focusableInTouchMode="true" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/button_add_player"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/colorAccent"
+                    android:text="@string/button_add"
+                    android:textColor="@color/colorPrimaryDark" />
             </LinearLayout>
-
-            <Button
-                android:id="@+id/button_add_player"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:background="@color/colorAccent"
-                android:text="@string/button_add"
-                android:textColor="@color/colorPrimaryDark" />
-
-        </LinearLayout>
-    </android.support.constraint.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
 </android.support.design.widget.CoordinatorLayout>
