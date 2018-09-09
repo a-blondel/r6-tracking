@@ -1,6 +1,7 @@
 package com.rainbow6.siege.r6_app.tools;
 
 import android.app.Application;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -12,6 +13,10 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
 import android.util.Log;
 
 import com.rainbow6.siege.r6_app.R;
@@ -31,6 +36,7 @@ import com.rainbow6.siege.r6_app.ui.MainActivity;
 import org.json.JSONException;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static com.rainbow6.siege.r6_app.service.UbiService.CURRENT_SEASON;
@@ -217,52 +223,84 @@ public class AlarmReceiver extends BroadcastReceiver {
                         newStats = true;
                     }
                 }
+                StatsEntity statsEntityFromDB = statsRepository.getLastStatsEntityByProfileId(profileId);
                 if(syncStats && statsEntity != null) {
-                    StatsEntity statsEntityFromDB = statsRepository.getLastStatsEntityByProfileId(profileId);
                     if(statsEntityFromDB == null || statsEntityFromDB.getGeneralTimePlayed() != statsEntity.getGeneralTimePlayed()) {
                         statsRepository.insert(statsEntity);
                         newStats = true;
                     }
                 }
 
-
-                if(newStats){
+                if(newStats) {
                     // Send notification
                     setUpChannel(context, profileId);
 
                     String imageRank = "rank_0";
                     String title = playerEntity.getNameOnPlatform();
                     String message = context.getString(R.string.notif_base_message);
+                    Spannable sb = new SpannableString(message);
+                    Date dateRefresh = new Date();
 
-
-                    if(seasonEmeaEntity != null && seasonEmeaEntityFromDB != null){
-                        if(seasonEmeaEntityFromDB.getRank() != seasonEmeaEntity.getRank()){
-                            title += " - new rank " + REGION_EMEA.toUpperCase();
+                    if (seasonEmeaEntity != null && seasonEmeaEntityFromDB != null) {
+                        if (seasonEmeaEntityFromDB.getRank() != seasonEmeaEntity.getRank()) {
+                            title += " - new rank " + REGION_EMEA;
                         }
-                        if(Double.compare(seasonEmeaEntityFromDB.getMmr(), seasonEmeaEntity.getMmr()) != 0 ){
-                            message = "MMR Emea: " + (int) Math.floor(seasonEmeaEntity.getMmr()) + " (" + (int) (Math.floor(seasonEmeaEntity.getMmr()) - Math.floor(seasonEmeaEntityFromDB.getMmr())) + ")";
+                        if (Double.compare(seasonEmeaEntityFromDB.getMmr(), seasonEmeaEntity.getMmr()) != 0) {
+                            int actualMmr = (int) Math.floor(seasonEmeaEntity.getMmr());
+                            String charMessage = "mmr eu: " + actualMmr + " (" + (int) (Math.floor(seasonEmeaEntity.getMmr()) - Math.floor(seasonEmeaEntityFromDB.getMmr())) + ")";
+                            int pos = charMessage.indexOf(String.valueOf(actualMmr));
+                            sb = new SpannableString(charMessage);
+                            sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), pos, pos + String.valueOf(actualMmr).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                         }
                         imageRank = "rank_" + seasonEmeaEntity.getRank();
-                    }else if(seasonNcsaEntity != null && seasonNcsaEntityFromDB != null){
-                        if(seasonNcsaEntityFromDB.getRank() != seasonNcsaEntity.getRank()){
-                            title += " - new rank " + REGION_NCSA.toUpperCase();
+                        dateRefresh = seasonEmeaEntity.getUpdateDate();
+                    } else if (seasonNcsaEntity != null && seasonNcsaEntityFromDB != null) {
+                        if (seasonNcsaEntityFromDB.getRank() != seasonNcsaEntity.getRank()) {
+                            title += " - new rank " + REGION_NCSA;
                         }
 
-                        if(Double.compare(seasonNcsaEntityFromDB.getMmr(), seasonNcsaEntity.getMmr()) != 0 ){
-                            message = "MMR Ncsa: " + (int) Math.floor(seasonNcsaEntity.getMmr()) + " (" + (int) (Math.floor(seasonNcsaEntity.getMmr()) - Math.floor(seasonNcsaEntityFromDB.getMmr())) + ")";
+                        if (Double.compare(seasonNcsaEntityFromDB.getMmr(), seasonNcsaEntity.getMmr()) != 0) {
+                            int actualMmr = (int) Math.floor(seasonNcsaEntity.getMmr());
+                            String charMessage = "mmr us: " + actualMmr + " (" + (int) (Math.floor(seasonNcsaEntity.getMmr()) - Math.floor(seasonNcsaEntityFromDB.getMmr())) + ")";
+                            int pos = charMessage.indexOf(String.valueOf(actualMmr));
+                            sb = new SpannableString(charMessage);
+                            sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), pos, pos + String.valueOf(actualMmr).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                         }
                         imageRank = "rank_" + seasonNcsaEntity.getRank();
+                        dateRefresh = seasonNcsaEntity.getUpdateDate();
                     }
 
+                    int newKills = 0, newDeaths = 0;
+                    if (statsEntity != null && statsEntityFromDB != null){
+                        boolean validEmea = seasonEmeaEntity != null && seasonEmeaEntityFromDB != null && Double.compare(seasonEmeaEntityFromDB.getMmr(), seasonEmeaEntity.getMmr()) != 0;
+                        boolean validNcsa = seasonNcsaEntity != null && seasonNcsaEntityFromDB != null && Double.compare(seasonNcsaEntityFromDB.getMmr(), seasonNcsaEntity.getMmr()) != 0;
+                        if(validEmea || validNcsa){
+                            newKills = statsEntity.getKillsRanked() - statsEntityFromDB.getKillsRanked();
+                            newDeaths = statsEntity.getDeathRanked() - statsEntityFromDB.getDeathRanked();
+                        }else{
+                            newKills = statsEntity.getKillsCasual() - statsEntityFromDB.getKillsCasual();
+                            newDeaths = statsEntity.getDeathCasual() - statsEntityFromDB.getDeathCasual();
+                            dateRefresh = statsEntity.getUpdateDate();
+                        }
+                    }
+
+                    SimpleDateFormat format = new SimpleDateFormat("dd/MM HH:mm");
+
+                    NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
+                    inboxStyle.setBigContentTitle(title);
+                    inboxStyle.addLine(sb);
+                    inboxStyle.addLine(format.format(dateRefresh) + " - Score: " + newKills + " / " + newDeaths);
+
                     NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, profileId)
-                            .setSmallIcon(R.drawable.rank_0)
+                            .setSmallIcon(R.drawable.diamond)
                             .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), context.getResources().getIdentifier(imageRank, "drawable", context.getPackageName())))
                             .setColor(context.getColor(R.color.colorPrimary))
                             .setContentTitle(title)
-                            .setContentText(message)
+                            .setContentText(sb)
+                            .setStyle(inboxStyle)
                             .setContentIntent(PendingIntent.getActivity(context, 0, new Intent(), 0)) // needed to allow AutoCancel
                             .setAutoCancel(true)
-                            .setVibrate(new long[] { 500, 500 })
+                            .setVibrate(new long[] { 0, 400, 200, 400 })
                             .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
                     NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);

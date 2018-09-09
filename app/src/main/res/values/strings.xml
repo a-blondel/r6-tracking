@@ -14,9 +14,9 @@
     </string-array>
     <string name="synchronisationSettings">Synchronisation settings</string>
     <string name="syncProgression">Progression (XP - Level - Loot chances)</string>
-    <string name="syncEmeaSeason">EMEA Season (MMR, rank, W/L)</string>
-    <string name="syncNcsaSeason">NCSA Season (MMR, rank, W/L)</string>
-    <string name="syncApacSeason">APAC Season (MMR, rank, W/L)</string>
+    <string name="syncEmeaSeason">EMEA Season (mmr, rank, w/l)</string>
+    <string name="syncNcsaSeason">NCSA Season (mmr, rank, w/l)</string>
+    <string name="syncApacSeason">APAC Season (mmr, rank, w/l)</string>
     <string name="syncStats">Statistics</string>
     <string name="syncTimer">Timer</string>
     <string name="syncTimerTitle">Sync. Timer</string>
