@@ -292,7 +292,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                     inboxStyle.addLine(format.format(dateRefresh) + " - Score: " + newKills + " / " + newDeaths);
 
                     NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, profileId)
-                            .setSmallIcon(R.drawable.diamond)
+                            .setSmallIcon(R.drawable.ic_r6_default_white)
                             .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), context.getResources().getIdentifier(imageRank, "drawable", context.getPackageName())))
                             .setColor(context.getColor(R.color.colorPrimary))
                             .setContentTitle(title)
