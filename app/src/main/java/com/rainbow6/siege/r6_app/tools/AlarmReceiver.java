@@ -32,6 +32,7 @@ import com.rainbow6.siege.r6_app.repository.SeasonRepository;
 import com.rainbow6.siege.r6_app.repository.StatsRepository;
 import com.rainbow6.siege.r6_app.service.UbiService;
 import com.rainbow6.siege.r6_app.ui.MainActivity;
+import com.rainbow6.siege.r6_app.ui.TabStats;
 
 import org.json.JSONException;
 
@@ -342,6 +343,9 @@ public class AlarmReceiver extends BroadcastReceiver {
             // TODO move Notification here on Success ?
             if(MainActivity.getInstance()!=null) {
                 MainActivity.getInstance().updateUI();
+            }
+            if(TabStats.getInstance()!=null) {
+                TabStats.getInstance().updateUI();
             }
         }
 

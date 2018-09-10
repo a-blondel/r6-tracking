@@ -140,10 +140,8 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
     }
 
     private void attemptDeletePlayer(){
-
         deletePlayerTask = new DeletePlayerTask(playerEntity, getActivity().getApplicationContext());
         deletePlayerTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
     }
 
     private void attemptUpdatePlayer(){
@@ -417,8 +415,11 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
         @Override
         protected void onPostExecute(final Boolean success) {
             updatePlayerTask = null;
-            if (success) {
-            } else {
+            if(MainActivity.getInstance()!=null) {
+                MainActivity.getInstance().updateUI();
+            }
+            if(TabStats.getInstance()!=null) {
+                TabStats.getInstance().updateUI();
             }
         }
 

@@ -3,6 +3,8 @@ package com.rainbow6.siege.r6_app.ui;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +38,7 @@ public class TabStats extends Fragment {
     private PlayerEntity playerEntity;
     private View rootView;
     private PlayerViewModel playerViewModel;
+    private static TabStats tabStatsRunningInstance;
 
     public static final String DATE_FORMAT = "dd/MM/yy HH:mm";
 
@@ -43,6 +46,8 @@ public class TabStats extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_player, container, false);
+
+        tabStatsRunningInstance = this;
 
         playerViewModel = ViewModelProviders.of(this).get(PlayerViewModel.class);
 
@@ -172,4 +177,15 @@ public class TabStats extends Fragment {
         return rootView;
     }
 
+    public void updateUI() {
+        getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                ViewGroup vg = (ViewGroup) rootView;
+                FragmentTransaction ftr = getFragmentManager().beginTransaction();
+                ftr.detach(TabStats.this).attach(TabStats.this).commit();
+            }
+        });
+    }
+
+    public static TabStats getInstance() { return tabStatsRunningInstance; }
 }
