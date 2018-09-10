@@ -40,7 +40,8 @@ public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.Pl
         }
     }
 
-    private static final String FORMAT_PRECISION_KD = "%.3f";
+    public static final String FORMAT_PRECISION_KD = "%.3f";
+    public static final String FORMAT_PRECISION_WL = "%.2f";
     private final LayoutInflater mInflater;
     private List<PlayerEntity> mPlayerEntities; // Cached copy of players
     private OnItemClicked onClick;

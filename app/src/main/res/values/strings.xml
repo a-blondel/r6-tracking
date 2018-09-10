@@ -53,9 +53,21 @@
     <!--Strings related to player stats-->
     <string name="rank">Rank</string>
     <string name="max_rank">Max Rank</string>
-    <string name="statistics">Statistics</string>
+    <string name="statistics">Statistics (updated %1$s)</string>
     <string name="ranked">Ranked</string>
     <string name="casual">Casual</string>
     <string name="level">Level %1$d (updated %2$s)</string>
+    <string name="season_details">%1$s season %2$d%3$s</string>
+    <string name="season_mmr">%1$d &lt; <b>%2$d</b> &lt; %3$d\nMax mmr: %4$d</string>
+    <string name="wins">Wins\n%1$d</string>
+    <string name="losses">Losses\n%1$d</string>
+    <string name="wlRatio">W/L\n%1$s</string>
+    <string name="abandons">Abandons\n%1$d</string>
+    <string name="kills">Kills\n%1$d</string>
+    <string name="deaths">Deaths\n%1$d</string>
+    <string name="kdRatio">K/D\n%1$s</string>
+    <string name="time_played">Time played\n%1$s</string>
+    <string name="precision">Precision\n%1$s</string>
+    <string name="headshots">Headshots\n%1$s</string>
 
 </resources>

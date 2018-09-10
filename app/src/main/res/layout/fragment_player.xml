@@ -41,8 +41,7 @@
                     android:padding="5dp"
                     android:layout_marginTop="15dp"
                     android:textColor="@color/colorAccent"
-                    android:textStyle="bold"
-                    android:text="EMEA season 11 (updated 10/09/18 14:07)" />
+                    android:textStyle="bold" />
             </LinearLayout>
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
@@ -62,8 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/rank_18"/>
+                    android:scaleType="fitXY"/>
                 <TextView
                     android:id="@+id/seasonEmeaRankPreviousNext"
                     android:gravity="center"
@@ -71,16 +69,14 @@
                     android:layout_width="fill_parent"
                     android:layout_weight="0.8"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorAccent"
-                    android:text="2200 &lt; 2500 &lt; 2800\nMax mmr: 1750" />
+                    android:textColor="@color/colorAccent" />
 
                 <ImageView
                     android:id="@+id/seasonEmeaMaxRank"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/rank_20"/>
+                    android:scaleType="fitXY"/>
                 <TextView
                     android:id="@+id/seasonEmeaMaxRankText"
                     android:gravity="center"
@@ -105,8 +101,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:textColor="@color/colorAccent"
-                    android:text="Wins\n20" />
+                    android:textColor="@color/colorAccent" />
 
                 <TextView
                     android:id="@+id/seasonEmeaLosses"
@@ -116,8 +111,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:textColor="@color/colorAccent"
-                    android:text="Losses\n12" />
+                    android:textColor="@color/colorAccent" />
 
                 <TextView
                     android:id="@+id/seasonEmeaWlRatio"
@@ -127,8 +121,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:textColor="@color/colorAccent"
-                    android:text="Ratio\n1.66" />
+                    android:textColor="@color/colorAccent" />
 
                 <TextView
                     android:id="@+id/seasonEmeaAbandons"
@@ -138,12 +131,12 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:textColor="@color/colorAccent"
-                    android:text="Abandons\n2" />
+                    android:textColor="@color/colorAccent" />
 
             </LinearLayout>
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/seasonNcsaMain"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -157,11 +150,11 @@
                     android:layout_height="wrap_content"
                     android:padding="5dp"
                     android:textColor="@color/colorAccent"
-                    android:textStyle="bold"
-                    android:text="NCSA season 11 (updated 10/09/18 14:07)" />
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/seasonNcsaSecond"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone">
@@ -189,16 +182,14 @@
                     android:layout_width="fill_parent"
                     android:layout_weight="0.8"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorAccent"
-                    android:text="2200 &lt; 2500 &lt; 2800\nMax mmr: 1750" />
+                    android:textColor="@color/colorAccent" />
 
                 <ImageView
                     android:id="@+id/seasonNcsaMaxRank"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/rank_20"/>
+                    android:scaleType="fitXY"/>
                 <TextView
                     android:id="@+id/seasonNcsaMaxRankText"
                     android:gravity="center"
@@ -213,6 +204,7 @@
             </LinearLayout>
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/seasonNcsaThird"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone">
@@ -225,8 +217,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:textColor="@color/colorAccent"
-                    android:text="Wins\n20" />
+                    android:textColor="@color/colorAccent" />
 
                 <TextView
                     android:id="@+id/seasonNcsaLosses"
@@ -236,8 +227,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:textColor="@color/colorAccent"
-                    android:text="Losses\n12" />
+                    android:textColor="@color/colorAccent" />
 
                 <TextView
                     android:id="@+id/seasonNcsaWlRatio"
@@ -247,8 +237,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:textColor="@color/colorAccent"
-                    android:text="Ratio\n1.66" />
+                    android:textColor="@color/colorAccent" />
 
                 <TextView
                     android:id="@+id/seasonNcsaAbandons"
@@ -258,8 +247,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:textColor="@color/colorAccent"
-                    android:text="Abandons\n2" />
+                    android:textColor="@color/colorAccent" />
 
             </LinearLayout>
 
@@ -275,8 +263,7 @@
                     android:padding="5dp"
                     android:layout_marginTop="15dp"
                     android:textStyle="bold"
-                    android:textColor="@color/colorAccent"
-                    android:text="Statistics (updated 10/09/18 14:07)" />
+                    android:textColor="@color/colorAccent" />
 
                 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
@@ -319,8 +306,7 @@
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
-                            android:textColor="@color/colorAccent"
-                            android:text="Kills\n123456" />
+                            android:textColor="@color/colorAccent" />
                         <TextView
                             android:id="@+id/rankedDeaths"
                             android:gravity="center"
@@ -329,8 +315,7 @@
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
-                            android:textColor="@color/colorAccent"
-                            android:text="Deaths\n123456" />
+                            android:textColor="@color/colorAccent" />
                         <TextView
                             android:id="@+id/rankedKdRatio"
                             android:gravity="center"
@@ -339,8 +324,7 @@
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
-                            android:textColor="@color/colorAccent"
-                            android:text="Ratio\n1.234" />
+                            android:textColor="@color/colorAccent" />
                     </LinearLayout>
                     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         android:layout_width="fill_parent"
@@ -354,8 +338,7 @@
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
-                            android:textColor="@color/colorAccent"
-                            android:text="Kills\n123456" />
+                            android:textColor="@color/colorAccent" />
                         <TextView
                             android:id="@+id/casualDeaths"
                             android:gravity="center"
@@ -364,8 +347,7 @@
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
-                            android:textColor="@color/colorAccent"
-                            android:text="Deaths\n123456" />
+                            android:textColor="@color/colorAccent" />
                         <TextView
                             android:id="@+id/casualKdRatio"
                             android:gravity="center"
@@ -374,8 +356,7 @@
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
-                            android:textColor="@color/colorAccent"
-                            android:text="Ratio\n1.234" />
+                            android:textColor="@color/colorAccent" />
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -393,8 +374,7 @@
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
-                            android:textColor="@color/colorAccent"
-                            android:text="Wins\n5222" />
+                            android:textColor="@color/colorAccent" />
                         <TextView
                             android:id="@+id/rankedLosses"
                             android:gravity="center"
@@ -403,8 +383,7 @@
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
-                            android:textColor="@color/colorAccent"
-                            android:text="Losses\n1625" />
+                            android:textColor="@color/colorAccent" />
                         <TextView
                             android:id="@+id/rankedWlRatio"
                             android:gravity="center"
@@ -413,8 +392,7 @@
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
-                            android:textColor="@color/colorAccent"
-                            android:text="Ratio\n3.213" />
+                            android:textColor="@color/colorAccent" />
                     </LinearLayout>
                     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         android:layout_width="fill_parent"
@@ -463,8 +441,7 @@
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:padding="5dp"
-                        android:textColor="@color/colorAccent"
-                        android:text="Time played\n0d 02h 45m" />
+                        android:textColor="@color/colorAccent" />
                     <TextView
                         android:id="@+id/casualTimePlayed"
                         android:gravity="center"
@@ -473,8 +450,7 @@
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:padding="5dp"
-                        android:textColor="@color/colorAccent"
-                        android:text="Time played\n0d 02h 45m" />
+                        android:textColor="@color/colorAccent" />
                 </LinearLayout>
 
                 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -489,8 +465,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:textColor="@color/colorAccent"
-                    android:text="Precision: 25%" />
+                    android:textColor="@color/colorAccent" />
                 <TextView
                     android:id="@+id/headshots"
                     android:gravity="center"
@@ -499,8 +474,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:textColor="@color/colorAccent"
-                    android:text="Headshots: 15%" />
+                    android:textColor="@color/colorAccent" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
