@@ -38,6 +38,8 @@ import org.json.JSONException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import static com.rainbow6.siege.r6_app.service.UbiService.CURRENT_SEASON;
 import static com.rainbow6.siege.r6_app.service.UbiService.REGION_EMEA;
@@ -284,12 +286,12 @@ public class AlarmReceiver extends BroadcastReceiver {
                         }
                     }
 
-                    SimpleDateFormat format = new SimpleDateFormat("dd/MM HH:mm");
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM HH:mm", Locale.getDefault());
 
                     NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
                     inboxStyle.setBigContentTitle(title);
                     inboxStyle.addLine(sb);
-                    inboxStyle.addLine(format.format(dateRefresh) + " - Score: " + newKills + " / " + newDeaths);
+                    inboxStyle.addLine(sdf.format(dateRefresh) + " - Score: " + newKills + " / " + newDeaths);
 
                     NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, profileId)
                             .setSmallIcon(R.drawable.ic_r6_default_white)
@@ -308,32 +310,9 @@ public class AlarmReceiver extends BroadcastReceiver {
                     // We need a unique id for each notification, we could store it to cancel the notification
                     Integer notificationId = (int) (new Date().getTime() / 1000L);
 
-                    notificationManager.notify(notificationId++, mBuilder.build());
+                    notificationManager.notify(notificationId, mBuilder.build());
 
                 }
-                // Keep that block to debug notifications
-                /*else{
-                    // Do nothing
-                    setUpChannel(context, profileId);
-
-                    // Put rank icon, Player name, MMR (+ difference mmr, + new rank)
-                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, profileId)
-                            .setSmallIcon(R.drawable.rank_0)
-                            .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), context.getResources().getIdentifier("rank_20", "drawable", context.getPackageName())))
-                            .setColor(context.getColor(R.color.colorPrimary))
-                            .setContentTitle("Pseudo")
-                            .setContentText("Informations partie")
-                            .setContentIntent(PendingIntent.getActivity(context, 0, new Intent(), 0))
-                            .setAutoCancel(true)
-                            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
-                    NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-
-                    // We need a unique id for each notification, we could store it to cancel notification, ...
-                    Integer notificationId = (int) (new Date().getTime() / 1000L);
-
-                    notificationManager.notify(notificationId++, mBuilder.build());
-                }*/
 
             } catch (JSONException e) {
                 Log.d("Debug---JSONException", e.getMessage());

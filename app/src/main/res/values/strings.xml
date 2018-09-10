@@ -33,7 +33,9 @@
 
     <!-- Strings related to Player -->
     <string name="update">Update</string>
+    <string name="confirm_delete_player">Delete player ?</string>
     <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
     <string name="player_deleted">Player deleted</string>
     <string name="set_timer">Set Timer</string>
     <string name="title_activity_player">Statistics</string>
@@ -47,5 +49,13 @@
 
     <!--Strings related to notifications-->
     <string name="notif_base_message">New statistics</string>
+
+    <!--Strings related to player stats-->
+    <string name="rank">Rank</string>
+    <string name="max_rank">Max Rank</string>
+    <string name="statistics">Statistics</string>
+    <string name="ranked">Ranked</string>
+    <string name="casual">Casual</string>
+    <string name="level">Level %1$d (updated %2$s)</string>
 
 </resources>

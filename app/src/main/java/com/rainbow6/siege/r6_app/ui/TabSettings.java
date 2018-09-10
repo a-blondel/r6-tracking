@@ -5,6 +5,7 @@ import android.app.LoaderManager;
 import android.app.PendingIntent;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
@@ -14,6 +15,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,6 +71,7 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
     private ServiceHelper serviceHelper;
     private ConnectionEntity connectionEntity;
     private Handler mHandler;
+    private AlertDialog alertDialog;
 
     private PlayerEntity playerEntity;
     private Spinner spinner;
@@ -79,7 +82,6 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_player_settings, container, false);
 
-        // Find a way to bypass that
         PlayerActivity activity = (PlayerActivity) getActivity();
         playerEntity = activity.getPlayerEntity();
 
@@ -103,11 +105,26 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
             }
         });
 
+        alertDialog = new AlertDialog.Builder(getActivity())
+                .setMessage(R.string.confirm_delete_player)
+                .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        attemptDeletePlayer();
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                }).create();
+
 
         final Button buttonDelete = rootView.findViewById(R.id.button_delete_player);
         buttonDelete.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                attemptDeletePlayer();
+                alertDialog.show();
             }
         });
 
@@ -171,6 +188,13 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        alertDialog.dismiss();
+        alertDialog=null;
     }
 
     public class DeletePlayerTask extends AsyncTask<Void, Void, Boolean> {

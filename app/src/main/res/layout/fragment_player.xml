@@ -20,6 +20,489 @@
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin">
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/level"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/seasonEmea"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"
+                    android:text="EMEA season 11 (updated 10/09/18 14:07)" />
+            </LinearLayout>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/seasonEmeaRankText"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1.2"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textColor="@color/colorAccent"
+                    android:text="@string/rank" />
+                <ImageView
+                    android:id="@+id/seasonEmeaRank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/rank_18"/>
+                <TextView
+                    android:id="@+id/seasonEmeaRankPreviousNext"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="0.8"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorAccent"
+                    android:text="2200 &lt; 2500 &lt; 2800\nMax mmr: 1750" />
+
+                <ImageView
+                    android:id="@+id/seasonEmeaMaxRank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/rank_20"/>
+                <TextView
+                    android:id="@+id/seasonEmeaMaxRankText"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1.1"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textColor="@color/colorAccent"
+                    android:text="@string/max_rank" />
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/seasonEmeaWins"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textColor="@color/colorAccent"
+                    android:text="Wins\n20" />
+
+                <TextView
+                    android:id="@+id/seasonEmeaLosses"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textColor="@color/colorAccent"
+                    android:text="Losses\n12" />
+
+                <TextView
+                    android:id="@+id/seasonEmeaWlRatio"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textColor="@color/colorAccent"
+                    android:text="Ratio\n1.66" />
+
+                <TextView
+                    android:id="@+id/seasonEmeaAbandons"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textColor="@color/colorAccent"
+                    android:text="Abandons\n2" />
+
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+                <TextView
+                    android:id="@+id/seasonNcsa"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"
+                    android:text="NCSA season 11 (updated 10/09/18 14:07)" />
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+                <TextView
+                    android:id="@+id/seasonNcsaRankText"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1.2"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textColor="@color/colorAccent"
+                    android:text="@string/rank" />
+                <ImageView
+                    android:id="@+id/seasonNcsaRank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/rank_18"/>
+                <TextView
+                    android:id="@+id/seasonNcsaRankPreviousNext"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="0.8"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorAccent"
+                    android:text="2200 &lt; 2500 &lt; 2800\nMax mmr: 1750" />
+
+                <ImageView
+                    android:id="@+id/seasonNcsaMaxRank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/rank_20"/>
+                <TextView
+                    android:id="@+id/seasonNcsaMaxRankText"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1.1"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textColor="@color/colorAccent"
+                    android:text="@string/max_rank" />
+
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/seasonNcsaWins"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textColor="@color/colorAccent"
+                    android:text="Wins\n20" />
+
+                <TextView
+                    android:id="@+id/seasonNcsaLosses"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textColor="@color/colorAccent"
+                    android:text="Losses\n12" />
+
+                <TextView
+                    android:id="@+id/seasonNcsaWlRatio"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textColor="@color/colorAccent"
+                    android:text="Ratio\n1.66" />
+
+                <TextView
+                    android:id="@+id/seasonNcsaAbandons"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textColor="@color/colorAccent"
+                    android:text="Abandons\n2" />
+
+            </LinearLayout>
+
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/statistics"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:layout_marginTop="15dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorAccent"
+                    android:text="Statistics (updated 10/09/18 14:07)" />
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/rankedText"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:layout_width="fill_parent"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="bold"
+                        android:text="@string/ranked" />
+                    <TextView
+                        android:id="@+id/casualText"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:layout_width="fill_parent"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="bold"
+                        android:text="@string/casual" />
+                </LinearLayout>
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="fill_parent"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/rankedKills"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_width="fill_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textColor="@color/colorAccent"
+                            android:text="Kills\n123456" />
+                        <TextView
+                            android:id="@+id/rankedDeaths"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_width="fill_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textColor="@color/colorAccent"
+                            android:text="Deaths\n123456" />
+                        <TextView
+                            android:id="@+id/rankedKdRatio"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_width="fill_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textColor="@color/colorAccent"
+                            android:text="Ratio\n1.234" />
+                    </LinearLayout>
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="fill_parent"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/casualKills"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_width="fill_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textColor="@color/colorAccent"
+                            android:text="Kills\n123456" />
+                        <TextView
+                            android:id="@+id/casualDeaths"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_width="fill_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textColor="@color/colorAccent"
+                            android:text="Deaths\n123456" />
+                        <TextView
+                            android:id="@+id/casualKdRatio"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_width="fill_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textColor="@color/colorAccent"
+                            android:text="Ratio\n1.234" />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="fill_parent"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/rankedWins"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_width="fill_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textColor="@color/colorAccent"
+                            android:text="Wins\n5222" />
+                        <TextView
+                            android:id="@+id/rankedLosses"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_width="fill_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textColor="@color/colorAccent"
+                            android:text="Losses\n1625" />
+                        <TextView
+                            android:id="@+id/rankedWlRatio"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_width="fill_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textColor="@color/colorAccent"
+                            android:text="Ratio\n3.213" />
+                    </LinearLayout>
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="fill_parent"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/casualWins"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_width="fill_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textColor="@color/colorAccent"
+                            android:text="Wins\n5222" />
+                        <TextView
+                            android:id="@+id/casualLosses"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_width="fill_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textColor="@color/colorAccent"
+                            android:text="Losses\n1625" />
+                        <TextView
+                            android:id="@+id/casualWlRatio"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_width="fill_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textColor="@color/colorAccent"
+                            android:text="Ratio\n3.213" />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/rankedTimePlayed"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:layout_width="fill_parent"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:textColor="@color/colorAccent"
+                        android:text="Time played\n0d 02h 45m" />
+                    <TextView
+                        android:id="@+id/casualTimePlayed"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:layout_width="fill_parent"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:textColor="@color/colorAccent"
+                        android:text="Time played\n0d 02h 45m" />
+                </LinearLayout>
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
+                <TextView
+                    android:id="@+id/precision"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textColor="@color/colorAccent"
+                    android:text="Precision: 25%" />
+                <TextView
+                    android:id="@+id/headshots"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textColor="@color/colorAccent"
+                    android:text="Headshots: 15%" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
     </android.support.constraint.ConstraintLayout>
 </android.support.v4.widget.NestedScrollView>

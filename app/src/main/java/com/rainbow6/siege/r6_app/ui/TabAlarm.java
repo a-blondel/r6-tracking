@@ -77,7 +77,6 @@ public class TabAlarm extends Fragment implements LoaderManager.LoaderCallbacks<
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_player_alarm, container, false);
 
-        // Find a way to bypass that
         PlayerActivity activity = (PlayerActivity) getActivity();
         playerEntity = activity.getPlayerEntity();
 

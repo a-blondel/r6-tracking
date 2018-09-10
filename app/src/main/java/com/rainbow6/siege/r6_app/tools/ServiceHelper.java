@@ -1,5 +1,7 @@
 package com.rainbow6.siege.r6_app.tools;
 
+import android.util.Log;
+
 import com.rainbow6.siege.r6_app.db.entity.ConnectionEntity;
 import com.rainbow6.siege.r6_app.db.entity.PlayerEntity;
 import com.rainbow6.siege.r6_app.db.entity.ProgressionEntity;
@@ -14,6 +16,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import static com.rainbow6.siege.r6_app.service.UbiService.EXCEPTION_PATTERN;
 
@@ -88,7 +91,11 @@ public class ServiceHelper {
         seasonEntity.setWins(Integer.parseInt(json.getJSONObject("players").getJSONObject(profileId).getString("wins")));
 
         if(!json.getJSONObject("players").getJSONObject(profileId).getString("update_time").equals("1970-01-01T00:00:00+00:00")){
-            seasonEntity.setUpdateDate(formatter.parse(json.getJSONObject("players").getJSONObject(profileId).getString("update_time").split(UBI_DATE_DELIMITER)[0]));
+
+            String dateJson = json.getJSONObject("players").getJSONObject(profileId).getString("update_time");
+            formatter.setTimeZone(TimeZone.getTimeZone("GMT"+ dateJson.substring(dateJson.length() - 6, dateJson.length() - 3) + dateJson.substring(dateJson.length() -3 , dateJson.length())));
+            seasonEntity.setUpdateDate(formatter.parse(dateJson.split(UBI_DATE_DELIMITER)[0]));
+            Log.d("Debug---UpdateDate", String.valueOf(seasonEntity.getUpdateDate()));
         }
 
         return seasonEntity;
