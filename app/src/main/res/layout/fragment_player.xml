@@ -39,7 +39,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="10dp"
                     android:textColor="@color/colorAccent"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -51,7 +51,7 @@
                     android:gravity="center"
                     android:layout_gravity="center"
                     android:layout_width="fill_parent"
-                    android:layout_weight="1.2"
+                    android:layout_weight="1.1"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
                     android:textColor="@color/colorAccent"
@@ -261,7 +261,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="10dp"
                     android:textStyle="bold"
                     android:textColor="@color/colorAccent" />
 
@@ -456,7 +456,7 @@
                 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp">
+                    android:layout_marginTop="10dp">
                 <TextView
                     android:id="@+id/precision"
                     android:gravity="center"

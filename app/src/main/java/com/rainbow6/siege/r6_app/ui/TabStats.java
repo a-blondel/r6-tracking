@@ -1,9 +1,11 @@
 package com.rainbow6.siege.r6_app.ui;
 
+import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +41,7 @@ public class TabStats extends Fragment {
     private View rootView;
     private PlayerViewModel playerViewModel;
     private static TabStats tabStatsRunningInstance;
+    private Activity activity;
 
     public static final String DATE_FORMAT = "dd/MM/yy HH:mm";
 
@@ -46,6 +49,8 @@ public class TabStats extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_player, container, false);
+
+        activity = getActivity();
 
         tabStatsRunningInstance = this;
 
@@ -74,7 +79,7 @@ public class TabStats extends Fragment {
         ImageView imageViewEmeaRank = rootView.findViewById(R.id.seasonEmeaRank);
         imageViewEmeaRank.setImageResource(getDrawable(getActivity(), "rank_" + seasonEmeaEntity.getRank()));
         TextView textViewMmrEmea = rootView.findViewById(R.id.seasonEmeaRankPreviousNext);
-        textViewMmrEmea.setText(getString(R.string.season_mmr, seasonEmeaEntity.getPreviousRankMmr().intValue(), (int) Math.floor(seasonEmeaEntity.getMmr()), seasonEmeaEntity.getNextRankMmr().intValue(), (int) Math.floor(seasonEmeaEntity.getMaxMmr())));
+        textViewMmrEmea.setText(Html.fromHtml(getString(R.string.season_mmr, seasonEmeaEntity.getPreviousRankMmr().intValue(), (int) Math.floor(seasonEmeaEntity.getMmr()), seasonEmeaEntity.getNextRankMmr().intValue(), (int) Math.floor(seasonEmeaEntity.getMaxMmr()))));
         ImageView imageViewEmeaMaxRank = rootView.findViewById(R.id.seasonEmeaMaxRank);
         imageViewEmeaMaxRank.setImageResource(getDrawable(getActivity(), "rank_" + seasonEmeaEntity.getMaxRank()));
         TextView textViewEmeaWins = rootView.findViewById(R.id.seasonEmeaWins);
@@ -93,7 +98,7 @@ public class TabStats extends Fragment {
             ImageView imageViewNcsaRank = rootView.findViewById(R.id.seasonNcsaRank);
             imageViewNcsaRank.setImageResource(getDrawable(getActivity(), "rank_" + seasonNcsaEntity.getRank()));
             TextView textViewMmrNcsa = rootView.findViewById(R.id.seasonNcsaRankPreviousNext);
-            textViewMmrNcsa.setText(getString(R.string.season_mmr, seasonNcsaEntity.getPreviousRankMmr().intValue(), (int) Math.floor(seasonNcsaEntity.getMmr()), seasonNcsaEntity.getNextRankMmr().intValue(), (int) Math.floor(seasonNcsaEntity.getMaxMmr())));
+            textViewMmrNcsa.setText(Html.fromHtml(getString(R.string.season_mmr, seasonNcsaEntity.getPreviousRankMmr().intValue(), (int) Math.floor(seasonNcsaEntity.getMmr()), seasonNcsaEntity.getNextRankMmr().intValue(), (int) Math.floor(seasonNcsaEntity.getMaxMmr()))));
             ImageView imageViewNcsaMaxRank = rootView.findViewById(R.id.seasonNcsaMaxRank);
             imageViewNcsaMaxRank.setImageResource(getDrawable(getActivity(), "rank_" + seasonNcsaEntity.getMaxRank()));
             TextView textViewNcsaWins = rootView.findViewById(R.id.seasonNcsaWins);
@@ -178,13 +183,16 @@ public class TabStats extends Fragment {
     }
 
     public void updateUI() {
-        getActivity().runOnUiThread(new Runnable() {
-            public void run() {
-                ViewGroup vg = (ViewGroup) rootView;
-                FragmentTransaction ftr = getFragmentManager().beginTransaction();
-                ftr.detach(TabStats.this).attach(TabStats.this).commit();
-            }
-        });
+        if(activity != null) {
+            activity.runOnUiThread(new Runnable() {
+                public void run() {
+                    if(getFragmentManager() != null) {
+                        FragmentTransaction ftr = getFragmentManager().beginTransaction();
+                        ftr.detach(TabStats.this).attach(TabStats.this).commit();
+                    }
+                }
+            });
+        }
     }
 
     public static TabStats getInstance() { return tabStatsRunningInstance; }
