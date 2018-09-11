@@ -1,19 +1,18 @@
 package com.rainbow6.siege.r6_app.tools;
 
 import android.app.Application;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
@@ -32,6 +31,7 @@ import com.rainbow6.siege.r6_app.repository.SeasonRepository;
 import com.rainbow6.siege.r6_app.repository.StatsRepository;
 import com.rainbow6.siege.r6_app.service.UbiService;
 import com.rainbow6.siege.r6_app.ui.MainActivity;
+import com.rainbow6.siege.r6_app.ui.PlayerActivity;
 import com.rainbow6.siege.r6_app.ui.TabStats;
 
 import org.json.JSONException;
@@ -40,8 +40,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 
+import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 import static com.rainbow6.siege.r6_app.service.UbiService.CURRENT_SEASON;
 import static com.rainbow6.siege.r6_app.service.UbiService.REGION_EMEA;
 import static com.rainbow6.siege.r6_app.service.UbiService.REGION_NCSA;
@@ -133,11 +133,9 @@ public class AlarmReceiver extends BroadcastReceiver {
         protected Boolean doInBackground(Void... params) {
 
             PlayerEntity playerEntity = playerRepository.getPlayerByProfileId(profileId);
-
             try {
 
                 boolean newStats = false;
-
                 connectionEntity = connectionRepository.getConnection(UbiService.APP_ID);
                 if (connectionEntity != null) {
                     Log.d("Debug---Connectivity", "Valid ticket : " + !isTicketInvalid());
@@ -246,7 +244,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
                     if (seasonEmeaEntity != null && seasonEmeaEntityFromDB != null) {
                         if (seasonEmeaEntityFromDB.getRank() != seasonEmeaEntity.getRank()) {
-                            title += " - new rank " + REGION_EMEA;
+//                            title += " - new rank " + REGION_EMEA;
                         }
                         if (Double.compare(seasonEmeaEntityFromDB.getMmr(), seasonEmeaEntity.getMmr()) != 0) {
                             int actualMmr = (int) Math.floor(seasonEmeaEntity.getMmr());
@@ -259,7 +257,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                         dateRefresh = seasonEmeaEntity.getUpdateDate();
                     } else if (seasonNcsaEntity != null && seasonNcsaEntityFromDB != null) {
                         if (seasonNcsaEntityFromDB.getRank() != seasonNcsaEntity.getRank()) {
-                            title += " - new rank " + REGION_NCSA;
+//                            title += " - new rank " + REGION_NCSA;
                         }
 
                         if (Double.compare(seasonNcsaEntityFromDB.getMmr(), seasonNcsaEntity.getMmr()) != 0) {
@@ -289,18 +287,21 @@ public class AlarmReceiver extends BroadcastReceiver {
 
                     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM HH:mm", Locale.getDefault());
 
+                    /*
                     NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
                     inboxStyle.setBigContentTitle(title);
                     inboxStyle.addLine(sb);
                     inboxStyle.addLine(sdf.format(dateRefresh) + " - Score: " + newKills + " / " + newDeaths);
 
+                    .setStyle(inboxStyle)
+                    */
+
                     NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, profileId)
                             .setSmallIcon(R.drawable.ic_r6_default_white)
                             .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), context.getResources().getIdentifier(imageRank, "drawable", context.getPackageName())))
                             .setColor(context.getColor(R.color.colorPrimary))
-                            .setContentTitle(title)
-                            .setContentText(sb)
-                            .setStyle(inboxStyle)
+                            .setContentTitle(title + " - " + sdf.format(dateRefresh))
+                            .setContentText(sb + " - Score: " + newKills + " / " + newDeaths)
                             .setContentIntent(PendingIntent.getActivity(context, 0, new Intent(), 0)) // needed to allow AutoCancel
                             .setAutoCancel(true)
                             .setVibrate(new long[] { 0, 400, 200, 400 })
@@ -313,6 +314,12 @@ public class AlarmReceiver extends BroadcastReceiver {
 
                     notificationManager.notify(notificationId, mBuilder.build());
 
+                    // We save the last refresh time
+                    SharedPreferences pref = getDefaultSharedPreferences(context);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putLong(playerEntity.getProfileId(), new Date().getTime());
+                    editor.commit();
+
                 }
 
             } catch (JSONException e) {
@@ -320,6 +327,11 @@ public class AlarmReceiver extends BroadcastReceiver {
             } catch (ParseException e) {
                 Log.d("Debug---ParseException", e.getMessage());
             }
+
+            SharedPreferences pref = getDefaultSharedPreferences(context);
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putLong(playerEntity.getProfileId(), new Date().getTime());
+            editor.commit();
 
             return true;
         }
@@ -340,12 +352,14 @@ public class AlarmReceiver extends BroadcastReceiver {
         @Override
         protected void onPostExecute(final Boolean success) {
             alarmServiceTask = null;
-            // TODO move Notification here on Success ?
             if(MainActivity.getInstance()!=null) {
                 MainActivity.getInstance().updateUI();
             }
             if(TabStats.getInstance()!=null) {
                 TabStats.getInstance().updateUI();
+            }
+            if(PlayerActivity.getInstance()!=null) {
+                PlayerActivity.getInstance().updateUI();
             }
         }
 

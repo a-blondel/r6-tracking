@@ -8,6 +8,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -45,8 +46,10 @@ import com.rainbow6.siege.r6_app.viewmodel.PlayerViewModel;
 import org.json.JSONException;
 
 import java.text.ParseException;
+import java.util.Date;
 
 import static android.content.Context.ALARM_SERVICE;
+import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 import static com.rainbow6.siege.r6_app.service.UbiService.CURRENT_SEASON;
 import static com.rainbow6.siege.r6_app.service.UbiService.REGION_EMEA;
 import static com.rainbow6.siege.r6_app.service.UbiService.REGION_NCSA;
@@ -70,6 +73,11 @@ public class TabAlarm extends Fragment implements LoaderManager.LoaderCallbacks<
     private PlayerEntity playerEntity;
     private EditText pickSyncTimer;
     private Spinner spinner;
+    private Switch switchSyncProgression;
+    private Switch switchEmeaSeason;
+    private Switch switchNcsaSeason;
+    private Switch switchApacSeason;
+    private Switch switchStats;
 
 
     @Override
@@ -82,7 +90,7 @@ public class TabAlarm extends Fragment implements LoaderManager.LoaderCallbacks<
 
         playerViewModel = ViewModelProviders.of(this).get(PlayerViewModel.class);
 
-        pickSyncTimer = rootView.findViewById(R.id.pickRefreshTimer);
+        initComponents();
 
         spinner = rootView.findViewById(R.id.plateformType_spinner);
         ArrayAdapter<CharSequence> spinnerArrayAdapter =  ArrayAdapter.createFromResource(
@@ -136,18 +144,12 @@ public class TabAlarm extends Fragment implements LoaderManager.LoaderCallbacks<
         if (alarmPlayerTask != null) {
             return;
         }
-
         String profileId = playerEntity.getProfileId();
         String plateformType = spinner.getSelectedItem().toString();
-        Switch switchSyncProgression = rootView.findViewById(R.id.switchSyncProgression);
         boolean syncProgression = switchSyncProgression.isChecked();
-        Switch switchEmeaSeason = rootView.findViewById(R.id.switchEmeaSeason);
         boolean syncEmeaSeason = switchEmeaSeason.isChecked();
-        Switch switchNcsaSeason = rootView.findViewById(R.id.switchNcsaSeason);
         boolean syncNcsaSeason = switchNcsaSeason.isChecked();
-        Switch switchApacSeason = rootView.findViewById(R.id.switchApacSeason);
         boolean syncApacSeason = switchApacSeason.isChecked();
-        Switch switchStats = rootView.findViewById(R.id.switchStats);
         boolean syncStats = switchStats.isChecked();
         int syncTimer = 0;
         String syncTimerString = pickSyncTimer.getText().toString();
@@ -159,6 +161,25 @@ public class TabAlarm extends Fragment implements LoaderManager.LoaderCallbacks<
         }
         alarmPlayerTask = new AlarmPlayerTask(profileId, plateformType, syncProgression, syncEmeaSeason, syncNcsaSeason, syncApacSeason, syncStats, syncTimer, getActivity().getApplicationContext());
         alarmPlayerTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    private void initComponents(){
+        SyncEntity syncEntity = playerViewModel.getSyncByProfileId(playerEntity.getProfileId());
+        switchSyncProgression = rootView.findViewById(R.id.switchSyncProgression);
+        switchEmeaSeason = rootView.findViewById(R.id.switchEmeaSeason);
+        switchNcsaSeason = rootView.findViewById(R.id.switchNcsaSeason);
+        switchApacSeason = rootView.findViewById(R.id.switchApacSeason);
+        switchStats = rootView.findViewById(R.id.switchStats);
+        pickSyncTimer = rootView.findViewById(R.id.pickRefreshTimer);
+
+        switchSyncProgression.setChecked(syncEntity.isSyncProgression());
+        switchEmeaSeason.setChecked(syncEntity.isSyncEmea());
+        switchNcsaSeason.setChecked(syncEntity.isSyncNcsa());
+        switchApacSeason.setChecked(syncEntity.isSyncApac());
+        switchStats.setChecked(syncEntity.isSyncStats());
+        long minutes = syncEntity.getSyncDelay() % 60;
+        long hours = syncEntity.getSyncDelay() / 60;
+        pickSyncTimer.setText(String.format("%02d:%02d", hours, minutes));
     }
 
     @Override
@@ -226,14 +247,26 @@ public class TabAlarm extends Fragment implements LoaderManager.LoaderCallbacks<
 
             if(syncTimer == 0){
 
+                // Remove the alarm
                 if (alarmManager != null) {
                     alarmManager.cancel(pendingIntent);
                 }
+                // Remove the last refresh time
+                SharedPreferences pref = getDefaultSharedPreferences(context);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.remove(playerEntity.getProfileId());
+                editor.commit();
 
+                if(PlayerActivity.getInstance()!=null) {
+                    PlayerActivity.getInstance().updateUI();
+                }
                 sendMessage(getString(R.string.timer_disabled));
                 return true;
-
             }else {
+                SharedPreferences pref = getDefaultSharedPreferences(context);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putLong(playerEntity.getProfileId(), new Date().getTime());
+                editor.commit();
 
                 alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() +
                         (long)syncTimer * 60L * 1000L,(long)syncTimer * 60L * 1000L, pendingIntent);
@@ -253,6 +286,9 @@ public class TabAlarm extends Fragment implements LoaderManager.LoaderCallbacks<
         @Override
         protected void onPostExecute(final Boolean success) {
             alarmPlayerTask = null;
+            if(PlayerActivity.getInstance()!=null) {
+                PlayerActivity.getInstance().updateUI();
+            }
         }
 
         @Override

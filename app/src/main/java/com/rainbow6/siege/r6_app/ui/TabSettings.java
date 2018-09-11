@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -43,8 +44,10 @@ import com.rainbow6.siege.r6_app.viewmodel.PlayerViewModel;
 import org.json.JSONException;
 
 import java.text.ParseException;
+import java.util.Date;
 
 import static android.content.Context.ALARM_SERVICE;
+import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 import static com.rainbow6.siege.r6_app.service.UbiService.CURRENT_SEASON;
 import static com.rainbow6.siege.r6_app.service.UbiService.PLAYSTATION;
 import static com.rainbow6.siege.r6_app.service.UbiService.REGION_EMEA;
@@ -75,6 +78,11 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
 
     private PlayerEntity playerEntity;
     private Spinner spinner;
+    private Switch switchSyncProgression;
+    private Switch switchEmeaSeason;
+    private Switch switchNcsaSeason;
+    private Switch switchApacSeason;
+    private Switch switchStats;
 
 
     @Override
@@ -90,6 +98,8 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
 
         connectionViewModel = ViewModelProviders.of(this).get(ConnectionViewModel.class);
         playerViewModel = ViewModelProviders.of(this).get(PlayerViewModel.class);
+
+        initComponents();
 
         spinner = rootView.findViewById(R.id.plateformType_spinner);
         ArrayAdapter<CharSequence> spinnerArrayAdapter =  ArrayAdapter.createFromResource(
@@ -149,28 +159,31 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
         if (updatePlayerTask != null) {
             return;
         }
-        // Get ui values
         String profileId = playerEntity.getProfileId();
-
         String plateformType = spinner.getSelectedItem().toString();
-
-        Switch switchSyncProgression = rootView.findViewById(R.id.switchSyncProgression);
         boolean syncProgression = switchSyncProgression.isChecked();
-
-        Switch switchEmeaSeason = rootView.findViewById(R.id.switchEmeaSeason);
         boolean syncEmeaSeason = switchEmeaSeason.isChecked();
-
-        Switch switchNcsaSeason = rootView.findViewById(R.id.switchNcsaSeason);
         boolean syncNcsaSeason = switchNcsaSeason.isChecked();
-
-        Switch switchApacSeason = rootView.findViewById(R.id.switchApacSeason);
         boolean syncApacSeason = switchApacSeason.isChecked();
-
-        Switch switchStats = rootView.findViewById(R.id.switchStats);
         boolean syncStats = switchStats.isChecked();
 
         updatePlayerTask = new UpdatePlayerTask(profileId, plateformType, syncProgression, syncEmeaSeason, syncNcsaSeason, syncApacSeason, syncStats);
         updatePlayerTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    private void initComponents(){
+        SyncEntity syncEntity = playerViewModel.getSyncByProfileId(playerEntity.getProfileId());
+        switchSyncProgression = rootView.findViewById(R.id.switchSyncProgression);
+        switchEmeaSeason = rootView.findViewById(R.id.switchEmeaSeason);
+        switchNcsaSeason = rootView.findViewById(R.id.switchNcsaSeason);
+        switchApacSeason = rootView.findViewById(R.id.switchApacSeason);
+        switchStats = rootView.findViewById(R.id.switchStats);
+
+        switchSyncProgression.setChecked(syncEntity.isSyncProgression());
+        switchEmeaSeason.setChecked(syncEntity.isSyncEmea());
+        switchNcsaSeason.setChecked(syncEntity.isSyncNcsa());
+        switchApacSeason.setChecked(syncEntity.isSyncApac());
+        switchStats.setChecked(syncEntity.isSyncStats());
     }
 
     @Override
@@ -227,9 +240,17 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
 
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, broadcastId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+            // Remove the alarm
             if (alarmManager != null) {
                 alarmManager.cancel(pendingIntent);
             }
+
+            // Remove the last refresh time
+            SharedPreferences pref = getDefaultSharedPreferences(context);
+            SharedPreferences.Editor editor = pref.edit();
+            editor.remove(playerEntity.getProfileId());
+            editor.commit();
+
 
             playerViewModel.delete(playerEntity);
 

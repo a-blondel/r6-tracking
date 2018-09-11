@@ -1,7 +1,9 @@
 package com.rainbow6.siege.r6_app.ui;
 
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.SharedPreferences;
+import android.os.CountDownTimer;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -15,26 +17,25 @@ import android.view.MenuItem;
 
 import com.rainbow6.siege.r6_app.R;
 import com.rainbow6.siege.r6_app.db.entity.PlayerEntity;
+import com.rainbow6.siege.r6_app.db.entity.SyncEntity;
+import com.rainbow6.siege.r6_app.viewmodel.PlayerViewModel;
+
+import java.util.Date;
+
+import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 
 public class PlayerActivity extends AppCompatActivity {
 
     public static String PLAYER = "player";
 
+    private PlayerViewModel playerViewModel;
     private PlayerEntity playerEntity;
+    private CountDownTimer cTimer = null;
+    private Toolbar toolbar;
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
     private SectionsPagerAdapter mSectionsPagerAdapter;
+    private static PlayerActivity playerActivityRunningInstance;
 
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
     private ViewPager mViewPager;
 
     @Override
@@ -42,8 +43,13 @@ public class PlayerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        playerActivityRunningInstance = this;
+
+        playerViewModel = ViewModelProviders.of(this).get(PlayerViewModel.class);
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -59,8 +65,59 @@ public class PlayerActivity extends AppCompatActivity {
 
         playerEntity = (PlayerEntity) getIntent().getSerializableExtra(PLAYER);
         toolbar.setTitle(playerEntity.getNameOnPlatform());
-
+        showPlayerName();
     }
+
+    private void showPlayerName(){
+        SharedPreferences pref = getDefaultSharedPreferences(getApplicationContext());
+
+        long dateLastRefresh = pref.getLong(playerEntity.getProfileId(), 0);
+        SyncEntity syncEntity = playerViewModel.getSyncByProfileId(playerEntity.getProfileId());
+
+        if(syncEntity.getSyncDelay() !=0 && dateLastRefresh != 0){
+            long timeLeft = (syncEntity.getSyncDelay() * 60 * 1000 + dateLastRefresh) - (new Date().getTime());
+            startTimer(timeLeft);
+        }else{
+            cancelTimer();
+            toolbar.setTitle(playerEntity.getNameOnPlatform());
+        }
+    }
+
+    public void updateUI() {
+        PlayerActivity.this.runOnUiThread(new Runnable() {
+            public void run() {
+                showPlayerName();
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        cancelTimer();
+    }
+
+    public void startTimer(long timeLeft) {
+        cancelTimer();
+        cTimer = new CountDownTimer(timeLeft, 1000) {
+            public void onTick(long millisUntilFinished) {
+                long seconds = millisUntilFinished / 1000;
+                long minutes = seconds / 60;
+                long hours = minutes / 60;
+                toolbar.setTitle(playerEntity.getNameOnPlatform() + " (refresh " + String.format("%02d:%02d:%02d", hours % 24, minutes % 60, seconds % 60)  + ")");
+            }
+            public void onFinish() {
+            }
+        };
+        cTimer.start();
+    }
+
+    public void cancelTimer() {
+        if(cTimer!=null)
+            cTimer.cancel();
+    }
+
+    public static PlayerActivity getInstance() { return playerActivityRunningInstance; }
 
 
     @Override

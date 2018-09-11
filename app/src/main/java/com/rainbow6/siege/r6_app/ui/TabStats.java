@@ -186,9 +186,13 @@ public class TabStats extends Fragment {
         if(activity != null) {
             activity.runOnUiThread(new Runnable() {
                 public void run() {
-                    if(getFragmentManager() != null) {
-                        FragmentTransaction ftr = getFragmentManager().beginTransaction();
-                        ftr.detach(TabStats.this).attach(TabStats.this).commit();
+                    try {
+                        if (getFragmentManager() != null) {
+                            FragmentTransaction ftr = getFragmentManager().beginTransaction();
+                            ftr.detach(TabStats.this).attach(TabStats.this).commit();
+                        }
+                    }catch(Exception e){
+                        Log.d("Debug---Exception", e.getMessage());
                     }
                 }
             });
@@ -196,4 +200,5 @@ public class TabStats extends Fragment {
     }
 
     public static TabStats getInstance() { return tabStatsRunningInstance; }
+
 }

@@ -261,6 +261,14 @@ public class NewPlayerActivity extends AppCompatActivity implements LoaderManage
                     return false;
                 }
 
+                PlayerEntity playerEntityFromDB = playerViewModel.getPlayerByProfileId(profileId);
+
+                // Check if player exists
+                if(playerEntityFromDB != null){
+                    sendMessage(getResources().getString(R.string.playerAlreadyRegistered, playerName));
+                    return false;
+                }
+
                 // Get progression
                 String progressionResponse = ubiService.getProgressionResponse(connectionEntity.getTicket(), profileId, plateformType);
                 ProgressionEntity progressionEntity;
