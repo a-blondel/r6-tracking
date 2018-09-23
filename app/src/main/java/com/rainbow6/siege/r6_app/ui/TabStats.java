@@ -94,7 +94,11 @@ public class TabStats extends Fragment {
         // Show ncsa stats when existing
         if(seasonNcsaEntity != null && Double.compare(seasonNcsaEntity.getMmr(), 2500) != 0){
             TextView textViewNcsaTitle = rootView.findViewById(R.id.seasonNcsa);
-            textViewNcsaTitle.setText(getString(R.string.season_details, REGION_NCSA.toUpperCase(), seasonNcsaEntity.getSeason(), sdf.format(seasonNcsaEntity.getUpdateDate())));
+            String updateNcsa = " (Not updated)";
+            if(seasonNcsaEntity.getUpdateDate() != null){
+                updateNcsa = " (updated " + sdf.format(seasonNcsaEntity.getUpdateDate()) +")";
+            }
+            textViewNcsaTitle.setText(getString(R.string.season_details, REGION_NCSA.toUpperCase(), seasonNcsaEntity.getSeason(), updateNcsa));
             ImageView imageViewNcsaRank = rootView.findViewById(R.id.seasonNcsaRank);
             imageViewNcsaRank.setImageResource(getDrawable(getActivity(), "rank_" + seasonNcsaEntity.getRank()));
             TextView textViewMmrNcsa = rootView.findViewById(R.id.seasonNcsaRankPreviousNext);

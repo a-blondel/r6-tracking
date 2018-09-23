@@ -245,6 +245,9 @@ public class TabAlarm extends Fragment implements LoaderManager.LoaderCallbacks<
 
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, broadcastId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+            SharedPreferences pref = getDefaultSharedPreferences(context);
+            SharedPreferences.Editor editor = pref.edit();
+
             if(syncTimer == 0){
 
                 // Remove the alarm
@@ -252,8 +255,6 @@ public class TabAlarm extends Fragment implements LoaderManager.LoaderCallbacks<
                     alarmManager.cancel(pendingIntent);
                 }
                 // Remove the last refresh time
-                SharedPreferences pref = getDefaultSharedPreferences(context);
-                SharedPreferences.Editor editor = pref.edit();
                 editor.remove(playerEntity.getProfileId());
                 editor.commit();
 
@@ -263,12 +264,10 @@ public class TabAlarm extends Fragment implements LoaderManager.LoaderCallbacks<
                 sendMessage(getString(R.string.timer_disabled));
                 return true;
             }else {
-                SharedPreferences pref = getDefaultSharedPreferences(context);
-                SharedPreferences.Editor editor = pref.edit();
                 editor.putLong(playerEntity.getProfileId(), new Date().getTime());
                 editor.commit();
 
-                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() +
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() +
                         (long)syncTimer * 60L * 1000L,(long)syncTimer * 60L * 1000L, pendingIntent);
 
                 sendMessage(getString(R.string.timer_set));

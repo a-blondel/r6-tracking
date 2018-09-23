@@ -83,7 +83,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         statsRepository = new StatsRepository((Application) context.getApplicationContext());
 
         String profileId = intent.getStringExtra(PROFILE_ID);
-        Log.d("Alarm triggered on", profileId);
 
         String plateformType = intent.getStringExtra(PLATEFORM_TYPE);
         boolean syncProgression = intent.getBooleanExtra(SYNC_PROGRESSION, false);
@@ -133,6 +132,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         protected Boolean doInBackground(Void... params) {
 
             PlayerEntity playerEntity = playerRepository.getPlayerByProfileId(profileId);
+            Log.d("Debug---Alarm triggered", playerEntity.getNameOnPlatform());
+
             try {
 
                 boolean newStats = false;
@@ -233,6 +234,9 @@ public class AlarmReceiver extends BroadcastReceiver {
                 }
 
                 if(newStats) {
+
+                    Log.d("Debug---New Stats/Notif", playerEntity.getNameOnPlatform());
+
                     // Send notification
                     setUpChannel(context, profileId);
 
@@ -310,15 +314,9 @@ public class AlarmReceiver extends BroadcastReceiver {
                     NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
 
                     // We need a unique id for each notification, we could store it to cancel the notification
-                    Integer notificationId = (int) (new Date().getTime() / 1000L);
+                    Integer notificationId = (int) (new Date().getTime() / 1000L) + (int) (playerEntity.getAddedDate().getTime() / 1000L);
 
                     notificationManager.notify(notificationId, mBuilder.build());
-
-                    // We save the last refresh time
-                    SharedPreferences pref = getDefaultSharedPreferences(context);
-                    SharedPreferences.Editor editor = pref.edit();
-                    editor.putLong(playerEntity.getProfileId(), new Date().getTime());
-                    editor.commit();
 
                 }
 
