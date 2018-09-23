@@ -98,7 +98,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         alarmServiceTask = new AlarmServiceTask(profileId, plateformType, syncProgression, syncEmeaSeason, syncNcsaSeason, syncApacSeason, syncStats, context);
         alarmServiceTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
+        // use AsyncTask.SERIAL_EXECUTOR to execute tasks one at a time in serial order
+        // use AsyncTask.THREAD_POOL_EXECUTOR to execute tasks in parallel
     }
 
     private boolean isTicketInvalid(){

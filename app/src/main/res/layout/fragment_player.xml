@@ -163,7 +163,7 @@
                     android:gravity="center"
                     android:layout_gravity="center"
                     android:layout_width="fill_parent"
-                    android:layout_weight="1.2"
+                    android:layout_weight="1.1"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
                     android:textColor="@color/colorAccent"
@@ -173,8 +173,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/rank_18"/>
+                    android:scaleType="fitXY"/>
                 <TextView
                     android:id="@+id/seasonNcsaRankPreviousNext"
                     android:gravity="center"
