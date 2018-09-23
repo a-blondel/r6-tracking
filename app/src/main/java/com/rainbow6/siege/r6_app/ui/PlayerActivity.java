@@ -2,16 +2,15 @@ package com.rainbow6.siege.r6_app.ui;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.TabLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 

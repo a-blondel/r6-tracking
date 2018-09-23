@@ -21,14 +21,11 @@ import com.rainbow6.siege.r6_app.db.entity.SeasonEntity;
 import com.rainbow6.siege.r6_app.db.entity.StatsEntity;
 import com.rainbow6.siege.r6_app.viewmodel.PlayerViewModel;
 
-import org.w3c.dom.Text;
-
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import static com.rainbow6.siege.r6_app.service.UbiService.REGION_EMEA;
 import static com.rainbow6.siege.r6_app.service.UbiService.REGION_NCSA;
-import static com.rainbow6.siege.r6_app.ui.PlayerActivity.PLAYER;
 import static com.rainbow6.siege.r6_app.ui.PlayerListAdapter.FORMAT_PRECISION_KD;
 import static com.rainbow6.siege.r6_app.ui.PlayerListAdapter.FORMAT_PRECISION_WL;
 import static com.rainbow6.siege.r6_app.ui.PlayerListAdapter.getDrawable;

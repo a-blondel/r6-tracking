@@ -15,9 +15,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.os.SystemClock;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,33 +24,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.rainbow6.siege.r6_app.R;
-import com.rainbow6.siege.r6_app.db.entity.ConnectionEntity;
 import com.rainbow6.siege.r6_app.db.entity.PlayerEntity;
-import com.rainbow6.siege.r6_app.db.entity.ProgressionEntity;
-import com.rainbow6.siege.r6_app.db.entity.SeasonEntity;
-import com.rainbow6.siege.r6_app.db.entity.StatsEntity;
 import com.rainbow6.siege.r6_app.db.entity.SyncEntity;
-import com.rainbow6.siege.r6_app.service.UbiService;
 import com.rainbow6.siege.r6_app.tools.AlarmReceiver;
-import com.rainbow6.siege.r6_app.tools.ServiceHelper;
-import com.rainbow6.siege.r6_app.viewmodel.ConnectionViewModel;
 import com.rainbow6.siege.r6_app.viewmodel.PlayerViewModel;
 
-import org.json.JSONException;
-
-import java.text.ParseException;
 import java.util.Date;
 
 import static android.content.Context.ALARM_SERVICE;
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
-import static com.rainbow6.siege.r6_app.service.UbiService.CURRENT_SEASON;
-import static com.rainbow6.siege.r6_app.service.UbiService.REGION_EMEA;
-import static com.rainbow6.siege.r6_app.service.UbiService.REGION_NCSA;
 
 public class TabAlarm extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 

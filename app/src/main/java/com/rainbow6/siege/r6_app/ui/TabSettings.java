@@ -25,7 +25,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rainbow6.siege.r6_app.R;
@@ -44,7 +43,6 @@ import com.rainbow6.siege.r6_app.viewmodel.PlayerViewModel;
 import org.json.JSONException;
 
 import java.text.ParseException;
-import java.util.Date;
 
 import static android.content.Context.ALARM_SERVICE;
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;

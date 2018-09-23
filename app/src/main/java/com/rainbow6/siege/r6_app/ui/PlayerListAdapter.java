@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.rainbow6.siege.r6_app.db.entity.PlayerEntity;
 import com.rainbow6.siege.r6_app.R;
+import com.rainbow6.siege.r6_app.db.entity.PlayerEntity;
 import com.rainbow6.siege.r6_app.db.entity.SeasonEntity;
 import com.rainbow6.siege.r6_app.db.entity.StatsEntity;
 import com.rainbow6.siege.r6_app.repository.SeasonRepository;

@@ -6,6 +6,7 @@ import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
+import com.rainbow6.siege.r6_app.db.converter.DateConverter;
 import com.rainbow6.siege.r6_app.db.dao.ConnectionDao;
 import com.rainbow6.siege.r6_app.db.dao.PlayerDao;
 import com.rainbow6.siege.r6_app.db.dao.ProgressionDao;
@@ -13,7 +14,6 @@ import com.rainbow6.siege.r6_app.db.dao.SeasonDao;
 import com.rainbow6.siege.r6_app.db.dao.StatsDao;
 import com.rainbow6.siege.r6_app.db.dao.SyncDao;
 import com.rainbow6.siege.r6_app.db.entity.ConnectionEntity;
-import com.rainbow6.siege.r6_app.db.converter.DateConverter;
 import com.rainbow6.siege.r6_app.db.entity.PlayerEntity;
 import com.rainbow6.siege.r6_app.db.entity.ProgressionEntity;
 import com.rainbow6.siege.r6_app.db.entity.SeasonEntity;
