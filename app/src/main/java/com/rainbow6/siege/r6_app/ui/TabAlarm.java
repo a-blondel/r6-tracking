@@ -251,8 +251,14 @@ public class TabAlarm extends Fragment implements LoaderManager.LoaderCallbacks<
                 editor.putLong(playerEntity.getProfileId(), new Date().getTime());
                 editor.commit();
 
-                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() +
-                        (long)syncTimer * 60L * 1000L,(long)syncTimer * 60L * 1000L, pendingIntent);
+                /*AlarmManager.AlarmClockInfo alarmClockInfo = new AlarmManager.AlarmClockInfo(System.currentTimeMillis() +
+                        (long)syncTimer * 60L * 1000L,
+                        pendingIntent);
+
+                alarmManager.setAlarmClock(alarmClockInfo, pendingIntent);*/
+
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() +
+                        (long)syncTimer * 60L * 1000L, pendingIntent);
 
                 sendMessage(getString(R.string.timer_set));
                 return true;

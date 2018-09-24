@@ -160,6 +160,24 @@ public class TabStats extends Fragment {
         TextView textViewCasualWlRatio = rootView.findViewById(R.id.casualWlRatio);
         textViewCasualWlRatio.setText(getString(R.string.wlRatio, String.format(FORMAT_PRECISION_WL, statsEntity.getMatchWonCasual() / (double) statsEntity.getMatchLostCasual())));
 
+        TextView textViewRankedKillsPerMatch = rootView.findViewById(R.id.rankedKillsPerMatch);
+        textViewRankedKillsPerMatch.setText(getString(R.string.kills_per_game, String.format(FORMAT_PRECISION_WL, statsEntity.getKillsRanked() / (double) statsEntity.getMatchPlayedRanked())));
+
+        TextView textViewRankedDeathsPerMatch = rootView.findViewById(R.id.rankedDeathsPerMatch);
+        textViewRankedDeathsPerMatch.setText(getString(R.string.deaths_per_game, String.format(FORMAT_PRECISION_WL, statsEntity.getDeathRanked() / (double) statsEntity.getMatchPlayedRanked())));
+
+        TextView textViewRankedKillsPerMin = rootView.findViewById(R.id.rankedKillsPerMin);
+        textViewRankedKillsPerMin.setText(getString(R.string.kills_per_min, String.format(FORMAT_PRECISION_WL, statsEntity.getKillsRanked() / ((double) statsEntity.getTimePlayedRanked() / (double) 60))));
+
+        TextView textViewCasualKillsPerMatch = rootView.findViewById(R.id.casualKillsPerMatch);
+        textViewCasualKillsPerMatch.setText(getString(R.string.kills_per_game, String.format(FORMAT_PRECISION_WL, statsEntity.getKillsCasual() / (double) statsEntity.getMatchPlayedCasual())));
+
+        TextView textViewCasualDeathsPerMatch = rootView.findViewById(R.id.casualDeathsPerMatch);
+        textViewCasualDeathsPerMatch.setText(getString(R.string.deaths_per_game, String.format(FORMAT_PRECISION_WL, statsEntity.getDeathCasual() / (double) statsEntity.getMatchPlayedCasual())));
+
+        TextView textViewCasualKillsPerMin = rootView.findViewById(R.id.casualKillsPerMin);
+        textViewCasualKillsPerMin.setText(getString(R.string.kills_per_min, String.format(FORMAT_PRECISION_WL, statsEntity.getKillsCasual() / ((double) statsEntity.getTimePlayedCasual() / (double) 60))));
+
         TextView textViewRankedTimePlayed = rootView.findViewById(R.id.rankedTimePlayed);
         long seconds = statsEntity.getTimePlayedRanked();
         long minutes = seconds / 60;
@@ -175,10 +193,12 @@ public class TabStats extends Fragment {
         textViewCasualTimePlayed.setText(getString(R.string.time_played, String.format("%02dd%02dh%02dm", days, hours % 24, minutes % 60)));
 
         TextView textViewPrecision = rootView.findViewById(R.id.precision);
-        textViewPrecision.setText(getString(R.string.precision, String.format(FORMAT_PRECISION_WL, statsEntity.getGeneralBulletHit() / (double) statsEntity.getGeneralBulletFired())));
+        textViewPrecision.setText(getString(R.string.precision, String.format(FORMAT_PRECISION_WL, statsEntity.getGeneralBulletHit() / (double) statsEntity.getGeneralBulletFired() * 100)));
 
         TextView textViewHeadshots = rootView.findViewById(R.id.headshots);
-        textViewHeadshots.setText(getString(R.string.headshots, String.format(FORMAT_PRECISION_WL, statsEntity.getGeneralHeadshots() / (double) statsEntity.getGeneralKills())));
+        textViewHeadshots.setText(getString(R.string.headshots, String.format(FORMAT_PRECISION_WL, statsEntity.getGeneralHeadshots() / (double) statsEntity.getGeneralKills() * 100)));
+
+        // Get Win percentage : total wins / total games * 100
 
         return rootView;
     }

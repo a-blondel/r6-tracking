@@ -1,5 +1,6 @@
 package com.rainbow6.siege.r6_app.tools;
 
+import android.app.AlarmManager;
 import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -24,11 +25,13 @@ import com.rainbow6.siege.r6_app.db.entity.PlayerEntity;
 import com.rainbow6.siege.r6_app.db.entity.ProgressionEntity;
 import com.rainbow6.siege.r6_app.db.entity.SeasonEntity;
 import com.rainbow6.siege.r6_app.db.entity.StatsEntity;
+import com.rainbow6.siege.r6_app.db.entity.SyncEntity;
 import com.rainbow6.siege.r6_app.repository.ConnectionRepository;
 import com.rainbow6.siege.r6_app.repository.PlayerRepository;
 import com.rainbow6.siege.r6_app.repository.ProgressionRepository;
 import com.rainbow6.siege.r6_app.repository.SeasonRepository;
 import com.rainbow6.siege.r6_app.repository.StatsRepository;
+import com.rainbow6.siege.r6_app.repository.SyncRepository;
 import com.rainbow6.siege.r6_app.service.UbiService;
 import com.rainbow6.siege.r6_app.ui.MainActivity;
 import com.rainbow6.siege.r6_app.ui.PlayerActivity;
@@ -41,6 +44,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import static android.content.Context.ALARM_SERVICE;
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 import static com.rainbow6.siege.r6_app.service.UbiService.CURRENT_SEASON;
 import static com.rainbow6.siege.r6_app.service.UbiService.REGION_EMEA;
@@ -62,6 +66,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     private StatsRepository statsRepository;
     private ConnectionRepository connectionRepository;
     private AlarmServiceTask alarmServiceTask = null;
+    private SyncRepository syncRepository;
 
     private ConnectionEntity connectionEntity;
     private UbiService ubiService;
@@ -81,6 +86,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         progressionRepository = new ProgressionRepository((Application) context.getApplicationContext());
         seasonRepository = new SeasonRepository((Application) context.getApplicationContext());
         statsRepository = new StatsRepository((Application) context.getApplicationContext());
+        syncRepository = new SyncRepository((Application) context.getApplicationContext());
 
         String profileId = intent.getStringExtra(PROFILE_ID);
 
@@ -98,8 +104,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         alarmServiceTask = new AlarmServiceTask(profileId, plateformType, syncProgression, syncEmeaSeason, syncNcsaSeason, syncApacSeason, syncStats, context);
         alarmServiceTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        // use AsyncTask.SERIAL_EXECUTOR to execute tasks one at a time in serial order
-        // use AsyncTask.THREAD_POOL_EXECUTOR to execute tasks in parallel
     }
 
     private boolean isTicketInvalid(){
@@ -115,6 +119,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         private final boolean syncApacSeason;
         private final boolean syncStats;
         private final Context context;
+
+        private AlarmManager alarmManager;
 
         private static final String ERROR = "Error";
 
@@ -331,6 +337,34 @@ public class AlarmReceiver extends BroadcastReceiver {
             SharedPreferences.Editor editor = pref.edit();
             editor.putLong(playerEntity.getProfileId(), new Date().getTime());
             editor.commit();
+
+            // Setting up the AlarmManager and pending intent
+            alarmManager = (AlarmManager)context.getSystemService(ALARM_SERVICE);
+            Intent intent = new Intent(context, AlarmReceiver.class);
+            intent.putExtra(PROFILE_ID, profileId);
+            intent.putExtra(PLATEFORM_TYPE, plateformType);
+            intent.putExtra(SYNC_PROGRESSION, syncProgression);
+            intent.putExtra(SYNC_EMEA, syncEmeaSeason);
+            intent.putExtra(SYNC_NCSA, syncNcsaSeason);
+            intent.putExtra(SYNC_APAC, syncApacSeason);
+            intent.putExtra(SYNC_STATS, syncStats);
+
+            // Must be a unique user identifier
+            int broadcastId = (int) (playerEntity.getAddedDate().getTime() / 1000L);
+
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, broadcastId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            SyncEntity syncEntity = syncRepository.getSyncByProfileId(playerEntity.getProfileId());
+            int syncTimer = syncEntity.getSyncDelay();
+
+            /*AlarmManager.AlarmClockInfo alarmClockInfo = new AlarmManager.AlarmClockInfo(System.currentTimeMillis() +
+                    (long)syncTimer * 60L * 1000L,
+                    pendingIntent);
+
+            alarmManager.setAlarmClock(alarmClockInfo, pendingIntent);*/
+
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() +
+                    (long)syncTimer * 60L * 1000L, pendingIntent);
 
             return true;
         }

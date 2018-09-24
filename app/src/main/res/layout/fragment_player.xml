@@ -405,8 +405,7 @@
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
-                            android:textColor="@color/colorAccent"
-                            android:text="Wins\n5222" />
+                            android:textColor="@color/colorAccent" />
                         <TextView
                             android:id="@+id/casualLosses"
                             android:gravity="center"
@@ -415,8 +414,7 @@
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
-                            android:textColor="@color/colorAccent"
-                            android:text="Losses\n1625" />
+                            android:textColor="@color/colorAccent" />
                         <TextView
                             android:id="@+id/casualWlRatio"
                             android:gravity="center"
@@ -425,8 +423,75 @@
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
-                            android:textColor="@color/colorAccent"
-                            android:text="Ratio\n3.213" />
+                            android:textColor="@color/colorAccent" />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="fill_parent"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/rankedKillsPerMatch"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_width="fill_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textColor="@color/colorAccent" />
+                        <TextView
+                            android:id="@+id/rankedDeathsPerMatch"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_width="fill_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textColor="@color/colorAccent" />
+                        <TextView
+                            android:id="@+id/rankedKillsPerMin"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_width="fill_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textColor="@color/colorAccent" />
+                    </LinearLayout>
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="fill_parent"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/casualKillsPerMatch"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_width="fill_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textColor="@color/colorAccent" />
+                        <TextView
+                            android:id="@+id/casualDeathsPerMatch"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_width="fill_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textColor="@color/colorAccent" />
+                        <TextView
+                            android:id="@+id/casualKillsPerMin"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_width="fill_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textColor="@color/colorAccent" />
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -454,8 +519,7 @@
 
                 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
+                    android:layout_height="wrap_content">
                 <TextView
                     android:id="@+id/precision"
                     android:gravity="center"

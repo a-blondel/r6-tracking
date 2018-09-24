@@ -61,6 +61,7 @@ public class UbiService {
             urlConnection.connect();
 
             response = getResponse(urlConnection);
+            Log.d("Debug---ConnResponse", response);
 
         } catch (MalformedURLException e) {
             response = EXCEPTION_PATTERN + e.getMessage();
