@@ -162,9 +162,12 @@ public class PlayerActivity extends AppCompatActivity {
                     TabStats tabStats = new TabStats();
                     return tabStats;
                 case 1:
+                    TabSeasons tabSeasons = new TabSeasons();
+                    return tabSeasons;
+                case 2:
                     TabSettings tabSettings = new TabSettings();
                     return tabSettings;
-                case 2:
+                case 3:
                     TabAlarm tabAlarm = new TabAlarm();
                     return tabAlarm;
                 default:
@@ -175,7 +178,7 @@ public class PlayerActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 4;
         }
 
         @Override
@@ -184,8 +187,10 @@ public class PlayerActivity extends AppCompatActivity {
                 case 0:
                     return getResources().getString(R.string.tab_stats);
                 case 1:
-                    return getResources().getString(R.string.tab_settings);
+                    return getResources().getString(R.string.tab_seasons);
                 case 2:
+                    return getResources().getString(R.string.tab_settings);
+                case 3:
                     return getResources().getString(R.string.tab_timer);
                 default:
                     return null;

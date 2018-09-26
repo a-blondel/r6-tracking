@@ -68,10 +68,11 @@
     <string name="deaths">Deaths\n%1$d</string>
     <string name="kdRatio">k/d\n%1$s</string>
     <string name="kills_per_min">k/min\n%1$s</string>
-    <string name="kills_per_game">k/g\n%1$s</string>
-    <string name="deaths_per_game">d/g\n%1$s</string>
+    <string name="kills_per_game">k/game\n%1$s</string>
+    <string name="deaths_per_game">d/game\n%1$s</string>
     <string name="time_played">Time played\n%1$s</string>
     <string name="precision">Precision\n%1$s\%%</string>
     <string name="headshots">Headshots\n%1$s\%%</string>
+    <string name="tab_seasons">Seasons</string>
 
 </resources>

@@ -35,6 +35,7 @@ import com.rainbow6.siege.r6_app.repository.SyncRepository;
 import com.rainbow6.siege.r6_app.service.UbiService;
 import com.rainbow6.siege.r6_app.ui.MainActivity;
 import com.rainbow6.siege.r6_app.ui.PlayerActivity;
+import com.rainbow6.siege.r6_app.ui.TabSeasons;
 import com.rainbow6.siege.r6_app.ui.TabStats;
 
 import org.json.JSONException;
@@ -390,6 +391,9 @@ public class AlarmReceiver extends BroadcastReceiver {
             }
             if(TabStats.getInstance()!=null) {
                 TabStats.getInstance().updateUI();
+            }
+            if(TabSeasons.getInstance()!=null) {
+                TabSeasons.getInstance().updateUI();
             }
             if(PlayerActivity.getInstance()!=null) {
                 PlayerActivity.getInstance().updateUI();

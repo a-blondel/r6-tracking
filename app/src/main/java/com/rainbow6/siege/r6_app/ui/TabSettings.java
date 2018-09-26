@@ -440,6 +440,9 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
             if(TabStats.getInstance()!=null) {
                 TabStats.getInstance().updateUI();
             }
+            if(TabSeasons.getInstance()!=null) {
+                TabSeasons.getInstance().updateUI();
+            }
         }
 
         @Override

@@ -39,6 +39,12 @@
                 android:text="@string/tab_stats" />
 
             <android.support.design.widget.TabItem
+                android:id="@+id/tabSeasons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_seasons" />
+
+            <android.support.design.widget.TabItem
                 android:id="@+id/tabSettings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

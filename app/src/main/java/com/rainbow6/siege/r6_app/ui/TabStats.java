@@ -57,67 +57,12 @@ public class TabStats extends Fragment {
         playerEntity = activity.getPlayerEntity();
 
         ProgressionEntity progressionEntity = playerViewModel.getLastProgressionEntityByProfileId(playerEntity.getProfileId());
-        SeasonEntity seasonEmeaEntity = playerViewModel.getLastSeasonEntityByProfileIdAndRegion(playerEntity.getProfileId(), REGION_EMEA, SKIP_0, COUNT_1);
-        SeasonEntity seasonNcsaEntity = playerViewModel.getLastSeasonEntityByProfileIdAndRegion(playerEntity.getProfileId(), REGION_NCSA, SKIP_0, COUNT_1);
         StatsEntity statsEntity = playerViewModel.getLastStatsByProfileId(playerEntity.getProfileId());
 
         // Level
         TextView textViewLevel = rootView.findViewById(R.id.level);
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
         textViewLevel.setText(getString(R.string.level, progressionEntity.getLevel(), sdf.format(progressionEntity.getUpdateDate())));
-
-        // EMEA season
-        TextView textViewEmeaTitle = rootView.findViewById(R.id.seasonEmea);
-        String updateEmea = " (Not updated)";
-        if(seasonEmeaEntity.getUpdateDate() != null){
-            updateEmea = " (updated " + sdf.format(seasonEmeaEntity.getUpdateDate()) +")";
-        }
-        textViewEmeaTitle.setText(getString(R.string.season_details, REGION_EMEA.toUpperCase(), seasonEmeaEntity.getSeason(), updateEmea));
-        ImageView imageViewEmeaRank = rootView.findViewById(R.id.seasonEmeaRank);
-        imageViewEmeaRank.setImageResource(getDrawable(getActivity(), "rank_" + seasonEmeaEntity.getRank()));
-        TextView textViewMmrEmea = rootView.findViewById(R.id.seasonEmeaRankPreviousNext);
-        textViewMmrEmea.setText(Html.fromHtml(getString(R.string.season_mmr, seasonEmeaEntity.getPreviousRankMmr().intValue(), (int) Math.floor(seasonEmeaEntity.getMmr()), seasonEmeaEntity.getNextRankMmr().intValue(), (int) Math.floor(seasonEmeaEntity.getMaxMmr()))));
-        ImageView imageViewEmeaMaxRank = rootView.findViewById(R.id.seasonEmeaMaxRank);
-        imageViewEmeaMaxRank.setImageResource(getDrawable(getActivity(), "rank_" + seasonEmeaEntity.getMaxRank()));
-        TextView textViewEmeaWins = rootView.findViewById(R.id.seasonEmeaWins);
-        textViewEmeaWins.setText(getString(R.string.wins, seasonEmeaEntity.getWins()));
-        TextView textViewEmeaLosses = rootView.findViewById(R.id.seasonEmeaLosses);
-        textViewEmeaLosses.setText(getString(R.string.losses, seasonEmeaEntity.getLosses()));
-        TextView textViewEmeaWlRatio = rootView.findViewById(R.id.seasonEmeaWlRatio);
-        textViewEmeaWlRatio.setText(getString(R.string.wlRatio, String.format(FORMAT_PRECISION_WL, seasonEmeaEntity.getWins() / (double) seasonEmeaEntity.getLosses())));
-        TextView textViewEmeaAbandons = rootView.findViewById(R.id.seasonEmeaAbandons);
-        textViewEmeaAbandons.setText(getString(R.string.abandons, seasonEmeaEntity.getAbandons()));
-
-        // Show ncsa stats when existing
-        if(seasonNcsaEntity != null && Double.compare(seasonNcsaEntity.getMmr(), 2500) != 0){
-            TextView textViewNcsaTitle = rootView.findViewById(R.id.seasonNcsa);
-            String updateNcsa = " (Not updated)";
-            if(seasonNcsaEntity.getUpdateDate() != null){
-                updateNcsa = " (updated " + sdf.format(seasonNcsaEntity.getUpdateDate()) +")";
-            }
-            textViewNcsaTitle.setText(getString(R.string.season_details, REGION_NCSA.toUpperCase(), seasonNcsaEntity.getSeason(), updateNcsa));
-            ImageView imageViewNcsaRank = rootView.findViewById(R.id.seasonNcsaRank);
-            imageViewNcsaRank.setImageResource(getDrawable(getActivity(), "rank_" + seasonNcsaEntity.getRank()));
-            TextView textViewMmrNcsa = rootView.findViewById(R.id.seasonNcsaRankPreviousNext);
-            textViewMmrNcsa.setText(Html.fromHtml(getString(R.string.season_mmr, seasonNcsaEntity.getPreviousRankMmr().intValue(), (int) Math.floor(seasonNcsaEntity.getMmr()), seasonNcsaEntity.getNextRankMmr().intValue(), (int) Math.floor(seasonNcsaEntity.getMaxMmr()))));
-            ImageView imageViewNcsaMaxRank = rootView.findViewById(R.id.seasonNcsaMaxRank);
-            imageViewNcsaMaxRank.setImageResource(getDrawable(getActivity(), "rank_" + seasonNcsaEntity.getMaxRank()));
-            TextView textViewNcsaWins = rootView.findViewById(R.id.seasonNcsaWins);
-            textViewNcsaWins.setText(getString(R.string.wins, seasonNcsaEntity.getWins()));
-            TextView textViewNcsaLosses = rootView.findViewById(R.id.seasonNcsaLosses);
-            textViewNcsaLosses.setText(getString(R.string.losses, seasonNcsaEntity.getLosses()));
-            TextView textViewNcsaWlRatio = rootView.findViewById(R.id.seasonNcsaWlRatio);
-            textViewNcsaWlRatio.setText(getString(R.string.wlRatio, String.format(FORMAT_PRECISION_WL, seasonNcsaEntity.getWins() / (double) seasonNcsaEntity.getLosses())));
-            TextView textViewNcsaAbandons = rootView.findViewById(R.id.seasonNcsaAbandons);
-            textViewNcsaAbandons.setText(getString(R.string.abandons, seasonNcsaEntity.getAbandons()));
-            // Set VISIBLE
-            LinearLayout linearLayoutNcsaMain = rootView.findViewById(R.id.seasonNcsaMain);
-            linearLayoutNcsaMain.setVisibility(View.VISIBLE);
-            LinearLayout linearLayoutNcsaSecond = rootView.findViewById(R.id.seasonNcsaSecond);
-            linearLayoutNcsaSecond.setVisibility(View.VISIBLE);
-            LinearLayout linearLayoutNcsaThird = rootView.findViewById(R.id.seasonNcsaThird);
-            linearLayoutNcsaThird.setVisibility(View.VISIBLE);
-        }
 
         // Stats
         TextView textViewStats = rootView.findViewById(R.id.statistics);
