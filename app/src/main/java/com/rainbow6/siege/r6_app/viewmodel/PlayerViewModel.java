@@ -15,6 +15,7 @@ import com.rainbow6.siege.r6_app.repository.SeasonRepository;
 import com.rainbow6.siege.r6_app.repository.StatsRepository;
 import com.rainbow6.siege.r6_app.repository.SyncRepository;
 
+import java.util.Date;
 import java.util.List;
 
 public class PlayerViewModel extends AndroidViewModel {
@@ -22,6 +23,7 @@ public class PlayerViewModel extends AndroidViewModel {
     public static String SKIP_0 = "0";
     public static String SKIP_1 = "1";
     public static String COUNT_1 = "1";
+    public static String COUNT_10 = "10";
 
     private PlayerRepository playerRepository;
     private ProgressionRepository progressionRepository;
@@ -55,9 +57,15 @@ public class PlayerViewModel extends AndroidViewModel {
 
     public SeasonEntity getLastSeasonEntityByProfileIdAndRegion(String profileId, String regionId, String skip, String count) { return seasonRepository.getLastSeasonEntityByProfileIdAndRegionId(profileId, regionId, skip, count); }
 
+    public List<SeasonEntity> getSeasonEntityHistoryByProfileId(String profileId, String skip, String count) { return seasonRepository.getSeasonEntityHistoryByProfileId(profileId, skip, count); }
+
     public void insertStats(StatsEntity statsEntity) { statsRepository.insert(statsEntity); }
 
     public StatsEntity getLastStatsByProfileId(String profileId) { return statsRepository.getLastStatsEntityByProfileId(profileId); }
+
+    public StatsEntity getStatsEntityByProfileIdAndGreaterThanDate(String profileId, Date updateDate) { return statsRepository.getStatsEntityByProfileIdAndGreaterThanDate(profileId, updateDate); }
+
+    public StatsEntity getStatsEntityByProfileIdAndLessThanDate(String profileId, Date updateDate) { return statsRepository.getStatsEntityByProfileIdAndLessThanDate(profileId, updateDate); }
 
     public void insertSync(SyncEntity syncEntity) { syncRepository.insert(syncEntity); }
 

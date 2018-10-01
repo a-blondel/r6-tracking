@@ -7,6 +7,7 @@ import com.rainbow6.siege.r6_app.db.AppDatabase;
 import com.rainbow6.siege.r6_app.db.dao.SeasonDao;
 import com.rainbow6.siege.r6_app.db.entity.SeasonEntity;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 
@@ -60,4 +61,28 @@ public class SeasonRepository {
             return mAsyncTaskDao.getLastSeasonEntityByProfileIdAndRegionId(params[0], params[1], params[2], params[3]);
         }
     }
+
+
+    public List<SeasonEntity> getSeasonEntityHistoryByProfileId(String profileId, String skip, String count) {
+        try {
+            return new getSeasonEntityHistoryByProfileIdAsyncTask(mSeasonDao).execute(profileId, skip, count).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static class getSeasonEntityHistoryByProfileIdAsyncTask extends AsyncTask<String, Void, List<SeasonEntity>> {
+        private SeasonDao mAsyncTaskDao;
+        getSeasonEntityHistoryByProfileIdAsyncTask(SeasonDao dao) {
+            mAsyncTaskDao = dao;
+        }
+        @Override
+        protected List<SeasonEntity> doInBackground(final String... params) {
+            return mAsyncTaskDao.getSeasonEntityHistoryByProfileIdAsyncTask(params[0], params[1], params[2]);
+        }
+    }
+
 }

@@ -5,32 +5,23 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rainbow6.siege.r6_app.R;
 import com.rainbow6.siege.r6_app.db.entity.PlayerEntity;
 import com.rainbow6.siege.r6_app.db.entity.ProgressionEntity;
-import com.rainbow6.siege.r6_app.db.entity.SeasonEntity;
 import com.rainbow6.siege.r6_app.db.entity.StatsEntity;
 import com.rainbow6.siege.r6_app.viewmodel.PlayerViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-import static com.rainbow6.siege.r6_app.service.UbiService.REGION_EMEA;
-import static com.rainbow6.siege.r6_app.service.UbiService.REGION_NCSA;
 import static com.rainbow6.siege.r6_app.ui.PlayerListAdapter.FORMAT_PRECISION_KD;
 import static com.rainbow6.siege.r6_app.ui.PlayerListAdapter.FORMAT_PRECISION_WL;
-import static com.rainbow6.siege.r6_app.ui.PlayerListAdapter.getDrawable;
-import static com.rainbow6.siege.r6_app.viewmodel.PlayerViewModel.COUNT_1;
-import static com.rainbow6.siege.r6_app.viewmodel.PlayerViewModel.SKIP_0;
 
 public class TabStats extends Fragment {
 
@@ -105,19 +96,19 @@ public class TabStats extends Fragment {
         TextView textViewCasualWlRatio = rootView.findViewById(R.id.casualWlRatio);
         textViewCasualWlRatio.setText(getString(R.string.wlRatio, String.format(FORMAT_PRECISION_WL, statsEntity.getMatchWonCasual() / (double) statsEntity.getMatchLostCasual())));
 
-        TextView textViewRankedKillsPerMatch = rootView.findViewById(R.id.rankedKillsPerMatch);
+        TextView textViewRankedKillsPerMatch = rootView.findViewById(R.id.rankedKillsPerGame);
         textViewRankedKillsPerMatch.setText(getString(R.string.kills_per_game, String.format(FORMAT_PRECISION_WL, statsEntity.getKillsRanked() / (double) statsEntity.getMatchPlayedRanked())));
 
-        TextView textViewRankedDeathsPerMatch = rootView.findViewById(R.id.rankedDeathsPerMatch);
+        TextView textViewRankedDeathsPerMatch = rootView.findViewById(R.id.rankedDeathsPerGame);
         textViewRankedDeathsPerMatch.setText(getString(R.string.deaths_per_game, String.format(FORMAT_PRECISION_WL, statsEntity.getDeathRanked() / (double) statsEntity.getMatchPlayedRanked())));
 
         TextView textViewRankedKillsPerMin = rootView.findViewById(R.id.rankedKillsPerMin);
         textViewRankedKillsPerMin.setText(getString(R.string.kills_per_min, String.format(FORMAT_PRECISION_WL, statsEntity.getKillsRanked() / ((double) statsEntity.getTimePlayedRanked() / (double) 60))));
 
-        TextView textViewCasualKillsPerMatch = rootView.findViewById(R.id.casualKillsPerMatch);
+        TextView textViewCasualKillsPerMatch = rootView.findViewById(R.id.casualKillsPerGame);
         textViewCasualKillsPerMatch.setText(getString(R.string.kills_per_game, String.format(FORMAT_PRECISION_WL, statsEntity.getKillsCasual() / (double) statsEntity.getMatchPlayedCasual())));
 
-        TextView textViewCasualDeathsPerMatch = rootView.findViewById(R.id.casualDeathsPerMatch);
+        TextView textViewCasualDeathsPerMatch = rootView.findViewById(R.id.casualDeathsPerGame);
         textViewCasualDeathsPerMatch.setText(getString(R.string.deaths_per_game, String.format(FORMAT_PRECISION_WL, statsEntity.getDeathCasual() / (double) statsEntity.getMatchPlayedCasual())));
 
         TextView textViewCasualKillsPerMin = rootView.findViewById(R.id.casualKillsPerMin);

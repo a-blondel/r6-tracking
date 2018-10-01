@@ -13,10 +13,10 @@
         <item>psn</item>
     </string-array>
     <string name="synchronisationSettings">Synchronisation settings</string>
-    <string name="syncProgression">Progression (XP - Level - Loot chances)</string>
-    <string name="syncEmeaSeason">EMEA Season (mmr, rank, w/l)</string>
-    <string name="syncNcsaSeason">NCSA Season (mmr, rank, w/l)</string>
-    <string name="syncApacSeason">APAC Season (mmr, rank, w/l)</string>
+    <string name="syncProgression">Progression</string>
+    <string name="syncEmeaSeason">EMEA Season</string>
+    <string name="syncNcsaSeason">NCSA Season</string>
+    <string name="syncApacSeason">APAC Season</string>
     <string name="syncStats">Statistics</string>
     <string name="syncTimer">Timer</string>
     <string name="syncTimerTitle">Sync. Timer</string>
@@ -74,5 +74,13 @@
     <string name="precision">Precision\n%1$s\%%</string>
     <string name="headshots">Headshots\n%1$s\%%</string>
     <string name="tab_seasons">Seasons</string>
+    <string name="LabelDate">Date</string>
+    <string name="LabelRegion">Region</string>
+    <string name="LabelSeason">Season</string>
+    <string name="LabelMmr">mmr</string>
+    <string name="LabelWL">w/l</string>
+    <string name="LabelKd">k/d</string>
+    <string name="LabelHistory">History (last %1$s rows)</string>
+    <string name="LabelNoStats">No data</string>
 
 </resources>

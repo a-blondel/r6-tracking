@@ -216,22 +216,24 @@
                         android:layout_weight="1"
                         android:layout_height="wrap_content">
                         <TextView
-                            android:id="@+id/rankedKillsPerMatch"
+                            android:id="@+id/rankedKillsPerGame"
                             android:gravity="center"
                             android:layout_gravity="center"
                             android:layout_width="fill_parent"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
+                            android:textSize="12sp"
                             android:textColor="@color/colorAccent" />
                         <TextView
-                            android:id="@+id/rankedDeathsPerMatch"
+                            android:id="@+id/rankedDeathsPerGame"
                             android:gravity="center"
                             android:layout_gravity="center"
                             android:layout_width="fill_parent"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
+                            android:textSize="12sp"
                             android:textColor="@color/colorAccent" />
                         <TextView
                             android:id="@+id/rankedKillsPerMin"
@@ -248,22 +250,24 @@
                         android:layout_weight="1"
                         android:layout_height="wrap_content">
                         <TextView
-                            android:id="@+id/casualKillsPerMatch"
+                            android:id="@+id/casualKillsPerGame"
                             android:gravity="center"
                             android:layout_gravity="center"
                             android:layout_width="fill_parent"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
+                            android:textSize="12sp"
                             android:textColor="@color/colorAccent" />
                         <TextView
-                            android:id="@+id/casualDeathsPerMatch"
+                            android:id="@+id/casualDeathsPerGame"
                             android:gravity="center"
                             android:layout_gravity="center"
                             android:layout_width="fill_parent"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
+                            android:textSize="12sp"
                             android:textColor="@color/colorAccent" />
                         <TextView
                             android:id="@+id/casualKillsPerMin"

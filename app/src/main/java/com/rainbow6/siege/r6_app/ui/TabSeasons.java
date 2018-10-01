@@ -2,9 +2,12 @@ package com.rainbow6.siege.r6_app.ui;
 
 import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,20 +19,20 @@ import android.widget.TextView;
 
 import com.rainbow6.siege.r6_app.R;
 import com.rainbow6.siege.r6_app.db.entity.PlayerEntity;
-import com.rainbow6.siege.r6_app.db.entity.ProgressionEntity;
 import com.rainbow6.siege.r6_app.db.entity.SeasonEntity;
-import com.rainbow6.siege.r6_app.db.entity.StatsEntity;
 import com.rainbow6.siege.r6_app.viewmodel.PlayerViewModel;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import static com.rainbow6.siege.r6_app.service.UbiService.REGION_EMEA;
 import static com.rainbow6.siege.r6_app.service.UbiService.REGION_NCSA;
-import static com.rainbow6.siege.r6_app.ui.PlayerListAdapter.FORMAT_PRECISION_KD;
 import static com.rainbow6.siege.r6_app.ui.PlayerListAdapter.FORMAT_PRECISION_WL;
 import static com.rainbow6.siege.r6_app.ui.PlayerListAdapter.getDrawable;
 import static com.rainbow6.siege.r6_app.viewmodel.PlayerViewModel.COUNT_1;
+import static com.rainbow6.siege.r6_app.viewmodel.PlayerViewModel.COUNT_10;
 import static com.rainbow6.siege.r6_app.viewmodel.PlayerViewModel.SKIP_0;
 
 public class TabSeasons extends Fragment {
@@ -40,7 +43,12 @@ public class TabSeasons extends Fragment {
     private static TabSeasons tabStatsRunningInstance;
     private Activity activity;
 
+    private OnListFragmentInteractionListener mListener;
+
     public static final String DATE_FORMAT = "dd/MM/yy HH:mm";
+
+    public TabSeasons() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -116,6 +124,18 @@ public class TabSeasons extends Fragment {
 
         // Get Win percentage : total wins / total games * 100
 
+        TextView textViewHistoryTitle = rootView.findViewById(R.id.seasonHistory);
+        textViewHistoryTitle.setText(getString(R.string.LabelHistory, COUNT_10));
+
+        // Get Season History
+        List<SeasonEntity> seasonEntityList = playerViewModel.getSeasonEntityHistoryByProfileId(playerEntity.getProfileId(), SKIP_0, COUNT_10);
+
+        if(seasonEntityList.size() > 0) {
+            RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerviewSeasonHistory);
+            recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+            recyclerView.setAdapter(new SeasonHistoryRecyclerViewAdapter(seasonEntityList, mListener));
+        }
+
         return rootView;
     }
 
@@ -137,5 +157,27 @@ public class TabSeasons extends Fragment {
     }
 
     public static TabSeasons getInstance() { return tabStatsRunningInstance; }
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnListFragmentInteractionListener) {
+            mListener = (OnListFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnListFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    public interface OnListFragmentInteractionListener {
+        void onListFragmentInteraction(SeasonEntity item);
+    }
 
 }
