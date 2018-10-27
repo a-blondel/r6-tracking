@@ -105,7 +105,7 @@ public class PlayerActivity extends AppCompatActivity implements TabSeasons.OnLi
                 long seconds = millisUntilFinished / 1000;
                 long minutes = seconds / 60;
                 long hours = minutes / 60;
-                toolbar.setTitle(playerEntity.getNameOnPlatform() + " (refresh " + String.format("%02d:%02d:%02d", hours % 24, minutes % 60, seconds % 60)  + ")");
+                toolbar.setTitle(playerEntity.getNameOnPlatform() + " (" + String.format("%02d:%02d:%02d", hours % 24, minutes % 60, seconds % 60) + ")");
             }
             public void onFinish() {
             }

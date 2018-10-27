@@ -43,6 +43,8 @@ import com.rainbow6.siege.r6_app.viewmodel.PlayerViewModel;
 import org.json.JSONException;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.content.Context.ALARM_SERVICE;
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
@@ -73,6 +75,8 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
     private ConnectionEntity connectionEntity;
     private Handler mHandler;
     private AlertDialog alertDialog;
+    private AlertDialog seasonsDialog;
+    private List<Integer> mSelectedItems = new ArrayList();
 
     private PlayerEntity playerEntity;
     private Spinner spinner;
@@ -113,6 +117,14 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
             }
         });
 
+
+        final Button buttonDelete = rootView.findViewById(R.id.button_delete_player);
+        buttonDelete.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                alertDialog.show();
+            }
+        });
+
         alertDialog = new AlertDialog.Builder(getActivity())
                 .setMessage(R.string.confirm_delete_player)
                 .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
@@ -128,13 +140,36 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
                     }
                 }).create();
 
-
-        final Button buttonDelete = rootView.findViewById(R.id.button_delete_player);
-        buttonDelete.setOnClickListener(new View.OnClickListener() {
+        /*final Button buttonSelectSeasons = rootView.findViewById(R.id.button_select_seasons);
+        buttonSelectSeasons.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                alertDialog.show();
+                seasonsDialog.show();
             }
         });
+
+        //seasonsDialog = new AlertDialog.Builder(getActivity(), android.R.style.Theme_Material_Dialog_Alert)
+        seasonsDialog = new AlertDialog.Builder(getActivity())
+                .setMultiChoiceItems(R.array.seasons_array, null,
+                        new DialogInterface.OnMultiChoiceClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which,
+                                                boolean isChecked) {
+                                if (isChecked) {
+                                    mSelectedItems.add(which);
+                                } else if (mSelectedItems.contains(which)) {
+                                    mSelectedItems.remove(Integer.valueOf(which));
+                                }
+                            }
+                        })
+                .setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                }).create();*/
+
+        //mieux gerer la liste : https://android--code.blogspot.com/2015/08/android-alertdialog-multichoice.html
+
 
         mHandler = new Handler(Looper.getMainLooper()) {
             @Override
@@ -204,6 +239,9 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
         super.onDestroy();
         alertDialog.dismiss();
         alertDialog=null;
+
+        /*seasonsDialog.dismiss();
+        seasonsDialog=null;*/
     }
 
     public class DeletePlayerTask extends AsyncTask<Void, Void, Boolean> {

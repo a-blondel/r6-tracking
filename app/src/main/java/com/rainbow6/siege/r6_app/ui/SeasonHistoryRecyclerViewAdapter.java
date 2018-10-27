@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.rainbow6.siege.r6_app.R;
 import com.rainbow6.siege.r6_app.db.entity.SeasonEntity;
 import com.rainbow6.siege.r6_app.db.entity.StatsEntity;
+import com.rainbow6.siege.r6_app.repository.SeasonRepository;
 import com.rainbow6.siege.r6_app.repository.StatsRepository;
 import com.rainbow6.siege.r6_app.ui.TabSeasons.OnListFragmentInteractionListener;
 
@@ -63,13 +64,18 @@ public class SeasonHistoryRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
             holder2.seasonHistorySeason.setText(String.valueOf(holder2.seasonEntity.getSeason()));
             holder2.seasonHistoryMmr.setText(String.valueOf((int) Math.floor(holder2.seasonEntity.getMmr())));
 
-            if(position - 1 < mValues.size() - 1) {
-                SeasonEntity previousSeasonEntity = mValues.get(position);
-                holder2.seasonHistoryWonLost.setText(String.valueOf(holder2.seasonEntity.getWins() - previousSeasonEntity.getWins()) + "/" + String.valueOf(holder2.seasonEntity.getLosses() - previousSeasonEntity.getLosses()));
+            SeasonRepository seasonRepository = new SeasonRepository((Application) holder2.mView.getContext().getApplicationContext());
+
+            SeasonEntity previousSeasonEntity = seasonRepository.getSeasonEntityByProfileIdAndRegionIdAndSeasonAndLessThanDate(
+                    holder2.seasonEntity.getProfileId(), holder2.seasonEntity.getRegion(), holder2.seasonEntity.getSeason(), holder2.seasonEntity.getUpdateDate());
+
+            if (previousSeasonEntity != null) {
+                holder2.seasonHistoryWonLost.setText(String.valueOf(holder2.seasonEntity.getWins() - previousSeasonEntity.getWins()) +
+                        "/" + String.valueOf(holder2.seasonEntity.getLosses() - previousSeasonEntity.getLosses())
+                        + "(" + String.valueOf(holder2.seasonEntity.getAbandons() - previousSeasonEntity.getAbandons()) + ")");
             }else{
                 holder2.seasonHistoryWonLost.setText(String.valueOf(holder2.seasonEntity.getWins()) + "/" + String.valueOf(holder2.seasonEntity.getLosses()));
             }
-
 
             StatsRepository statsRepository = new StatsRepository((Application) holder2.mView.getContext().getApplicationContext());
 

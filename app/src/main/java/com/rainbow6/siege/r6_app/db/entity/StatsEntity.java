@@ -53,8 +53,40 @@ public class StatsEntity {
     private int generalPenetrationKills;
     private int generalMeleeKills;
     private int generalRevive;
+    private int generalPvpBlindKills;
+    private int generalPvpRappelBreach;
+    private int generalPvpDbno;
+    private int generalPvpDbnoAssists;
+    private int generalPvpSuicide;
+    private int generalPvpBarricadeDeployed;
+    private int generalPvpReinforcementDeploy;
+    private int generalPvpDistanceTravelled;
+    private int generalPvpReviveDenied;
+    private int generalPvpGadgetDestroy;
+    private int generalPvpTotalXp;
+    private int secureareapvpTimeplayed;
+    private int rescuehostagepvpTimeplayed;
+    private int plantbombpvpTimeplayed;
+    private int secureareapvpMatchwon;
+    private int secureareapvpMatchlost;
+    private int secureareapvpMatchplayed;
+    private int secureareapvpBestscore;
+    private int rescuehostagepvpMatchwon;
+    private int rescuehostagepvpMatchlost;
+    private int rescuehostagepvpMatchplayed;
+    private int rescuehostagepvpBestscore;
+    private int plantbombpvpMatchwon;
+    private int plantbombpvpMatchlost;
+    private int plantbombpvpMatchplayed;
+    private int plantbombpvpBestscore;
+    private int generalpvpServershacked;
+    private int generalpvpServerdefender;
+    private int generalpvpServeraggression;
+    private int generalpvpHostagerescue;
+    private int generalpvpHostagedefense;
 
-    public StatsEntity(@NonNull int id, String profileId, Date updateDate, int timePlayedRanked, int matchPlayedRanked, int matchWonRanked, int matchLostRanked, int killsRanked, int deathRanked, int timePlayedCasual, int matchPlayedCasual, int matchWonCasual, int matchLostCasual, int killsCasual, int deathCasual, int generalTimePlayed, int generalMatchPlayed, int generalMatchWon, int generalMatchLost, int generalKills, int generalDeath, int generalHeadshots, int generalBulletHit, int generalBulletFired, int generalKillAssists, int generalPenetrationKills, int generalMeleeKills, int generalRevive) {
+    public StatsEntity(@NonNull int id, String profileId, Date updateDate, int timePlayedRanked, int matchPlayedRanked, int matchWonRanked, int matchLostRanked, int killsRanked, int deathRanked, int timePlayedCasual, int matchPlayedCasual, int matchWonCasual, int matchLostCasual, int killsCasual, int deathCasual, int generalTimePlayed, int generalMatchPlayed, int generalMatchWon, int generalMatchLost, int generalKills, int generalDeath, int generalHeadshots, int generalBulletHit, int generalBulletFired, int generalKillAssists, int generalPenetrationKills, int generalMeleeKills, int generalRevive, int generalPvpBlindKills, int generalPvpRappelBreach, int generalPvpDbno, int generalPvpDbnoAssists, int generalPvpSuicide, int generalPvpBarricadeDeployed, int generalPvpReinforcementDeploy, int generalPvpDistanceTravelled, int generalPvpReviveDenied, int generalPvpGadgetDestroy, int generalPvpTotalXp, int secureareapvpTimeplayed, int rescuehostagepvpTimeplayed, int plantbombpvpTimeplayed, int secureareapvpMatchwon, int secureareapvpMatchlost, int secureareapvpMatchplayed, int secureareapvpBestscore, int rescuehostagepvpMatchwon, int rescuehostagepvpMatchlost, int rescuehostagepvpMatchplayed, int rescuehostagepvpBestscore, int plantbombpvpMatchwon, int plantbombpvpMatchlost, int plantbombpvpMatchplayed, int plantbombpvpBestscore, int generalpvpServershacked, int generalpvpServerdefender, int generalpvpServeraggression, int generalpvpHostagerescue, int generalpvpHostagedefense) {
+//    public StatsEntity(@NonNull int id, String profileId, Date updateDate, int timePlayedRanked, int matchPlayedRanked, int matchWonRanked, int matchLostRanked, int killsRanked, int deathRanked, int timePlayedCasual, int matchPlayedCasual, int matchWonCasual, int matchLostCasual, int killsCasual, int deathCasual, int generalTimePlayed, int generalMatchPlayed, int generalMatchWon, int generalMatchLost, int generalKills, int generalDeath, int generalHeadshots, int generalBulletHit, int generalBulletFired, int generalKillAssists, int generalPenetrationKills, int generalMeleeKills, int generalRevive, int generalPvpBlindKills, int generalPvpRappelBreach) {
         this.id = id;
         this.profileId = profileId;
         this.updateDate = updateDate;
@@ -83,6 +115,37 @@ public class StatsEntity {
         this.generalPenetrationKills = generalPenetrationKills;
         this.generalMeleeKills = generalMeleeKills;
         this.generalRevive = generalRevive;
+        this.generalPvpBlindKills = generalPvpBlindKills;
+        this.generalPvpRappelBreach = generalPvpRappelBreach;
+        this.generalPvpDbno = generalPvpDbno;
+        this.generalPvpDbnoAssists = generalPvpDbnoAssists;
+        this.generalPvpSuicide = generalPvpSuicide;
+        this.generalPvpBarricadeDeployed = generalPvpBarricadeDeployed;
+        this.generalPvpReinforcementDeploy = generalPvpReinforcementDeploy;
+        this.generalPvpDistanceTravelled = generalPvpDistanceTravelled;
+        this.generalPvpReviveDenied = generalPvpReviveDenied;
+        this.generalPvpGadgetDestroy = generalPvpGadgetDestroy;
+        this.generalPvpTotalXp = generalPvpTotalXp;
+        this.secureareapvpTimeplayed = secureareapvpTimeplayed;
+        this.rescuehostagepvpTimeplayed = rescuehostagepvpTimeplayed;
+        this.plantbombpvpTimeplayed = plantbombpvpTimeplayed;
+        this.secureareapvpMatchwon = secureareapvpMatchwon;
+        this.secureareapvpMatchlost = secureareapvpMatchlost;
+        this.secureareapvpMatchplayed = secureareapvpMatchplayed;
+        this.secureareapvpBestscore = secureareapvpBestscore;
+        this.rescuehostagepvpMatchwon = rescuehostagepvpMatchwon;
+        this.rescuehostagepvpMatchlost = rescuehostagepvpMatchlost;
+        this.rescuehostagepvpMatchplayed = rescuehostagepvpMatchplayed;
+        this.rescuehostagepvpBestscore = rescuehostagepvpBestscore;
+        this.plantbombpvpMatchwon = plantbombpvpMatchwon;
+        this.plantbombpvpMatchlost = plantbombpvpMatchlost;
+        this.plantbombpvpMatchplayed = plantbombpvpMatchplayed;
+        this.plantbombpvpBestscore = plantbombpvpBestscore;
+        this.generalpvpServershacked = generalpvpServershacked;
+        this.generalpvpServerdefender = generalpvpServerdefender;
+        this.generalpvpServeraggression = generalpvpServeraggression;
+        this.generalpvpHostagerescue = generalpvpHostagerescue;
+        this.generalpvpHostagedefense = generalpvpHostagedefense;
     }
 
     @Ignore
@@ -312,5 +375,253 @@ public class StatsEntity {
 
     public void setGeneralRevive(int generalRevive) {
         this.generalRevive = generalRevive;
+    }
+
+    public int getGeneralPvpBlindKills() {
+        return generalPvpBlindKills;
+    }
+
+    public void setGeneralPvpBlindKills(int generalPvpBlindKills) {
+        this.generalPvpBlindKills = generalPvpBlindKills;
+    }
+
+    public int getGeneralPvpRappelBreach() {
+        return generalPvpRappelBreach;
+    }
+
+    public void setGeneralPvpRappelBreach(int generalPvpRappelBreach) {
+        this.generalPvpRappelBreach = generalPvpRappelBreach;
+    }
+
+    public int getGeneralPvpDbno() {
+        return generalPvpDbno;
+    }
+
+    public void setGeneralPvpDbno(int generalPvpDbno) {
+        this.generalPvpDbno = generalPvpDbno;
+    }
+
+    public int getGeneralPvpDbnoAssists() {
+        return generalPvpDbnoAssists;
+    }
+
+    public void setGeneralPvpDbnoAssists(int generalPvpDbnoAssists) {
+        this.generalPvpDbnoAssists = generalPvpDbnoAssists;
+    }
+
+    public int getGeneralPvpSuicide() {
+        return generalPvpSuicide;
+    }
+
+    public void setGeneralPvpSuicide(int generalPvpSuicide) {
+        this.generalPvpSuicide = generalPvpSuicide;
+    }
+
+    public int getGeneralPvpBarricadeDeployed() {
+        return generalPvpBarricadeDeployed;
+    }
+
+    public void setGeneralPvpBarricadeDeployed(int generalPvpBarricadeDeployed) {
+        this.generalPvpBarricadeDeployed = generalPvpBarricadeDeployed;
+    }
+
+    public int getGeneralPvpReinforcementDeploy() {
+        return generalPvpReinforcementDeploy;
+    }
+
+    public void setGeneralPvpReinforcementDeploy(int generalPvpReinforcementDeploy) {
+        this.generalPvpReinforcementDeploy = generalPvpReinforcementDeploy;
+    }
+
+    public int getGeneralPvpDistanceTravelled() {
+        return generalPvpDistanceTravelled;
+    }
+
+    public void setGeneralPvpDistanceTravelled(int generalPvpDistanceTravelled) {
+        this.generalPvpDistanceTravelled = generalPvpDistanceTravelled;
+    }
+
+    public int getGeneralPvpReviveDenied() {
+        return generalPvpReviveDenied;
+    }
+
+    public void setGeneralPvpReviveDenied(int generalPvpReviveDenied) {
+        this.generalPvpReviveDenied = generalPvpReviveDenied;
+    }
+
+    public int getGeneralPvpGadgetDestroy() {
+        return generalPvpGadgetDestroy;
+    }
+
+    public void setGeneralPvpGadgetDestroy(int generalPvpGadgetDestroy) {
+        this.generalPvpGadgetDestroy = generalPvpGadgetDestroy;
+    }
+
+    public int getGeneralPvpTotalXp() {
+        return generalPvpTotalXp;
+    }
+
+    public void setGeneralPvpTotalXp(int generalPvpTotalXp) {
+        this.generalPvpTotalXp = generalPvpTotalXp;
+    }
+
+    public int getSecureareapvpTimeplayed() {
+        return secureareapvpTimeplayed;
+    }
+
+    public void setSecureareapvpTimeplayed(int secureareapvpTimeplayed) {
+        this.secureareapvpTimeplayed = secureareapvpTimeplayed;
+    }
+
+    public int getRescuehostagepvpTimeplayed() {
+        return rescuehostagepvpTimeplayed;
+    }
+
+    public void setRescuehostagepvpTimeplayed(int rescuehostagepvpTimeplayed) {
+        this.rescuehostagepvpTimeplayed = rescuehostagepvpTimeplayed;
+    }
+
+    public int getPlantbombpvpTimeplayed() {
+        return plantbombpvpTimeplayed;
+    }
+
+    public void setPlantbombpvpTimeplayed(int plantbombpvpTimeplayed) {
+        this.plantbombpvpTimeplayed = plantbombpvpTimeplayed;
+    }
+
+    public int getSecureareapvpMatchwon() {
+        return secureareapvpMatchwon;
+    }
+
+    public void setSecureareapvpMatchwon(int secureareapvpMatchwon) {
+        this.secureareapvpMatchwon = secureareapvpMatchwon;
+    }
+
+    public int getSecureareapvpMatchlost() {
+        return secureareapvpMatchlost;
+    }
+
+    public void setSecureareapvpMatchlost(int secureareapvpMatchlost) {
+        this.secureareapvpMatchlost = secureareapvpMatchlost;
+    }
+
+    public int getSecureareapvpMatchplayed() {
+        return secureareapvpMatchplayed;
+    }
+
+    public void setSecureareapvpMatchplayed(int secureareapvpMatchplayed) {
+        this.secureareapvpMatchplayed = secureareapvpMatchplayed;
+    }
+
+    public int getSecureareapvpBestscore() {
+        return secureareapvpBestscore;
+    }
+
+    public void setSecureareapvpBestscore(int secureareapvpBestscore) {
+        this.secureareapvpBestscore = secureareapvpBestscore;
+    }
+
+    public int getRescuehostagepvpMatchwon() {
+        return rescuehostagepvpMatchwon;
+    }
+
+    public void setRescuehostagepvpMatchwon(int rescuehostagepvpMatchwon) {
+        this.rescuehostagepvpMatchwon = rescuehostagepvpMatchwon;
+    }
+
+    public int getRescuehostagepvpMatchlost() {
+        return rescuehostagepvpMatchlost;
+    }
+
+    public void setRescuehostagepvpMatchlost(int rescuehostagepvpMatchlost) {
+        this.rescuehostagepvpMatchlost = rescuehostagepvpMatchlost;
+    }
+
+    public int getRescuehostagepvpMatchplayed() {
+        return rescuehostagepvpMatchplayed;
+    }
+
+    public void setRescuehostagepvpMatchplayed(int rescuehostagepvpMatchplayed) {
+        this.rescuehostagepvpMatchplayed = rescuehostagepvpMatchplayed;
+    }
+
+    public int getRescuehostagepvpBestscore() {
+        return rescuehostagepvpBestscore;
+    }
+
+    public void setRescuehostagepvpBestscore(int rescuehostagepvpBestscore) {
+        this.rescuehostagepvpBestscore = rescuehostagepvpBestscore;
+    }
+
+    public int getPlantbombpvpMatchwon() {
+        return plantbombpvpMatchwon;
+    }
+
+    public void setPlantbombpvpMatchwon(int plantbombpvpMatchwon) {
+        this.plantbombpvpMatchwon = plantbombpvpMatchwon;
+    }
+
+    public int getPlantbombpvpMatchlost() {
+        return plantbombpvpMatchlost;
+    }
+
+    public void setPlantbombpvpMatchlost(int plantbombpvpMatchlost) {
+        this.plantbombpvpMatchlost = plantbombpvpMatchlost;
+    }
+
+    public int getPlantbombpvpMatchplayed() {
+        return plantbombpvpMatchplayed;
+    }
+
+    public void setPlantbombpvpMatchplayed(int plantbombpvpMatchplayed) {
+        this.plantbombpvpMatchplayed = plantbombpvpMatchplayed;
+    }
+
+    public int getPlantbombpvpBestscore() {
+        return plantbombpvpBestscore;
+    }
+
+    public void setPlantbombpvpBestscore(int plantbombpvpBestscore) {
+        this.plantbombpvpBestscore = plantbombpvpBestscore;
+    }
+
+    public int getGeneralpvpServershacked() {
+        return generalpvpServershacked;
+    }
+
+    public void setGeneralpvpServershacked(int generalpvpServershacked) {
+        this.generalpvpServershacked = generalpvpServershacked;
+    }
+
+    public int getGeneralpvpServerdefender() {
+        return generalpvpServerdefender;
+    }
+
+    public void setGeneralpvpServerdefender(int generalpvpServerdefender) {
+        this.generalpvpServerdefender = generalpvpServerdefender;
+    }
+
+    public int getGeneralpvpServeraggression() {
+        return generalpvpServeraggression;
+    }
+
+    public void setGeneralpvpServeraggression(int generalpvpServeraggression) {
+        this.generalpvpServeraggression = generalpvpServeraggression;
+    }
+
+    public int getGeneralpvpHostagerescue() {
+        return generalpvpHostagerescue;
+    }
+
+    public void setGeneralpvpHostagerescue(int generalpvpHostagerescue) {
+        this.generalpvpHostagerescue = generalpvpHostagerescue;
+    }
+
+    public int getGeneralpvpHostagedefense() {
+        return generalpvpHostagedefense;
+    }
+
+    public void setGeneralpvpHostagedefense(int generalpvpHostagedefense) {
+        this.generalpvpHostagedefense = generalpvpHostagedefense;
     }
 }

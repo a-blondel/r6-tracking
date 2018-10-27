@@ -250,7 +250,10 @@ public class AlarmReceiver extends BroadcastReceiver {
 
                     String imageRank = "rank_0";
                     String title = playerEntity.getNameOnPlatform();
-                    String message = context.getString(R.string.notif_base_message);
+//                    if(title.length() > 12){
+//                        title = title.substring(0, 11) + ".";
+//                    }
+                    String message = context.getString(R.string.notif_casual);
                     Spannable sb = new SpannableString(message);
                     Date dateRefresh = new Date();
 
@@ -260,7 +263,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                         }
                         if (Double.compare(seasonEmeaEntityFromDB.getMmr(), seasonEmeaEntity.getMmr()) != 0) {
                             int actualMmr = (int) Math.floor(seasonEmeaEntity.getMmr());
-                            String charMessage = "mmr eu: " + actualMmr + " (" + (int) (Math.floor(seasonEmeaEntity.getMmr()) - Math.floor(seasonEmeaEntityFromDB.getMmr())) + ")";
+                            String charMessage = "EU: " + actualMmr + " (" + (int) (Math.floor(seasonEmeaEntity.getMmr()) - Math.floor(seasonEmeaEntityFromDB.getMmr())) + ")";
                             int pos = charMessage.indexOf(String.valueOf(actualMmr));
                             sb = new SpannableString(charMessage);
                             sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), pos, pos + String.valueOf(actualMmr).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -274,7 +277,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
                         if (Double.compare(seasonNcsaEntityFromDB.getMmr(), seasonNcsaEntity.getMmr()) != 0) {
                             int actualMmr = (int) Math.floor(seasonNcsaEntity.getMmr());
-                            String charMessage = "mmr us: " + actualMmr + " (" + (int) (Math.floor(seasonNcsaEntity.getMmr()) - Math.floor(seasonNcsaEntityFromDB.getMmr())) + ")";
+                            String charMessage = "US: " + actualMmr + " (" + (int) (Math.floor(seasonNcsaEntity.getMmr()) - Math.floor(seasonNcsaEntityFromDB.getMmr())) + ")";
                             int pos = charMessage.indexOf(String.valueOf(actualMmr));
                             sb = new SpannableString(charMessage);
                             sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), pos, pos + String.valueOf(actualMmr).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -297,7 +300,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                         }
                     }
 
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM HH:mm", Locale.getDefault());
+                    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                    //SimpleDateFormat sdf = new SimpleDateFormat("dd/MM HH:mm", Locale.getDefault());
 
                     /*
                     NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();

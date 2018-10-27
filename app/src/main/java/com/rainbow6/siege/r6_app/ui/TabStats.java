@@ -134,6 +134,48 @@ public class TabStats extends Fragment {
         TextView textViewHeadshots = rootView.findViewById(R.id.headshots);
         textViewHeadshots.setText(getString(R.string.headshots, String.format(FORMAT_PRECISION_WL, statsEntity.getGeneralHeadshots() / (double) statsEntity.getGeneralKills() * 100)));
 
+        TextView textViewAssists = rootView.findViewById(R.id.assists);
+        textViewAssists.setText(getString(R.string.assists, statsEntity.getGeneralKillAssists()));
+
+        TextView textViewRevives = rootView.findViewById(R.id.revives);
+        textViewRevives.setText(getString(R.string.revives, statsEntity.getGeneralRevive()));
+
+        TextView textViewMelee = rootView.findViewById(R.id.melee);
+        textViewMelee.setText(getString(R.string.melee, statsEntity.getGeneralMeleeKills()));
+
+        TextView textViewPenetration = rootView.findViewById(R.id.penetration);
+        textViewPenetration.setText(getString(R.string.penetration, statsEntity.getGeneralPenetrationKills()));
+
+        TextView textViewDbno = rootView.findViewById(R.id.dbno);
+        textViewDbno.setText(getString(R.string.dbno, statsEntity.getGeneralPvpDbno()));
+
+        TextView textViewDbnoAssists = rootView.findViewById(R.id.dbnoAssists);
+        textViewDbnoAssists.setText(getString(R.string.dbnoAssists, statsEntity.getGeneralPvpDbnoAssists()));
+
+        TextView textViewSuicide = rootView.findViewById(R.id.suicide);
+        textViewSuicide.setText(getString(R.string.suicide, statsEntity.getGeneralPvpSuicide()));
+
+        TextView textViewGadgetDestroyed = rootView.findViewById(R.id.gadgetDestroyed);
+        textViewGadgetDestroyed.setText(getString(R.string.gadgetDestroyed, statsEntity.getGeneralPvpGadgetDestroy()));
+
+        TextView textViewBlind = rootView.findViewById(R.id.blind);
+        textViewBlind.setText(getString(R.string.blind, statsEntity.getGeneralPvpBlindKills()));
+
+        TextView textViewRappelBreach = rootView.findViewById(R.id.rappelBreach);
+        textViewRappelBreach.setText(getString(R.string.rappelBreach, statsEntity.getGeneralPvpRappelBreach()));
+
+        TextView textViewBarricadeDeployed = rootView.findViewById(R.id.barricadeDeployed);
+        textViewBarricadeDeployed.setText(getString(R.string.barricadeDeployed, statsEntity.getGeneralPvpBarricadeDeployed()));
+
+        TextView textViewReinforcementDeploy = rootView.findViewById(R.id.reinforcementDeployed);
+        textViewReinforcementDeploy.setText(getString(R.string.reinforcementDeployed, statsEntity.getGeneralPvpReinforcementDeploy()));
+
+        /*TextView textViewDistanceTravelled = rootView.findViewById(R.id.distanceTravelled);
+        textViewDistanceTravelled.setText(getString(R.string.distanceTravelled, statsEntity.getGeneralPvpDistanceTravelled()));*/
+
+        TextView textViewReviveDenied = rootView.findViewById(R.id.reviveDenied);
+        textViewReviveDenied.setText(getString(R.string.reviveDenied, statsEntity.getGeneralPvpReviveDenied()));
+
         // Get Win percentage : total wins / total games * 100
 
         return rootView;

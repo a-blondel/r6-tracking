@@ -50,6 +50,7 @@
 
     <!--Strings related to notifications-->
     <string name="notif_base_message">New statistics</string>
+    <string name="notif_casual">Casual</string>
 
     <!--Strings related to player stats-->
     <string name="rank">Rank</string>
@@ -80,7 +81,33 @@
     <string name="LabelMmr">mmr</string>
     <string name="LabelWL">w/l</string>
     <string name="LabelKd">k/d</string>
-    <string name="LabelHistory">History (last %1$s rows)</string>
+    <string name="LabelHistory">History (%1$s rows)</string>
     <string name="LabelNoStats">No data</string>
+    <string name="general">General</string>
+    <string name="assists">Assists\n%1$d</string>
+    <string name="revives">Revives\n%1$d</string>
+    <string name="melee">Melee\n%1$d</string>
+    <string name="penetration">Penetration\n%1$d</string>
+    <string name="dbno">DBNO\n%1$d</string>
+    <string name="dbnoAssists">DBNO assists\n%1$d</string>
+    <string name="suicide">Suicide\n%1$d</string>
+    <string name="gadgetDestroyed">Gadget destroy\n%1$d</string>
+    <string name="blind">Blind kills\n%1$d</string>
+    <string name="rappelBreach">Rappel breach\n%1$d</string>
+    <string name="barricadeDeployed">Barricade\n%1$d</string>
+    <string name="reinforcementDeployed">Reinforcement\n%1$d</string>
+    <string name="distanceTravelled">Distance\n%1$d</string>
+    <string name="reviveDenied">Revive denied\n%1$d</string>
+    <string name="select_seasons">Select seasons</string>
+    <string name="done">Done</string>
+    <string name="past_seasons_stats">Past seasons stats...</string>
+    <string-array name="seasons_array">
+        <item>GRIM SKY</item>
+        <item>PARA BELLUM</item>
+        <item>CHIMERA</item>
+        <item>WHITE NOISE</item>
+        <item>BLOOD ORCHID</item>
+        <item>HEALTH</item>
+    </string-array>
 
 </resources>

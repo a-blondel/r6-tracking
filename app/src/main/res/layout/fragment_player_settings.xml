@@ -23,6 +23,15 @@
 
             <include layout="@layout/common_player_settings" />
 
+            <!--<Button
+                android:id="@+id/button_select_seasons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@color/colorAccent"
+                android:text="@string/past_seasons_stats"
+                android:textColor="@color/colorPrimaryDark" />-->
+
             <Button
                 android:id="@+id/button_update_player"
                 android:layout_width="match_parent"

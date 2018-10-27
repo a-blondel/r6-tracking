@@ -28,7 +28,7 @@
                     android:id="@+id/level"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
+                    android:padding="3dp"
                     android:textColor="@color/colorAccent"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -41,8 +41,8 @@
                     android:id="@+id/statistics"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
+                    android:padding="3dp"
                     android:textStyle="bold"
                     android:textColor="@color/colorAccent" />
 
@@ -56,7 +56,7 @@
                         android:layout_width="fill_parent"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:padding="5dp"
+                        android:padding="3dp"
                         android:textColor="@color/colorAccent"
                         android:textStyle="bold"
                         android:text="@string/ranked" />
@@ -67,7 +67,7 @@
                         android:layout_width="fill_parent"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:padding="5dp"
+                        android:padding="3dp"
                         android:textColor="@color/colorAccent"
                         android:textStyle="bold"
                         android:text="@string/casual" />
@@ -86,7 +86,8 @@
                             android:layout_width="fill_parent"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
+                            android:padding="3dp"
+                            android:textSize="12sp"
                             android:textColor="@color/colorAccent" />
                         <TextView
                             android:id="@+id/rankedDeaths"
@@ -95,7 +96,8 @@
                             android:layout_width="fill_parent"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
+                            android:padding="3dp"
+                            android:textSize="12sp"
                             android:textColor="@color/colorAccent" />
                         <TextView
                             android:id="@+id/rankedKdRatio"
@@ -104,7 +106,8 @@
                             android:layout_width="fill_parent"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
+                            android:padding="3dp"
+                            android:textSize="12sp"
                             android:textColor="@color/colorAccent" />
                     </LinearLayout>
                     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -118,7 +121,8 @@
                             android:layout_width="fill_parent"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
+                            android:padding="3dp"
+                            android:textSize="12sp"
                             android:textColor="@color/colorAccent" />
                         <TextView
                             android:id="@+id/casualDeaths"
@@ -127,7 +131,8 @@
                             android:layout_width="fill_parent"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
+                            android:padding="3dp"
+                            android:textSize="12sp"
                             android:textColor="@color/colorAccent" />
                         <TextView
                             android:id="@+id/casualKdRatio"
@@ -136,7 +141,8 @@
                             android:layout_width="fill_parent"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
+                            android:padding="3dp"
+                            android:textSize="12sp"
                             android:textColor="@color/colorAccent" />
                     </LinearLayout>
                 </LinearLayout>
@@ -154,7 +160,8 @@
                             android:layout_width="fill_parent"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
+                            android:padding="3dp"
+                            android:textSize="12sp"
                             android:textColor="@color/colorAccent" />
                         <TextView
                             android:id="@+id/rankedLosses"
@@ -163,7 +170,8 @@
                             android:layout_width="fill_parent"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
+                            android:padding="3dp"
+                            android:textSize="12sp"
                             android:textColor="@color/colorAccent" />
                         <TextView
                             android:id="@+id/rankedWlRatio"
@@ -172,7 +180,8 @@
                             android:layout_width="fill_parent"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
+                            android:padding="3dp"
+                            android:textSize="12sp"
                             android:textColor="@color/colorAccent" />
                     </LinearLayout>
                     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -186,7 +195,8 @@
                             android:layout_width="fill_parent"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
+                            android:padding="3dp"
+                            android:textSize="12sp"
                             android:textColor="@color/colorAccent" />
                         <TextView
                             android:id="@+id/casualLosses"
@@ -195,7 +205,8 @@
                             android:layout_width="fill_parent"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
+                            android:padding="3dp"
+                            android:textSize="12sp"
                             android:textColor="@color/colorAccent" />
                         <TextView
                             android:id="@+id/casualWlRatio"
@@ -204,7 +215,8 @@
                             android:layout_width="fill_parent"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
+                            android:padding="3dp"
+                            android:textSize="12sp"
                             android:textColor="@color/colorAccent" />
                     </LinearLayout>
                 </LinearLayout>
@@ -222,7 +234,7 @@
                             android:layout_width="fill_parent"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
+                            android:padding="3dp"
                             android:textSize="12sp"
                             android:textColor="@color/colorAccent" />
                         <TextView
@@ -232,7 +244,7 @@
                             android:layout_width="fill_parent"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
+                            android:padding="3dp"
                             android:textSize="12sp"
                             android:textColor="@color/colorAccent" />
                         <TextView
@@ -242,7 +254,8 @@
                             android:layout_width="fill_parent"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
+                            android:padding="3dp"
+                            android:textSize="12sp"
                             android:textColor="@color/colorAccent" />
                     </LinearLayout>
                     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -256,7 +269,7 @@
                             android:layout_width="fill_parent"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
+                            android:padding="3dp"
                             android:textSize="12sp"
                             android:textColor="@color/colorAccent" />
                         <TextView
@@ -266,7 +279,7 @@
                             android:layout_width="fill_parent"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
+                            android:padding="3dp"
                             android:textSize="12sp"
                             android:textColor="@color/colorAccent" />
                         <TextView
@@ -276,7 +289,7 @@
                             android:layout_width="fill_parent"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
+                            android:padding="3dp"
                             android:textColor="@color/colorAccent" />
                     </LinearLayout>
                 </LinearLayout>
@@ -290,7 +303,8 @@
                         android:layout_width="fill_parent"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:padding="5dp"
+                        android:padding="3dp"
+                        android:textSize="12sp"
                         android:textColor="@color/colorAccent" />
                     <TextView
                         android:id="@+id/casualTimePlayed"
@@ -299,32 +313,213 @@
                         android:layout_width="fill_parent"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:padding="5dp"
+                        android:padding="3dp"
+                        android:textSize="12sp"
                         android:textColor="@color/colorAccent" />
                 </LinearLayout>
+            </LinearLayout>
 
-                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/general"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:text="@string/general"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold" />
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
                 <TextView
                     android:id="@+id/precision"
-                    android:gravity="center"
-                    android:layout_gravity="center"
                     android:layout_width="fill_parent"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/colorAccent" />
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="12sp" />
+
                 <TextView
                     android:id="@+id/headshots"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/assists"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/revives"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/melee"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/penetration"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/dbno"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/dbnoAssists"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/suicide"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/gadgetDestroyed"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/blind"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/rappelBreach"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorAccent" />
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/barricadeDeployed"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/reinforcementDeployed"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="12sp" />
+                <!--<TextView
+                    android:id="@+id/distanceTravelled"
                     android:gravity="center"
                     android:layout_gravity="center"
                     android:layout_width="fill_parent"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/colorAccent" />
-                </LinearLayout>
+                    android:padding="3dp"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorAccent" />-->
+                <TextView
+                    android:id="@+id/reviveDenied"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
     </android.support.constraint.ConstraintLayout>

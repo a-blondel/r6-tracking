@@ -97,6 +97,7 @@ public class ServiceHelper {
             seasonEntity.setUpdateDate(formatter.parse(dateJson.split(UBI_DATE_DELIMITER)[0]));
             Log.d("Debug---UpdateDate", String.valueOf(seasonEntity.getUpdateDate()));
         }
+        //TODO else - current datetime
 
         return seasonEntity;
     }
@@ -132,6 +133,38 @@ public class ServiceHelper {
         statsEntity.setGeneralPenetrationKills(getValue(json, profileId,"generalpvp_penetrationkills:infinite"));
         statsEntity.setGeneralMeleeKills(getValue(json, profileId,"generalpvp_meleekills:infinite"));
         statsEntity.setGeneralRevive(getValue(json, profileId,"generalpvp_revive:infinite"));
+        statsEntity.setGeneralPvpBlindKills(getValue(json, profileId, "generalpvp_blindkills:infinite"));
+        statsEntity.setGeneralPvpRappelBreach(getValue(json, profileId, "generalpvp_rappelbreach:infinite"));
+        statsEntity.setGeneralPvpDbno(getValue(json, profileId, "generalpvp_dbno:infinite"));
+        statsEntity.setGeneralPvpDbnoAssists(getValue(json, profileId, "generalpvp_dbnoassists:infinite"));
+        statsEntity.setGeneralPvpSuicide(getValue(json, profileId, "generalpvp_suicide:infinite"));
+        statsEntity.setGeneralPvpBarricadeDeployed(getValue(json, profileId, "generalpvp_barricadedeployed:infinite"));
+        statsEntity.setGeneralPvpReinforcementDeploy(getValue(json, profileId, "generalpvp_reinforcementdeploy:infinite"));
+//        statsEntity.setGeneralPvpDistanceTravelled(getValue(json, profileId,"generalpvp_distancetravelled:infinite"));
+        statsEntity.setGeneralPvpReviveDenied(getValue(json, profileId, "generalpvp_revivedenied:infinite"));
+        statsEntity.setGeneralPvpGadgetDestroy(getValue(json, profileId, "generalpvp_gadgetdestroy:infinite"));
+        statsEntity.setGeneralPvpTotalXp(getValue(json, profileId, "generalpvp_totalxp:infinite"));
+        statsEntity.setSecureareapvpTimeplayed(getValue(json, profileId, "secureareapvp_timeplayed:infinite"));
+        statsEntity.setRescuehostagepvpTimeplayed(getValue(json, profileId, "rescuehostagepvp_timeplayed:infinite"));
+        statsEntity.setPlantbombpvpTimeplayed(getValue(json, profileId, "plantbombpvp_timeplayed:infinite"));
+        statsEntity.setSecureareapvpMatchwon(getValue(json, profileId, "secureareapvp_matchwon:infinite"));
+        statsEntity.setSecureareapvpMatchlost(getValue(json, profileId, "secureareapvp_matchlost:infinite"));
+        statsEntity.setSecureareapvpMatchplayed(getValue(json, profileId, "secureareapvp_matchplayed:infinite"));
+        statsEntity.setSecureareapvpBestscore(getValue(json, profileId, "secureareapvp_bestscore:infinite"));
+        statsEntity.setRescuehostagepvpMatchwon(getValue(json, profileId, "rescuehostagepvp_matchwon:infinite"));
+        statsEntity.setRescuehostagepvpMatchlost(getValue(json, profileId, "rescuehostagepvp_matchlost:infinite"));
+        statsEntity.setRescuehostagepvpMatchplayed(getValue(json, profileId, "rescuehostagepvp_matchplayed:infinite"));
+        statsEntity.setRescuehostagepvpBestscore(getValue(json, profileId, "rescuehostagepvp_bestscore:infinite"));
+        statsEntity.setPlantbombpvpMatchwon(getValue(json, profileId, "plantbombpvp_matchwon:infinite"));
+        statsEntity.setPlantbombpvpMatchlost(getValue(json, profileId, "plantbombpvp_matchlost:infinite"));
+        statsEntity.setPlantbombpvpMatchplayed(getValue(json, profileId, "plantbombpvp_matchplayed:infinite"));
+        statsEntity.setPlantbombpvpBestscore(getValue(json, profileId, "plantbombpvp_bestscore:infinite"));
+        statsEntity.setGeneralpvpServershacked(getValue(json, profileId, "generalpvp_servershacked:infinite"));
+        statsEntity.setGeneralpvpServerdefender(getValue(json, profileId, "generalpvp_serverdefender:infinite"));
+        statsEntity.setGeneralpvpServeraggression(getValue(json, profileId, "generalpvp_serveraggression:infinite"));
+        statsEntity.setGeneralpvpHostagerescue(getValue(json, profileId, "generalpvp_hostagerescue:infinite"));
+        statsEntity.setGeneralpvpHostagedefense(getValue(json, profileId, "generalpvp_hostagedefense:infinite"));
+        
 
         return statsEntity;
     }

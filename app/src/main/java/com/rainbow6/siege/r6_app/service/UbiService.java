@@ -43,7 +43,15 @@ public class UbiService {
             "generalpvp_timeplayed", "generalpvp_matchplayed", "generalpvp_matchwon", "generalpvp_matchlost",
             "generalpvp_kills", "generalpvp_death", "generalpvp_killassists",
             "generalpvp_headshot", "generalpvp_meleekills", "generalpvp_penetrationkills",
-            "generalpvp_bulletfired", "generalpvp_bullethit", "generalpvp_revive"
+            "generalpvp_bulletfired", "generalpvp_bullethit", "generalpvp_revive",
+            "generalpvp_blindkills", "generalpvp_rappelbreach", "generalpvp_dbno", "generalpvp_dbnoassists", "generalpvp_suicide",
+            "generalpvp_barricadedeployed", "generalpvp_reinforcementdeploy", "generalpvp_distancetravelled",
+            "generalpvp_revivedenied", "generalpvp_gadgetdestroy", "generalpvp_totalxp",
+            "secureareapvp_timeplayed", "rescuehostagepvp_timeplayed", "plantbombpvp_timeplayed",
+            "secureareapvp_matchwon", "secureareapvp_matchlost", "secureareapvp_matchplayed", "secureareapvp_bestscore",
+            "rescuehostagepvp_matchwon", "rescuehostagepvp_matchlost", "rescuehostagepvp_matchplayed", "rescuehostagepvp_bestscore",
+            "plantbombpvp_matchwon", "plantbombpvp_matchlost", "plantbombpvp_matchplayed", "plantbombpvp_bestscore",
+            "generalpvp_servershacked", "generalpvp_serverdefender", "generalpvp_serveraggression", "generalpvp_hostagerescue", "generalpvp_hostagedefense"
     );
 
 
