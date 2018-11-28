@@ -53,14 +53,14 @@
     <string name="notif_casual">Casual</string>
 
     <!--Strings related to player stats-->
-    <string name="rank">Rank</string>
+    <string name="labelRank">Rank</string>
     <string name="max_rank">Max Rank</string>
     <string name="statistics">Statistics (updated %1$s)</string>
     <string name="ranked">Ranked</string>
     <string name="casual">Casual</string>
     <string name="level">Level %1$d (updated %2$s)</string>
     <string name="season_details">%1$s season %2$d%3$s</string>
-    <string name="season_mmr">%1$d &lt; <![CDATA[<b>]]>%2$d<![CDATA[</b>]]> &lt; %3$d\nMax mmr %4$d</string>
+    <string name="season_mmr">%1$d &lt; <![CDATA[<b>]]>%2$d<![CDATA[</b>]]> &lt; %3$d <![CDATA[ <br /> ]]> Max mmr %4$d</string>
     <string name="wins">Won\n%1$d</string>
     <string name="losses">Lost\n%1$d</string>
     <string name="wlRatio">w/l\n%1$s</string>
@@ -100,14 +100,9 @@
     <string name="reviveDenied">Revive denied\n%1$d</string>
     <string name="select_seasons">Select seasons</string>
     <string name="done">Done</string>
-    <string name="past_seasons_stats">Past seasons stats...</string>
-    <string-array name="seasons_array">
-        <item>GRIM SKY</item>
-        <item>PARA BELLUM</item>
-        <item>CHIMERA</item>
-        <item>WHITE NOISE</item>
-        <item>BLOOD ORCHID</item>
-        <item>HEALTH</item>
-    </string-array>
+    <string name="past_seasons_stats">Past seasons...</string>
+    <string name="past_seasons_selected">Past seasons... (%1$d sel.)</string>
+    <string name="labelPastSeasons">Past seasons</string>
+    <string name="LabelMaxMmr">Max mmr</string>
 
 </resources>

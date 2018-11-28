@@ -32,7 +32,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="3dp"
                     android:textColor="@color/colorAccent"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -48,7 +48,8 @@
                     android:layout_height="wrap_content"
                     android:padding="5dp"
                     android:textColor="@color/colorAccent"
-                    android:text="@string/rank" />
+                    android:text="@string/labelRank"
+                    android:textSize="12sp" />
                 <ImageView
                     android:id="@+id/seasonEmeaRank"
                     android:layout_width="wrap_content"
@@ -62,6 +63,7 @@
                     android:layout_width="fill_parent"
                     android:layout_weight="0.8"
                     android:layout_height="wrap_content"
+                    android:textSize="12sp"
                     android:textColor="@color/colorAccent" />
 
                 <ImageView
@@ -79,6 +81,7 @@
                     android:layout_height="wrap_content"
                     android:padding="5dp"
                     android:textColor="@color/colorAccent"
+                    android:textSize="12sp"
                     android:text="@string/max_rank" />
             </LinearLayout>
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -92,6 +95,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
+                    android:textSize="12sp"
                     android:textColor="@color/colorAccent" />
                 <TextView
                     android:id="@+id/seasonEmeaLosses"
@@ -101,6 +105,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
+                    android:textSize="12sp"
                     android:textColor="@color/colorAccent" />
                 <TextView
                     android:id="@+id/seasonEmeaWlRatio"
@@ -110,6 +115,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
+                    android:textSize="12sp"
                     android:textColor="@color/colorAccent" />
                 <TextView
                     android:id="@+id/seasonEmeaAbandons"
@@ -119,6 +125,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
+                    android:textSize="12sp"
                     android:textColor="@color/colorAccent" />
             </LinearLayout>
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -153,7 +160,8 @@
                     android:layout_height="wrap_content"
                     android:padding="5dp"
                     android:textColor="@color/colorAccent"
-                    android:text="@string/rank" />
+                    android:text="@string/labelRank"
+                    android:textSize="12sp" />
                 <ImageView
                     android:id="@+id/seasonNcsaRank"
                     android:layout_width="wrap_content"
@@ -167,6 +175,7 @@
                     android:layout_width="fill_parent"
                     android:layout_weight="0.8"
                     android:layout_height="wrap_content"
+                    android:textSize="12sp"
                     android:textColor="@color/colorAccent" />
 
                 <ImageView
@@ -184,6 +193,7 @@
                     android:layout_height="wrap_content"
                     android:padding="5dp"
                     android:textColor="@color/colorAccent"
+                    android:textSize="12sp"
                     android:text="@string/max_rank" />
             </LinearLayout>
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -199,6 +209,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
+                    android:textSize="12sp"
                     android:textColor="@color/colorAccent" />
                 <TextView
                     android:id="@+id/seasonNcsaLosses"
@@ -208,6 +219,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
+                    android:textSize="12sp"
                     android:textColor="@color/colorAccent" />
                 <TextView
                     android:id="@+id/seasonNcsaWlRatio"
@@ -217,6 +229,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
+                    android:textSize="12sp"
                     android:textColor="@color/colorAccent" />
                 <TextView
                     android:id="@+id/seasonNcsaAbandons"
@@ -226,6 +239,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
+                    android:textSize="12sp"
                     android:textColor="@color/colorAccent" />
             </LinearLayout>
 
@@ -248,9 +262,34 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerviewSeasonHistory"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
                 tools:listitem="@layout/season_history_item" />
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/seasonPast"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:padding="5dp"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerviewSeasonPast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                tools:listitem="@layout/season_past_item" />
 
         </LinearLayout>
     </android.support.constraint.ConstraintLayout>

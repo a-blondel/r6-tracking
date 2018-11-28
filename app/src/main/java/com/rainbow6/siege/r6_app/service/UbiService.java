@@ -76,7 +76,9 @@ public class UbiService {
         } catch (IOException e) {
             response = EXCEPTION_PATTERN + e.getMessage();
         } finally {
-            urlConnection.disconnect();
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
         }
         return response;
     }
@@ -84,22 +86,24 @@ public class UbiService {
     public String callWebService(String serviceUrl, String ticket) {
         String response;
 
-            HttpURLConnection urlConnection = null;
-            try {
-                urlConnection = prepareRequest(serviceUrl, ticket, GET_METHOD);
-                urlConnection.connect();
+        HttpURLConnection urlConnection = null;
+        try {
+            urlConnection = prepareRequest(serviceUrl, ticket, GET_METHOD);
+            urlConnection.connect();
 
-                response = getResponse(urlConnection);
+            response = getResponse(urlConnection);
 
-            } catch (MalformedURLException e) {
-                response = EXCEPTION_PATTERN + e.getMessage();
-            } catch (ProtocolException e) {
-                response = EXCEPTION_PATTERN + e.getMessage();
-            }catch (IOException e) {
-                response = EXCEPTION_PATTERN + e.getMessage();
-            } finally {
+        } catch (MalformedURLException e) {
+            response = EXCEPTION_PATTERN + e.getMessage();
+        } catch (ProtocolException e) {
+            response = EXCEPTION_PATTERN + e.getMessage();
+        } catch (IOException e) {
+            response = EXCEPTION_PATTERN + e.getMessage();
+        } finally {
+            if (urlConnection != null) {
                 urlConnection.disconnect();
             }
+        }
         return response;
     }
 

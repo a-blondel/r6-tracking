@@ -59,6 +59,10 @@ public class PlayerViewModel extends AndroidViewModel {
 
     public List<SeasonEntity> getSeasonEntityHistoryByProfileId(String profileId, String skip, String count) { return seasonRepository.getSeasonEntityHistoryByProfileId(profileId, skip, count); }
 
+    public SeasonEntity getPastSeasonEntityByProfileIdAndSeasonIdAndRegionIdAsyncTask(String profileId, int seasonId, String regionId) {
+        return seasonRepository.getPastSeasonEntityByProfileIdAndSeasonIdAndRegionIdAsyncTask(profileId, seasonId, regionId);
+    }
+
     public void insertStats(StatsEntity statsEntity) { statsRepository.insert(statsEntity); }
 
     public StatsEntity getLastStatsByProfileId(String profileId) { return statsRepository.getLastStatsEntityByProfileId(profileId); }

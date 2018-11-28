@@ -124,4 +124,40 @@ public class SeasonRepository {
         }
     }
 
+    public SeasonEntity getPastSeasonEntityByProfileIdAndSeasonIdAndRegionIdAsyncTask(String profileId, int seasonId, String regionId) {
+        try {
+            return new getPastSeasonEntityByProfileIdAndSeasonIdAndRegionIdAsyncTask(mSeasonDao).execute(new MyTaskParams2(profileId, seasonId, regionId)).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static class getPastSeasonEntityByProfileIdAndSeasonIdAndRegionIdAsyncTask extends AsyncTask<MyTaskParams2, Void, SeasonEntity> {
+        private SeasonDao mAsyncTaskDao;
+
+        getPastSeasonEntityByProfileIdAndSeasonIdAndRegionIdAsyncTask(SeasonDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected SeasonEntity doInBackground(final MyTaskParams2... params) {
+            return mAsyncTaskDao.getPastSeasonEntityByProfileIdAndSeasonIdAndRegionIdAsyncTask(params[0].profileId, params[0].seasonId, params[0].regionId);
+        }
+    }
+
+    private static class MyTaskParams2 {
+        String profileId;
+        int seasonId;
+        String regionId;
+
+        MyTaskParams2(String profileId, int seasonId, String regionId) {
+            this.profileId = profileId;
+            this.seasonId = seasonId;
+            this.regionId = regionId;
+        }
+    }
+
 }

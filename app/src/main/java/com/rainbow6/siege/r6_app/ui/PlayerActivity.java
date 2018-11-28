@@ -13,7 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.rainbow6.siege.r6_app.R;
 import com.rainbow6.siege.r6_app.db.entity.PlayerEntity;
@@ -67,6 +66,12 @@ public class PlayerActivity extends AppCompatActivity implements TabSeasons.OnLi
         playerEntity = (PlayerEntity) getIntent().getSerializableExtra(PLAYER);
         toolbar.setTitle(playerEntity.getNameOnPlatform());
         showPlayerName();
+
+        int i = getIntent().getIntExtra("tabSeasons", -1);
+        if (i != -1) {
+            mViewPager.setCurrentItem(i);
+        }
+
     }
 
     private void showPlayerName(){
@@ -149,7 +154,7 @@ public class PlayerActivity extends AppCompatActivity implements TabSeasons.OnLi
 
     @Override
     public void onListFragmentInteraction(SeasonEntity item) {
-        Toast.makeText(getBaseContext(), String.valueOf(item.getRank()), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getBaseContext(), String.valueOf(item.getRank()), Toast.LENGTH_SHORT).show();
     }
 
     /**

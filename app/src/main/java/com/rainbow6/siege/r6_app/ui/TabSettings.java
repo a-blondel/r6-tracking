@@ -44,6 +44,7 @@ import org.json.JSONException;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static android.content.Context.ALARM_SERVICE;
@@ -76,7 +77,9 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
     private Handler mHandler;
     private AlertDialog alertDialog;
     private AlertDialog seasonsDialog;
-    private List<Integer> mSelectedItems = new ArrayList();
+    private List<Integer> mSelectedSeasons = new ArrayList();
+    private String[] seasons = new String[]{"WIND BASTION", "GRIM SKY", "PARA BELLUM", "CHIMERA", "WHITE NOISE", "BLOOD ORCHID", "HEALTH"};
+    private List<Integer> seasonsIds = new ArrayList<>(Arrays.asList(12, 11, 10, 9, 8, 7, 6));
 
     private PlayerEntity playerEntity;
     private Spinner spinner;
@@ -140,7 +143,7 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
                     }
                 }).create();
 
-        /*final Button buttonSelectSeasons = rootView.findViewById(R.id.button_select_seasons);
+        final Button buttonSelectSeasons = rootView.findViewById(R.id.button_select_seasons);
         buttonSelectSeasons.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 seasonsDialog.show();
@@ -149,27 +152,24 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
 
         //seasonsDialog = new AlertDialog.Builder(getActivity(), android.R.style.Theme_Material_Dialog_Alert)
         seasonsDialog = new AlertDialog.Builder(getActivity())
-                .setMultiChoiceItems(R.array.seasons_array, null,
+                .setMultiChoiceItems(seasons, null,
                         new DialogInterface.OnMultiChoiceClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which,
                                                 boolean isChecked) {
                                 if (isChecked) {
-                                    mSelectedItems.add(which);
-                                } else if (mSelectedItems.contains(which)) {
-                                    mSelectedItems.remove(Integer.valueOf(which));
+                                    mSelectedSeasons.add(seasonsIds.get(which));
+                                } else if (mSelectedSeasons.contains(seasonsIds.get(which))) {
+                                    mSelectedSeasons.remove(mSelectedSeasons.indexOf(seasonsIds.get(which)));
                                 }
                             }
                         })
                 .setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        buttonSelectSeasons.setText(getString(R.string.past_seasons_selected, mSelectedSeasons.size()));
                     }
-                }).create();*/
-
-        //mieux gerer la liste : https://android--code.blogspot.com/2015/08/android-alertdialog-multichoice.html
-
+                }).create();
 
         mHandler = new Handler(Looper.getMainLooper()) {
             @Override
@@ -200,7 +200,7 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
         boolean syncApacSeason = switchApacSeason.isChecked();
         boolean syncStats = switchStats.isChecked();
 
-        updatePlayerTask = new UpdatePlayerTask(profileId, plateformType, syncProgression, syncEmeaSeason, syncNcsaSeason, syncApacSeason, syncStats);
+        updatePlayerTask = new UpdatePlayerTask(profileId, plateformType, syncProgression, syncEmeaSeason, syncNcsaSeason, syncApacSeason, syncStats, mSelectedSeasons);
         updatePlayerTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
@@ -240,8 +240,8 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
         alertDialog.dismiss();
         alertDialog=null;
 
-        /*seasonsDialog.dismiss();
-        seasonsDialog=null;*/
+        seasonsDialog.dismiss();
+        seasonsDialog = null;
     }
 
     public class DeletePlayerTask extends AsyncTask<Void, Void, Boolean> {
@@ -321,9 +321,10 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
         private final boolean syncNcsaSeason;
         private final boolean syncApacSeason;
         private final boolean syncStats;
+        private final List<Integer> mSelectedSeasons;
 
 
-        UpdatePlayerTask(String profileId, String plateformType, boolean syncProgression, boolean syncEmeaSeason, boolean syncNcsaSeason, boolean syncApacSeason, boolean syncStats) {
+        UpdatePlayerTask(String profileId, String plateformType, boolean syncProgression, boolean syncEmeaSeason, boolean syncNcsaSeason, boolean syncApacSeason, boolean syncStats, List<Integer> mSelectedSeasons) {
             this.profileId = profileId;
             this.plateformType = plateformType;
             this.syncProgression = syncProgression;
@@ -331,6 +332,7 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
             this.syncNcsaSeason = syncNcsaSeason;
             this.syncApacSeason = syncApacSeason;
             this.syncStats = syncStats;
+            this.mSelectedSeasons = mSelectedSeasons;
         }
 
         @Override
@@ -419,14 +421,14 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
                     }
                 }
                 if(syncEmeaSeason && seasonEmeaEntity != null) {
-                    SeasonEntity seasonEmeaEntityFromDB = playerViewModel.getLastSeasonEntityByProfileIdAndRegion(profileId,REGION_EMEA, SKIP_0, COUNT_1);
+                    SeasonEntity seasonEmeaEntityFromDB = playerViewModel.getLastSeasonEntityByProfileIdAndRegion(profileId, REGION_EMEA, SKIP_0, COUNT_1);
                     if(seasonEmeaEntityFromDB == null || Double.compare(seasonEmeaEntityFromDB.getMmr(), seasonEmeaEntity.getMmr()) != 0) {
                         playerViewModel.insertSeason(seasonEmeaEntity);
                         newStats = true;
                     }
                 }
                 if(syncNcsaSeason && seasonNcsaEntity != null) {
-                    SeasonEntity seasonNcsaEntityFromDB = playerViewModel.getLastSeasonEntityByProfileIdAndRegion(profileId,REGION_NCSA, SKIP_0, COUNT_1);
+                    SeasonEntity seasonNcsaEntityFromDB = playerViewModel.getLastSeasonEntityByProfileIdAndRegion(profileId, REGION_NCSA, SKIP_0, COUNT_1);
                     if(seasonNcsaEntityFromDB == null || Double.compare(seasonNcsaEntityFromDB.getMmr(), seasonNcsaEntity.getMmr()) != 0) {
                         playerViewModel.insertSeason(seasonNcsaEntity);
                         newStats = true;
@@ -437,6 +439,48 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
                     if(statsEntityFromDB == null || statsEntityFromDB.getGeneralTimePlayed() != statsEntity.getGeneralTimePlayed()) {
                         playerViewModel.insertStats(statsEntity);
                         newStats = true;
+                    }
+                }
+
+                if (mSelectedSeasons != null && !mSelectedSeasons.isEmpty()) {
+
+                    for (Integer seasonId : mSelectedSeasons) {
+
+                        if (syncEmeaSeason) {
+                            String seasonEmeaResponse = ubiService.getSeasonResponse(connectionEntity.getTicket(), profileId, REGION_EMEA, seasonId, plateformType);
+                            if (serviceHelper.isValidResponse(seasonEmeaResponse)) {
+                                seasonEmeaEntity = serviceHelper.generateSeasonEntity(seasonEmeaResponse, profileId);
+
+                                if (seasonEmeaEntity != null) {
+                                    SeasonEntity seasonEmeaEntityFromDB = playerViewModel.getLastSeasonEntityByProfileIdAndRegion(profileId, REGION_EMEA, SKIP_0, COUNT_1);
+                                    if (seasonEmeaEntityFromDB == null || Double.compare(seasonEmeaEntityFromDB.getMmr(), seasonEmeaEntity.getMmr()) != 0) {
+                                        playerViewModel.insertSeason(seasonEmeaEntity);
+                                        newStats = true;
+                                    }
+                                }
+                            } else {
+                                sendMessage(serviceHelper.getErrorMessage(seasonEmeaResponse));
+                                return false;
+                            }
+                        }
+
+                        if (syncNcsaSeason) {
+                            String seasonNcsaResponse = ubiService.getSeasonResponse(connectionEntity.getTicket(), profileId, REGION_NCSA, seasonId, plateformType);
+                            if (serviceHelper.isValidResponse(seasonNcsaResponse)) {
+                                seasonNcsaEntity = serviceHelper.generateSeasonEntity(seasonNcsaResponse, profileId);
+
+                                if (seasonNcsaEntity != null) {
+                                    SeasonEntity seasonNcsaEntityFromDB = playerViewModel.getLastSeasonEntityByProfileIdAndRegion(profileId, REGION_NCSA, SKIP_0, COUNT_1);
+                                    if (seasonNcsaEntityFromDB == null || Double.compare(seasonNcsaEntityFromDB.getMmr(), seasonNcsaEntity.getMmr()) != 0) {
+                                        playerViewModel.insertSeason(seasonNcsaEntity);
+                                        newStats = true;
+                                    }
+                                }
+                            } else {
+                                sendMessage(serviceHelper.getErrorMessage(seasonNcsaResponse));
+                                return false;
+                            }
+                        }
                     }
                 }
 

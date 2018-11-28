@@ -23,23 +23,33 @@
 
             <include layout="@layout/common_player_settings" />
 
-            <!--<Button
-                android:id="@+id/button_select_seasons"
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:background="@color/colorAccent"
-                android:text="@string/past_seasons_stats"
-                android:textColor="@color/colorPrimaryDark" />-->
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/button_update_player"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:background="@color/colorAccent"
-                android:text="@string/update"
-                android:textColor="@color/colorPrimaryDark" />
+                <Button
+                    android:id="@+id/button_select_seasons"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_weight="1"
+                    android:background="@color/colorAccent"
+                    android:text="@string/past_seasons_stats"
+                    android:textColor="@color/colorPrimaryDark" />
+
+                <Button
+                    android:id="@+id/button_update_player"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorAccent"
+                    android:text="@string/update"
+                    android:textColor="@color/colorPrimaryDark" />
+
+            </LinearLayout>
 
             <Button
                 android:id="@+id/button_delete_player"

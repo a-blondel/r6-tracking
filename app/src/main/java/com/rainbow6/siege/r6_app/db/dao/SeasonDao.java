@@ -24,4 +24,7 @@ public interface SeasonDao {
     @Query("SELECT * FROM SeasonEntity WHERE profileId = :profileId AND region = :regionId AND season = :season AND updateDate < :updateDate ORDER BY updateDate DESC LIMIT 1")
     SeasonEntity getSeasonEntityByProfileIdAndRegionIdAndSeasonAndLessThanDate(String profileId, String regionId, int season, Date updateDate);
 
+    @Query("SELECT * FROM SeasonEntity WHERE profileId = :profileId AND season = :seasonsId AND region = :regionId ORDER BY updateDate DESC LIMIT 1")
+    SeasonEntity getPastSeasonEntityByProfileIdAndSeasonIdAndRegionIdAsyncTask(String profileId, int seasonsId, String regionId);
+
 }

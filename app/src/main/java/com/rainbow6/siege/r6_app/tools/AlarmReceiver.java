@@ -312,13 +312,17 @@ public class AlarmReceiver extends BroadcastReceiver {
                     .setStyle(inboxStyle)
                     */
 
+                    Intent intent = new Intent(context, PlayerActivity.class);
+                    intent.putExtra("tabSeasons", 1);
+                    intent.putExtra("player", playerEntity);
+
                     NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, profileId)
                             .setSmallIcon(R.drawable.ic_r6_default_white)
                             .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), context.getResources().getIdentifier(imageRank, "drawable", context.getPackageName())))
                             .setColor(context.getColor(R.color.colorPrimary))
                             .setContentTitle(title + " - " + sdf.format(dateRefresh))
                             .setContentText(sb + " - Score: " + newKills + " / " + newDeaths)
-                            .setContentIntent(PendingIntent.getActivity(context, 0, new Intent(), 0)) // needed to allow AutoCancel
+                            .setContentIntent(PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)) // needed to allow AutoCancel
                             .setAutoCancel(true)
                             .setVibrate(new long[] { 0, 400, 200, 400 })
                             .setPriority(NotificationCompat.PRIORITY_DEFAULT);

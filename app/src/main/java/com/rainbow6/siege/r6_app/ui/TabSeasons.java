@@ -24,6 +24,7 @@ import com.rainbow6.siege.r6_app.viewmodel.PlayerViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -42,6 +43,7 @@ public class TabSeasons extends Fragment {
     private PlayerViewModel playerViewModel;
     private static TabSeasons tabStatsRunningInstance;
     private Activity activity;
+    private List<Integer> seasonsIds = new ArrayList<>(Arrays.asList(12, 11, 10, 9, 8, 7, 6));
 
     private OnListFragmentInteractionListener mListener;
 
@@ -134,6 +136,29 @@ public class TabSeasons extends Fragment {
             RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerviewSeasonHistory);
             recyclerView.setLayoutManager(new LinearLayoutManager(activity));
             recyclerView.setAdapter(new SeasonHistoryRecyclerViewAdapter(seasonEntityList, mListener));
+        }
+
+        TextView textViewPastTitle = rootView.findViewById(R.id.seasonPast);
+        textViewPastTitle.setText(R.string.labelPastSeasons);
+
+        // Get Past Seasons
+        List<SeasonEntity> pastSeasonEntityList = new ArrayList<>();
+
+        for (int seasonId : seasonsIds) {
+            SeasonEntity pastSeasonEntityEmea = playerViewModel.getPastSeasonEntityByProfileIdAndSeasonIdAndRegionIdAsyncTask(playerEntity.getProfileId(), seasonId, REGION_EMEA);
+            SeasonEntity pastSeasonEntityNcsa = playerViewModel.getPastSeasonEntityByProfileIdAndSeasonIdAndRegionIdAsyncTask(playerEntity.getProfileId(), seasonId, REGION_NCSA);
+            if (pastSeasonEntityEmea != null) {
+                pastSeasonEntityList.add(pastSeasonEntityEmea);
+            }
+            if (pastSeasonEntityNcsa != null) {
+                pastSeasonEntityList.add(pastSeasonEntityNcsa);
+            }
+        }
+
+        if (pastSeasonEntityList.size() > 0) {
+            RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerviewSeasonPast);
+            recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+            recyclerView.setAdapter(new SeasonPastRecyclerViewAdapter(pastSeasonEntityList, mListener));
         }
 
         return rootView;

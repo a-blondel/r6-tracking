@@ -74,7 +74,8 @@ public class SeasonHistoryRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
                         "/" + String.valueOf(holder2.seasonEntity.getLosses() - previousSeasonEntity.getLosses())
                         + "(" + String.valueOf(holder2.seasonEntity.getAbandons() - previousSeasonEntity.getAbandons()) + ")");
             }else{
-                holder2.seasonHistoryWonLost.setText(String.valueOf(holder2.seasonEntity.getWins()) + "/" + String.valueOf(holder2.seasonEntity.getLosses()));
+                holder2.seasonHistoryWonLost.setText(String.valueOf(holder2.seasonEntity.getWins()) + "/" + String.valueOf(holder2.seasonEntity.getLosses())
+                        + "(" + String.valueOf(holder2.seasonEntity.getAbandons() + ")"));
             }
 
             StatsRepository statsRepository = new StatsRepository((Application) holder2.mView.getContext().getApplicationContext());
