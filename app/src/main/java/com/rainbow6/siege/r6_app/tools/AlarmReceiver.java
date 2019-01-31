@@ -10,12 +10,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.util.Log;
 
@@ -42,7 +44,9 @@ import org.json.JSONException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import static android.content.Context.ALARM_SERVICE;
@@ -124,6 +128,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         private AlarmManager alarmManager;
 
         private static final String ERROR = "Error";
+        private static final boolean status = true;
 
         AlarmServiceTask(String profileId, String plateformType, boolean syncProgression, boolean syncEmeaSeason, boolean syncNcsaSeason, boolean syncApacSeason, boolean syncStats, Context context) {
             this.profileId = profileId;
@@ -142,9 +147,14 @@ public class AlarmReceiver extends BroadcastReceiver {
             PlayerEntity playerEntity = playerRepository.getPlayerByProfileId(profileId);
             Log.d("Debug---Alarm triggered", playerEntity.getNameOnPlatform());
 
-            try {
+            List<String> errors = new ArrayList();
 
+            WifiManager wifiManager = (WifiManager)this.context.getSystemService(Context.WIFI_SERVICE);
+            wifiManager.setWifiEnabled(status);
+
+            try {
                 boolean newStats = false;
+
                 connectionEntity = connectionRepository.getConnection(UbiService.APP_ID);
                 if (connectionEntity != null) {
                     Log.d("Debug---Connectivity", "Valid ticket : " + !isTicketInvalid());
@@ -158,6 +168,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                             Log.d("Debug---Connectivity", "New ticket generated!");
                         } else {
                             Log.d(ERROR, serviceHelper.getErrorMessage(response));
+                            errors.add(serviceHelper.getErrorMessage(response));
                         }
                     }
                 } else {
@@ -173,6 +184,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                         progressionEntity = serviceHelper.generateProgressionEntity(progressionResponse);
                     } else {
                         Log.d(ERROR, serviceHelper.getErrorMessage(progressionResponse));
+                        errors.add(serviceHelper.getErrorMessage(progressionResponse));
                     }
                 }
 
@@ -184,6 +196,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                         seasonEmeaEntity = serviceHelper.generateSeasonEntity(seasonEmeaResponse, profileId);
                     } else {
                         Log.d(ERROR, serviceHelper.getErrorMessage(seasonEmeaResponse));
+                        errors.add(serviceHelper.getErrorMessage(seasonEmeaResponse));
                     }
                 }
 
@@ -195,6 +208,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                         seasonNcsaEntity = serviceHelper.generateSeasonEntity(seasonNcsaResponse, profileId);
                     } else {
                         Log.d(ERROR, serviceHelper.getErrorMessage(seasonNcsaResponse));
+                        errors.add(serviceHelper.getErrorMessage(seasonNcsaResponse));
                     }
                 }
 
@@ -208,6 +222,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                         statsEntity = serviceHelper.generateStatsEntity(statsResponse, profileId);
                     } else {
                         Log.d(ERROR, serviceHelper.getErrorMessage(statsResponse));
+                        errors.add(serviceHelper.getErrorMessage(statsResponse));
                     }
                 }
 
@@ -248,7 +263,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                     // Send notification
                     setUpChannel(context, profileId);
 
-                    String imageRank = "rank_0";
+                    String imageRank = "";
                     String title = playerEntity.getNameOnPlatform();
 //                    if(title.length() > 12){
 //                        title = title.substring(0, 11) + ".";
@@ -257,31 +272,27 @@ public class AlarmReceiver extends BroadcastReceiver {
                     Spannable sb = new SpannableString(message);
                     Date dateRefresh = new Date();
 
-                    if (seasonEmeaEntity != null && seasonEmeaEntityFromDB != null) {
-                        if (seasonEmeaEntityFromDB.getRank() != seasonEmeaEntity.getRank()) {
-//                            title += " - new rank " + REGION_EMEA;
-                        }
-                        if (Double.compare(seasonEmeaEntityFromDB.getMmr(), seasonEmeaEntity.getMmr()) != 0) {
-                            int actualMmr = (int) Math.floor(seasonEmeaEntity.getMmr());
-                            String charMessage = "EU: " + actualMmr + " (" + (int) (Math.floor(seasonEmeaEntity.getMmr()) - Math.floor(seasonEmeaEntityFromDB.getMmr())) + ")";
-                            int pos = charMessage.indexOf(String.valueOf(actualMmr));
-                            sb = new SpannableString(charMessage);
-                            sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), pos, pos + String.valueOf(actualMmr).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        }
+                    if (seasonEmeaEntity != null && seasonEmeaEntityFromDB != null && Double.compare(seasonEmeaEntityFromDB.getMmr(), seasonEmeaEntity.getMmr()) != 0) {
+//                      if (seasonEmeaEntityFromDB.getRank() != seasonEmeaEntity.getRank()) {
+//                        title += " - new rank " + REGION_EMEA;
+//                      }
+                        int actualMmr = (int) Math.floor(seasonEmeaEntity.getMmr());
+                        String charMessage = "EU: " + actualMmr + " (" + (int) (Math.floor(seasonEmeaEntity.getMmr()) - Math.floor(seasonEmeaEntityFromDB.getMmr())) + ")";
+                        int pos = charMessage.indexOf(String.valueOf(actualMmr));
+                        sb = new SpannableString(charMessage);
+                        sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), pos, pos + String.valueOf(actualMmr).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                         imageRank = "rank_" + seasonEmeaEntity.getRank();
                         dateRefresh = seasonEmeaEntity.getUpdateDate();
-                    } else if (seasonNcsaEntity != null && seasonNcsaEntityFromDB != null) {
-                        if (seasonNcsaEntityFromDB.getRank() != seasonNcsaEntity.getRank()) {
-//                            title += " - new rank " + REGION_NCSA;
-                        }
+                    } else if (seasonNcsaEntity != null && seasonNcsaEntityFromDB != null && Double.compare(seasonNcsaEntityFromDB.getMmr(), seasonNcsaEntity.getMmr()) != 0) {
+//                      if (seasonNcsaEntityFromDB.getRank() != seasonNcsaEntity.getRank()) {
+//                          title += " - new rank " + REGION_NCSA;
+//                      }
+                        int actualMmr = (int) Math.floor(seasonNcsaEntity.getMmr());
+                        String charMessage = "US: " + actualMmr + " (" + (int) (Math.floor(seasonNcsaEntity.getMmr()) - Math.floor(seasonNcsaEntityFromDB.getMmr())) + ")";
+                        int pos = charMessage.indexOf(String.valueOf(actualMmr));
+                        sb = new SpannableString(charMessage);
+                        sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), pos, pos + String.valueOf(actualMmr).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-                        if (Double.compare(seasonNcsaEntityFromDB.getMmr(), seasonNcsaEntity.getMmr()) != 0) {
-                            int actualMmr = (int) Math.floor(seasonNcsaEntity.getMmr());
-                            String charMessage = "US: " + actualMmr + " (" + (int) (Math.floor(seasonNcsaEntity.getMmr()) - Math.floor(seasonNcsaEntityFromDB.getMmr())) + ")";
-                            int pos = charMessage.indexOf(String.valueOf(actualMmr));
-                            sb = new SpannableString(charMessage);
-                            sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), pos, pos + String.valueOf(actualMmr).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        }
                         imageRank = "rank_" + seasonNcsaEntity.getRank();
                         dateRefresh = seasonNcsaEntity.getUpdateDate();
                     }
@@ -297,6 +308,17 @@ public class AlarmReceiver extends BroadcastReceiver {
                             newKills = statsEntity.getKillsCasual() - statsEntityFromDB.getKillsCasual();
                             newDeaths = statsEntity.getDeathCasual() - statsEntityFromDB.getDeathCasual();
                             dateRefresh = statsEntity.getUpdateDate();
+                        }
+                    }
+
+                    // TODO get best rank from any region
+                    if("".equals(imageRank)){
+                        if (seasonEmeaEntity != null){
+                            imageRank = "rank_" + seasonEmeaEntity.getRank();
+                        }else if(seasonEmeaEntityFromDB != null){
+                            imageRank = "rank_" + seasonEmeaEntityFromDB.getRank();
+                        }else {
+                            imageRank = "rank_0";
                         }
                     }
 
@@ -340,6 +362,32 @@ public class AlarmReceiver extends BroadcastReceiver {
                 Log.d("Debug---JSONException", e.getMessage());
             } catch (ParseException e) {
                 Log.d("Debug---ParseException", e.getMessage());
+            }
+
+            if(!errors.isEmpty()){
+                Intent intent = new Intent(context, PlayerActivity.class);
+                intent.putExtra("tabSeasons", 1);
+                intent.putExtra("player", playerEntity);
+
+                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, profileId)
+                        .setSmallIcon(R.drawable.ic_r6_default_white)
+                        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), context.getResources().getIdentifier("", "drawable", context.getPackageName())))
+                        .setColor(context.getColor(R.color.colorPrimary))
+                        .setContentTitle("ERROR - " + playerEntity.getNameOnPlatform())
+                        .setContentText(TextUtils.join(",",errors))
+                        .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(TextUtils.join(",",errors)))
+                        .setContentIntent(PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)) // needed to allow AutoCancel
+                        .setAutoCancel(true)
+                        .setVibrate(new long[] { 0, 400, 200, 400 })
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+
+                // We need a unique id for each notification, we could store it to cancel the notification
+                Integer notificationId = (int) (new Date().getTime() / 1000L) + (int) (playerEntity.getAddedDate().getTime() / 1000L);
+
+                notificationManager.notify(notificationId, mBuilder.build());
             }
 
             SharedPreferences pref = getDefaultSharedPreferences(context);
