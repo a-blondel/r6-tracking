@@ -364,7 +364,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 Log.d("Debug---ParseException", e.getMessage());
             }
 
-            if(!errors.isEmpty()){
+            /*if(!errors.isEmpty()){
                 Intent intent = new Intent(context, PlayerActivity.class);
                 intent.putExtra("tabSeasons", 1);
                 intent.putExtra("player", playerEntity);
@@ -388,7 +388,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 Integer notificationId = (int) (new Date().getTime() / 1000L) + (int) (playerEntity.getAddedDate().getTime() / 1000L);
 
                 notificationManager.notify(notificationId, mBuilder.build());
-            }
+            }*/
 
             SharedPreferences pref = getDefaultSharedPreferences(context);
             SharedPreferences.Editor editor = pref.edit();

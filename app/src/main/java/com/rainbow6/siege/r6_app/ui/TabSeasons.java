@@ -43,7 +43,6 @@ public class TabSeasons extends Fragment {
     private PlayerViewModel playerViewModel;
     private static TabSeasons tabStatsRunningInstance;
     private Activity activity;
-    private List<Integer> seasonsIds = new ArrayList<>(Arrays.asList(12, 11, 10, 9, 8, 7, 6));
 
     private OnListFragmentInteractionListener mListener;
 
@@ -68,6 +67,8 @@ public class TabSeasons extends Fragment {
 
         SeasonEntity seasonEmeaEntity = playerViewModel.getLastSeasonEntityByProfileIdAndRegion(playerEntity.getProfileId(), REGION_EMEA, SKIP_0, COUNT_1);
         SeasonEntity seasonNcsaEntity = playerViewModel.getLastSeasonEntityByProfileIdAndRegion(playerEntity.getProfileId(), REGION_NCSA, SKIP_0, COUNT_1);
+
+        int maxSeason = seasonNcsaEntity != null ? Math.max(seasonEmeaEntity.getSeason(), seasonNcsaEntity.getSeason()) : seasonEmeaEntity.getSeason();
 
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
 
@@ -94,7 +95,7 @@ public class TabSeasons extends Fragment {
         textViewEmeaAbandons.setText(getString(R.string.abandons, seasonEmeaEntity.getAbandons()));
 
         // Show ncsa stats when existing
-        if(seasonNcsaEntity != null && Double.compare(seasonNcsaEntity.getMmr(), 2500) != 0){
+        if(seasonNcsaEntity != null && Double.compare(seasonNcsaEntity.getMmr(), 2500) != 0 && seasonNcsaEntity.getSeason() == maxSeason){
             TextView textViewNcsaTitle = rootView.findViewById(R.id.seasonNcsa);
             String updateNcsa = " (Not updated)";
             if(seasonNcsaEntity.getUpdateDate() != null){
@@ -144,13 +145,13 @@ public class TabSeasons extends Fragment {
         // Get Past Seasons
         List<SeasonEntity> pastSeasonEntityList = new ArrayList<>();
 
-        for (int seasonId : seasonsIds) {
+        for (int seasonId : TabSettings.SEASONS_ID_LIST) {
             SeasonEntity pastSeasonEntityEmea = playerViewModel.getPastSeasonEntityByProfileIdAndSeasonIdAndRegionIdAsyncTask(playerEntity.getProfileId(), seasonId, REGION_EMEA);
             SeasonEntity pastSeasonEntityNcsa = playerViewModel.getPastSeasonEntityByProfileIdAndSeasonIdAndRegionIdAsyncTask(playerEntity.getProfileId(), seasonId, REGION_NCSA);
-            if (pastSeasonEntityEmea != null) {
+            if (pastSeasonEntityEmea != null && pastSeasonEntityEmea.getUpdateDate() != null) {
                 pastSeasonEntityList.add(pastSeasonEntityEmea);
             }
-            if (pastSeasonEntityNcsa != null) {
+            if (pastSeasonEntityNcsa != null && pastSeasonEntityNcsa.getUpdateDate() != null) {
                 pastSeasonEntityList.add(pastSeasonEntityNcsa);
             }
         }

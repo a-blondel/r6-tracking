@@ -78,8 +78,8 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
     private AlertDialog alertDialog;
     private AlertDialog seasonsDialog;
     private List<Integer> mSelectedSeasons = new ArrayList();
-    private String[] seasons = new String[]{"WIND BASTION", "GRIM SKY", "PARA BELLUM", "CHIMERA", "WHITE NOISE", "BLOOD ORCHID", "HEALTH"};
-    private List<Integer> seasonsIds = new ArrayList<>(Arrays.asList(12, 11, 10, 9, 8, 7, 6));
+    public static final String[] SEASONS_LIST = new String[]{"BURNT HORIZON", "WIND BASTION", "GRIM SKY", "PARA BELLUM", "CHIMERA", "WHITE NOISE", "BLOOD ORCHID", "HEALTH"};
+    public static final List<Integer> SEASONS_ID_LIST = new ArrayList<>(Arrays.asList(13, 12, 11, 10, 9, 8, 7, 6));
 
     private PlayerEntity playerEntity;
     private Spinner spinner;
@@ -152,15 +152,15 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
 
         //seasonsDialog = new AlertDialog.Builder(getActivity(), android.R.style.Theme_Material_Dialog_Alert)
         seasonsDialog = new AlertDialog.Builder(getActivity())
-                .setMultiChoiceItems(seasons, null,
+                .setMultiChoiceItems(SEASONS_LIST, null,
                         new DialogInterface.OnMultiChoiceClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which,
                                                 boolean isChecked) {
                                 if (isChecked) {
-                                    mSelectedSeasons.add(seasonsIds.get(which));
-                                } else if (mSelectedSeasons.contains(seasonsIds.get(which))) {
-                                    mSelectedSeasons.remove(mSelectedSeasons.indexOf(seasonsIds.get(which)));
+                                    mSelectedSeasons.add(SEASONS_ID_LIST.get(which));
+                                } else if (mSelectedSeasons.contains(SEASONS_ID_LIST.get(which))) {
+                                    mSelectedSeasons.remove(mSelectedSeasons.indexOf(SEASONS_ID_LIST.get(which)));
                                 }
                             }
                         })

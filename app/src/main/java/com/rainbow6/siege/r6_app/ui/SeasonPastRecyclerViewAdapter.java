@@ -26,8 +26,6 @@ public class SeasonPastRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
     private static final int TYPE_ITEM = 1;
     private final List<SeasonEntity> mValues;
     private final OnListFragmentInteractionListener mListener;
-    private String[] seasons = new String[]{"WIND BASTION", "GRIM SKY", "PARA BELLUM", "CHIMERA", "WHITE NOISE", "BLOOD ORCHID", "HEALTH"};
-    private List<Integer> seasonsIds = new ArrayList<>(Arrays.asList(12, 11, 10, 9, 8, 7, 6));
 
     public SeasonPastRecyclerViewAdapter(List<SeasonEntity> items, OnListFragmentInteractionListener listener) {
         mValues = items;
@@ -63,7 +61,7 @@ public class SeasonPastRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
                 holder2.seasonPastDate.setText(R.string.LabelNoStats);
             }
             holder2.seasonPastRegion.setText(holder2.seasonEntity.getRegion());
-            holder2.seasonPastSeason.setText(seasons[seasonsIds.indexOf(holder2.seasonEntity.getSeason())]);
+            holder2.seasonPastSeason.setText(TabSettings.SEASONS_LIST[TabSettings.SEASONS_ID_LIST.indexOf(holder2.seasonEntity.getSeason())]);
             holder2.seasonPastMaxMmr.setText(String.valueOf((int) Math.floor(holder2.seasonEntity.getMaxMmr())));
 
             holder2.seasonPastWonLost.setText(String.valueOf(holder2.seasonEntity.getWins()) +

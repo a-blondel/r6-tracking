@@ -83,7 +83,7 @@ public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.Pl
 
             int mmr = (int) Math.floor(seasonEntity.getMmr());
             int diffMmr = 0;
-            if(seasonEntityPrevious != null) {
+            if(seasonEntityPrevious != null && seasonEntityPrevious.getSeason() == seasonEntity.getSeason()) {
                 diffMmr = (int) Math.floor(seasonEntity.getMmr()) - (int) Math.floor(seasonEntityPrevious.getMmr());
             }
 
