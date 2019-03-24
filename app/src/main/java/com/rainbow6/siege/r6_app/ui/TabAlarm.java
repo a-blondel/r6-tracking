@@ -8,7 +8,6 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -36,7 +35,6 @@ import com.rainbow6.siege.r6_app.viewmodel.PlayerViewModel;
 import java.util.Date;
 
 import static android.content.Context.ALARM_SERVICE;
-import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 
 public class TabAlarm extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -209,10 +207,6 @@ public class TabAlarm extends Fragment implements LoaderManager.LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
 
-            // Update sync settings
-            SyncEntity syncEntity = new SyncEntity(profileId, syncProgression, syncEmeaSeason, syncNcsaSeason, syncApacSeason, syncStats, syncTimer);
-            playerViewModel.updateSync(syncEntity);
-
             // Setting up the AlarmManager and pending intent
             alarmManager = (AlarmManager)context.getSystemService(ALARM_SERVICE);
             Intent intent = new Intent(context, AlarmReceiver.class);
@@ -229,18 +223,14 @@ public class TabAlarm extends Fragment implements LoaderManager.LoaderCallbacks<
 
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, broadcastId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            SharedPreferences pref = getDefaultSharedPreferences(context);
-            SharedPreferences.Editor editor = pref.edit();
-
             if(syncTimer == 0){
-
                 // Remove the alarm
                 if (alarmManager != null) {
                     alarmManager.cancel(pendingIntent);
                 }
-                // Remove the last refresh time
-                editor.remove(playerEntity.getProfileId());
-                editor.commit();
+                // Update sync settings
+                SyncEntity syncEntity = new SyncEntity(profileId, syncProgression, syncEmeaSeason, syncNcsaSeason, syncApacSeason, syncStats, syncTimer, 0);
+                playerViewModel.updateSync(syncEntity);
 
                 if(PlayerActivity.getInstance()!=null) {
                     PlayerActivity.getInstance().updateUI();
@@ -248,8 +238,9 @@ public class TabAlarm extends Fragment implements LoaderManager.LoaderCallbacks<
                 sendMessage(getString(R.string.timer_disabled));
                 return true;
             }else {
-                editor.putLong(playerEntity.getProfileId(), new Date().getTime());
-                editor.commit();
+                // Update sync settings
+                SyncEntity syncEntity = new SyncEntity(profileId, syncProgression, syncEmeaSeason, syncNcsaSeason, syncApacSeason, syncStats, syncTimer, new Date().getTime());
+                playerViewModel.updateSync(syncEntity);
 
                 /*AlarmManager.AlarmClockInfo alarmClockInfo = new AlarmManager.AlarmClockInfo(System.currentTimeMillis() +
                         (long)syncTimer * 60L * 1000L,

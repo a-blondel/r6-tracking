@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -48,7 +47,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static android.content.Context.ALARM_SERVICE;
-import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 import static com.rainbow6.siege.r6_app.service.UbiService.CURRENT_SEASON;
 import static com.rainbow6.siege.r6_app.service.UbiService.PLAYSTATION;
 import static com.rainbow6.siege.r6_app.service.UbiService.REGION_EMEA;
@@ -128,7 +126,7 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
             }
         });
 
-        alertDialog = new AlertDialog.Builder(getActivity())
+        alertDialog = new AlertDialog.Builder(getActivity(), android.R.style.Theme_Holo_Dialog_NoActionBar)
                 .setMessage(R.string.confirm_delete_player)
                 .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
                     @Override
@@ -150,8 +148,7 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
             }
         });
 
-        //seasonsDialog = new AlertDialog.Builder(getActivity(), android.R.style.Theme_Material_Dialog_Alert)
-        seasonsDialog = new AlertDialog.Builder(getActivity())
+        seasonsDialog = new AlertDialog.Builder(getActivity(), android.R.style.Theme_Holo_Dialog_NoActionBar)
                 .setMultiChoiceItems(SEASONS_LIST, null,
                         new DialogInterface.OnMultiChoiceClickListener() {
                             @Override
@@ -281,12 +278,8 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
                 alarmManager.cancel(pendingIntent);
             }
 
-            // Remove the last refresh time
-            SharedPreferences pref = getDefaultSharedPreferences(context);
-            SharedPreferences.Editor editor = pref.edit();
-            editor.remove(playerEntity.getProfileId());
-            editor.commit();
-
+            syncEntity.setLastSync(0);
+            playerViewModel.updateSync(syncEntity);
 
             playerViewModel.delete(playerEntity);
 

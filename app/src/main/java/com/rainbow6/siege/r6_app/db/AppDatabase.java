@@ -23,7 +23,7 @@ import com.rainbow6.siege.r6_app.db.entity.StatsEntity;
 import com.rainbow6.siege.r6_app.db.entity.SyncEntity;
 
 @Database(entities = {ConnectionEntity.class,PlayerEntity.class, ProgressionEntity.class, SeasonEntity.class, StatsEntity.class, SyncEntity.class},
-        version = 10)
+        version = 11)
 @TypeConverters({DateConverter.class})
 public abstract  class AppDatabase extends RoomDatabase {
 
@@ -74,6 +74,13 @@ public abstract  class AppDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_11 = new Migration(10, 11) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE SyncEntity ADD lastSync INTEGER NOT NULL DEFAULT 0");
+        }
+    };
+
    /* static void destroyInstance() {
         INSTANCE = null;
     }*/
@@ -85,6 +92,7 @@ public abstract  class AppDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             AppDatabase.class, "rainbow_database")
                             .addMigrations(MIGRATION_10)
+                            .addMigrations(MIGRATION_11)
                             .build();
 //                    .fallbackToDestructiveMigration()
 //                    .addMigrations(MIGRATION_10)

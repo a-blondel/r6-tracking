@@ -8,7 +8,6 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
@@ -17,7 +16,6 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.util.Log;
 
@@ -50,7 +48,6 @@ import java.util.List;
 import java.util.Locale;
 
 import static android.content.Context.ALARM_SERVICE;
-import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 import static com.rainbow6.siege.r6_app.service.UbiService.CURRENT_SEASON;
 import static com.rainbow6.siege.r6_app.service.UbiService.REGION_EMEA;
 import static com.rainbow6.siege.r6_app.service.UbiService.REGION_NCSA;
@@ -390,10 +387,9 @@ public class AlarmReceiver extends BroadcastReceiver {
                 notificationManager.notify(notificationId, mBuilder.build());
             }*/
 
-            SharedPreferences pref = getDefaultSharedPreferences(context);
-            SharedPreferences.Editor editor = pref.edit();
-            editor.putLong(playerEntity.getProfileId(), new Date().getTime());
-            editor.commit();
+            SyncEntity syncEntity = syncRepository.getSyncByProfileId(playerEntity.getProfileId());
+            syncEntity.setLastSync(new Date().getTime());
+            syncRepository.update(syncEntity);
 
             // Setting up the AlarmManager and pending intent
             alarmManager = (AlarmManager)context.getSystemService(ALARM_SERVICE);
@@ -411,7 +407,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, broadcastId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            SyncEntity syncEntity = syncRepository.getSyncByProfileId(playerEntity.getProfileId());
             int syncTimer = syncEntity.getSyncDelay();
 
             /*AlarmManager.AlarmClockInfo alarmClockInfo = new AlarmManager.AlarmClockInfo(System.currentTimeMillis() +

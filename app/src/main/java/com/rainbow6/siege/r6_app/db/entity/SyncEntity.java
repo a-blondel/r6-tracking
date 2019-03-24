@@ -29,8 +29,9 @@ public class SyncEntity {
     private boolean syncApac;
     private boolean syncStats;
     private int syncDelay;
+    private long lastSync;
 
-    public SyncEntity(@NonNull String profileId, boolean syncProgression, boolean syncEmea, boolean syncNcsa, boolean syncApac, boolean syncStats, int syncDelay) {
+    public SyncEntity(@NonNull String profileId, boolean syncProgression, boolean syncEmea, boolean syncNcsa, boolean syncApac, boolean syncStats, int syncDelay, long lastSync) {
         this.profileId = profileId;
         this.syncProgression = syncProgression;
         this.syncEmea = syncEmea;
@@ -38,6 +39,7 @@ public class SyncEntity {
         this.syncApac = syncApac;
         this.syncStats = syncStats;
         this.syncDelay = syncDelay;
+        this.lastSync = lastSync;
     }
 
     @NonNull
@@ -96,4 +98,8 @@ public class SyncEntity {
     public void setSyncDelay(int syncDelay) {
         this.syncDelay = syncDelay;
     }
+
+    public long getLastSync() { return lastSync; }
+
+    public void setLastSync(long lastSync) { this.lastSync = lastSync; }
 }

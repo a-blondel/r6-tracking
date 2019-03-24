@@ -1,7 +1,6 @@
 package com.rainbow6.siege.r6_app.ui;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.TabLayout;
@@ -21,8 +20,6 @@ import com.rainbow6.siege.r6_app.db.entity.SyncEntity;
 import com.rainbow6.siege.r6_app.viewmodel.PlayerViewModel;
 
 import java.util.Date;
-
-import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 
 public class PlayerActivity extends AppCompatActivity implements TabSeasons.OnListFragmentInteractionListener {
 
@@ -75,10 +72,8 @@ public class PlayerActivity extends AppCompatActivity implements TabSeasons.OnLi
     }
 
     private void showPlayerName(){
-        SharedPreferences pref = getDefaultSharedPreferences(getApplicationContext());
-
-        long dateLastRefresh = pref.getLong(playerEntity.getProfileId(), 0);
         SyncEntity syncEntity = playerViewModel.getSyncByProfileId(playerEntity.getProfileId());
+        long dateLastRefresh = syncEntity.getLastSync();
 
         if(syncEntity.getSyncDelay() !=0 && dateLastRefresh != 0){
             long timeLeft = (syncEntity.getSyncDelay() * 60 * 1000 + dateLastRefresh) - (new Date().getTime());
