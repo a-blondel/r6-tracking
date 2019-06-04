@@ -116,6 +116,13 @@ public class UbiService {
         return profileResponse;
     }
 
+    /*
+    * TODO Ajout d'une requete cherchant le profil afin de mettre à jour le nom de l'utilisateur
+    * https://public-ubiservices.ubi.com/v2/users/{userID}/profiles
+    * Recuperer celui dont le platformType est "psn" et mettre à jour l'entité PlayerEntity (nameOnPlatform)
+     */
+
+
     public String getProgressionResponse(String ticket, String profileId, String plateformType){
         // plateformType is not yet implemented
         String progressionUrl = "https://public-ubiservices.ubi.com/v1/spaces/05bfb3f7-6c21-4c42-be1f-97a33fb5cf66/sandboxes/OSBOR_PS4_LNCH_A/r6playerprofile/playerprofile/progressions?profile_ids=" + profileId;

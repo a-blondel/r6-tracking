@@ -64,8 +64,7 @@ public class SeasonPastRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
             holder2.seasonPastSeason.setText(TabSettings.SEASONS_LIST[TabSettings.SEASONS_ID_LIST.indexOf(holder2.seasonEntity.getSeason())]);
             holder2.seasonPastMaxMmr.setText(String.valueOf((int) Math.floor(holder2.seasonEntity.getMaxMmr())));
 
-            holder2.seasonPastWonLost.setText(String.valueOf(holder2.seasonEntity.getWins()) +
-                    "/" + String.valueOf(holder2.seasonEntity.getLosses()) + "(" + String.valueOf(holder2.seasonEntity.getAbandons() + ")"));
+            holder2.seasonPastWonLost.setText(holder2.seasonEntity.getWins() + "/" + holder2.seasonEntity.getLosses() + "(" + holder2.seasonEntity.getAbandons() + ")");
 
             // Context use is not pretty
             holder2.seasonPastMaxRank.setImageResource(getDrawable(holder2.seasonPastMaxRank.getContext(), "rank_" + (holder2.seasonEntity.getMaxRank())));

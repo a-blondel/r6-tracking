@@ -402,6 +402,9 @@ public class AlarmReceiver extends BroadcastReceiver {
             intent.putExtra(SYNC_APAC, syncApacSeason);
             intent.putExtra(SYNC_STATS, syncStats);
 
+            intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
+            intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+
             // Must be a unique user identifier
             int broadcastId = (int) (playerEntity.getAddedDate().getTime() / 1000L);
 
