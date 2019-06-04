@@ -22,3 +22,13 @@
 *.class
 bin/
 gen/
+*.dex
+local.properties
+Thumbs.db
+.classpath
+.project
+.gradle/
+build/
+app/build/
+gradle/
+obj/
