@@ -76,8 +76,8 @@ public class TabSettings extends Fragment implements LoaderManager.LoaderCallbac
     private AlertDialog alertDialog;
     private AlertDialog seasonsDialog;
     private List<Integer> mSelectedSeasons = new ArrayList();
-    public static final String[] SEASONS_LIST = new String[]{"PHANTOM SIGHT", "BURNT HORIZON", "WIND BASTION", "GRIM SKY", "PARA BELLUM", "CHIMERA", "WHITE NOISE", "BLOOD ORCHID", "HEALTH"};
-    public static final List<Integer> SEASONS_ID_LIST = new ArrayList<>(Arrays.asList(14, 13, 12, 11, 10, 9, 8, 7, 6));
+    public static final String[] SEASONS_LIST = new String[]{"EMBER RISE", "PHANTOM SIGHT", "BURNT HORIZON", "WIND BASTION", "GRIM SKY", "PARA BELLUM", "CHIMERA", "WHITE NOISE", "BLOOD ORCHID", "HEALTH"};
+    public static final List<Integer> SEASONS_ID_LIST = new ArrayList<>(Arrays.asList(15, 14, 13, 12, 11, 10, 9, 8, 7, 6));
 
     private PlayerEntity playerEntity;
     private Spinner spinner;
