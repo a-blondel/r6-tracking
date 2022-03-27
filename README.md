@@ -42,3 +42,7 @@ The support was limited to :
 
 <img src="documentation/notifications.jpg" alt="notifications" width="250"/><br/>
 *Notifications (periodic refresh enabled)*
+
+# License
+
+See the [GNU General Public License v3.0](LICENSE.txt) file for license rights and limitations.
